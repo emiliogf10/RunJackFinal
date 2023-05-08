@@ -17,6 +17,7 @@ public class Escena {
     Paint p;
     Rect btnMenu;
     Bitmap menu;
+    Bitmap menuEscalado;
 
     public Escena( Context context, int anchoPantalla, int altoPantalla, int numEscena) {
         this.altoPantalla = altoPantalla;
@@ -27,13 +28,17 @@ public class Escena {
         p.setColor(Color.WHITE);
         p.setTextAlign(Paint.Align.CENTER);
         menu = BitmapFactory.decodeResource(context.getResources(), R.drawable.casa);
+        menuEscalado = Bitmap.createScaledBitmap(menu,menu.getWidth()/4,menu.getHeight()/4,true);
+
         this.numEscena=numEscena;
-        this.btnMenu = new Rect(100, 100, 500, 400);
+        this.btnMenu = new Rect(anchoPantalla/12, altoPantalla/12, anchoPantalla/12*2, altoPantalla/12*2);
     }
 
     public void dibuja(Canvas c){
 
-        if (numEscena!=1) c.drawBitmap(menu,null,btnMenu,null);
+        if (numEscena!=1){
+            c.drawBitmap(menuEscalado,null,btnMenu,null);
+        }
     }
 
     public void actualizaFisica(){

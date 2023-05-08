@@ -1,6 +1,8 @@
 package com.example.runjack;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -8,10 +10,17 @@ import android.view.MotionEvent;
 
 public class Ajustes extends Escena {
     int numEscena=5;
+    Rect btnIdioma,btnVolumen,btnMusica;
+    Bitmap bIdioma,bVolumen,bMusica;
+    int anchoP,altoP;
 
     public Ajustes(Context context, int numEscena, int anp, int alp) {
         super(context, anp, alp, numEscena);
         this.numEscena = numEscena;
+        this.altoP = alp;
+        this.anchoP = anp;
+
+        this.bIdioma = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_espana);
 
     }
 

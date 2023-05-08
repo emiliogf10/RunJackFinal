@@ -2,6 +2,8 @@ package com.example.runjack;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +15,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//PANTALLA HORIZONTAL
         GameSV gamesv=new GameSV(this);
+
 
 
         if (Build.VERSION.SDK_INT < 16) { // versiones anteriores a Jelly Bean
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         getSupportActionBar().hide(); // se oculta la barra de ActionBa
-        gamesv.setKeepScreenOn(true);
+        gamesv.setKeepScreenOn(true); //Pantalla siempre encendida
         setContentView(gamesv);
     }
 }
