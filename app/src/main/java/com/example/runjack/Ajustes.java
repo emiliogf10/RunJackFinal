@@ -11,7 +11,11 @@ import android.view.MotionEvent;
 public class Ajustes extends Escena {
     int numEscena=5;
     Rect btnIdioma,btnVolumen,btnMusica;
-    Bitmap bIdioma,bVolumen,bMusica;
+    Bitmap bEsp = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_espana);
+    Bitmap bMusica = BitmapFactory.decodeResource(context.getResources(),R.drawable.musica);
+    Bitmap bVolumen = BitmapFactory.decodeResource(context.getResources(),R.drawable.altavoz);
+
+    Bitmap silencio_on,silencio_off, ingles,español, musica_off,musica_on;
     int anchoP,altoP;
 
     public Ajustes(Context context, int numEscena, int anp, int alp) {
@@ -20,9 +24,12 @@ public class Ajustes extends Escena {
         this.altoP = alp;
         this.anchoP = anp;
 
-        this.bIdioma = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_espana);
-        this.bMusica = BitmapFactory.decodeResource(context.getResources(),R.drawable.musica);
-        this.bVolumen = BitmapFactory.decodeResource(context.getResources(),R.drawable.altavoz);
+        this.silencio_on = BitmapFactory.decodeResource(context.getResources(),R.drawable.silencio);
+        this.ingles = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_inglesa);
+        this.musica_off = BitmapFactory.decodeResource(context.getResources(),R.drawable.sin_musica);
+        this.silencio_off = BitmapFactory.decodeResource(context.getResources(),R.drawable.altavoz);
+        this.español = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_espana);
+        this.musica_on = BitmapFactory.decodeResource(context.getResources(),R.drawable.musica);
 
         this.btnIdioma = new Rect(anchoP/10*2, altoP/3, anchoP/10*3,
                 altoP/3*2);
@@ -39,7 +46,7 @@ public class Ajustes extends Escena {
         c.drawText("Ajustes",anchoPantalla/2, altoPantalla/10,p);
         c.drawBitmap(bMusica,null,btnMusica,null);
         c.drawBitmap(bVolumen,null,btnVolumen,null);
-        c.drawBitmap(bIdioma,null,btnIdioma,null);
+        c.drawBitmap(bEsp,null,btnIdioma,null);
 
     }
 
@@ -55,23 +62,14 @@ public class Ajustes extends Escena {
         int y=(int)event.getY();
 
         if (btnVolumen.contains(x, y)) {
-            bVolumen = (bVolumen.equals(BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.altavoz))) ? BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.altavoz) : BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.silencio);
+
+            bVolumen = (bVolumen == silencio_on) ? silencio_off : silencio_on;
 
         } else if (btnMusica.contains(x, y)) {
-            bMusica = (bMusica.equals(BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.musica))) ? BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.musica) : BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.sin_musica);
+            bMusica = (bMusica == musica_on) ? musica_off : musica_on;
 
         } else if (btnIdioma.contains(x, y)) {
-            bIdioma =
-                    (bIdioma.equals(BitmapFactory.decodeResource(context.getResources(),
-                            R.drawable.bandera_espana))) ? BitmapFactory.decodeResource(context.getResources(),
-                            R.drawable.bandera_espana) : BitmapFactory.decodeResource(context.getResources(),
-                            R.drawable.bandera_inglesa);
+            bEsp = (bEsp == español) ? ingles : español;
         }
 
 
