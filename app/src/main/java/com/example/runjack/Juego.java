@@ -7,6 +7,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
 
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.World;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -22,6 +25,12 @@ public class Juego extends Escena {
     int t = 8000;
     ArrayList<Cohete> listaCohetes;
     Bitmap[] imagenesJack;
+    Vec2 gravity;
+    World world;
+    boolean doSleep = true;
+
+
+
 
 
 
@@ -30,7 +39,10 @@ public class Juego extends Escena {
         this.numEscena=numEscena;
         this.listaCohetes = new ArrayList<>();
         this.timerCohete = new Timer();
-        this.timerCohete.schedule(new CohetesVarios(),5000,t);
+        this.timerCohete.schedule(new CohetesVarios(),3000,t);
+        gravity = new Vec2(0.0f, -10.0f);
+        world = new World(gravity);
+        world.setSleepingAllowed(doSleep);
         bitmapCohete = BitmapFactory.decodeResource(context.getResources(),R.drawable.cohete);
         cohete_escalado = Bitmap.createScaledBitmap(bitmapCohete,anchoPantalla/5,altoPantalla/5,false);
         cohete = new Cohete(cohete_escalado,anchoPantalla,new Random().nextFloat()*(altoPantalla-cohete_escalado.getHeight()));
@@ -82,6 +94,7 @@ public class Juego extends Escena {
 
     }
 
+    //Funcion para añadir cohetes a la lista
     private void AñadirCohete(Canvas c){
         Cohete cohete = new Cohete(cohete_escalado,anchoPantalla,new Random().nextFloat()*(altoPantalla-cohete_escalado.getHeight()));
         listaCohetes.add(cohete);

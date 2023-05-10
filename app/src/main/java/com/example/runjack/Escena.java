@@ -21,7 +21,6 @@ public class Escena {
     Bitmap menu;
     Bitmap menuEscalado;
 
-
     public Escena( Context context, int anchoPantalla, int altoPantalla, int numEscena) {
         this.altoPantalla = altoPantalla;
         this.anchoPantalla = anchoPantalla;
