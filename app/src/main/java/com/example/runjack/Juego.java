@@ -7,8 +7,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
 
 public class Juego extends Escena {
     int numEscena=2;
@@ -16,7 +18,9 @@ public class Juego extends Escena {
     Bitmap bitmapCohete,bitmapFondo,cohete_escalado;
     GameSV game;
     Canvas c;
-    List<Cohete> listaCohetes;
+    Timer timerCohete;
+    int t = 8000;
+    ArrayList<Cohete> listaCohetes;
     Bitmap[] imagenesJack;
 
 
@@ -24,7 +28,9 @@ public class Juego extends Escena {
     public Juego(Context context, int numEscena, int anp, int alp) {
         super(context,  anp, alp, numEscena);
         this.numEscena=numEscena;
-
+        this.listaCohetes = new ArrayList<>();
+        this.timerCohete = new Timer();
+        this.timerCohete.schedule(new CohetesVarios(),5000,t);
         bitmapCohete = BitmapFactory.decodeResource(context.getResources(),R.drawable.cohete);
         cohete_escalado = Bitmap.createScaledBitmap(bitmapCohete,anchoPantalla/5,altoPantalla/5,false);
         cohete = new Cohete(cohete_escalado,anchoPantalla,new Random().nextFloat()*(altoPantalla-cohete_escalado.getHeight()));
@@ -46,7 +52,11 @@ public class Juego extends Escena {
         /*c.drawText("Juego",anchoPantalla/2, altoPantalla/10,p);*/
         /*game.dibujar(c);*/
 
-        crearCohete(6,c);
+        for(Cohete cohete : listaCohetes){
+            c.drawBitmap(cohete.imagen,cohete.pos.x,cohete.pos.y,null);
+            cohete.movimiento(altoPantalla,anchoPantalla,6);
+        }
+
 
     }
 
@@ -65,16 +75,30 @@ public class Juego extends Escena {
     }
 
     //Funcion para crear un cohete
-    public void crearCohete(int velocidad,Canvas c){
+    private void crearCohete(int velocidad,Canvas c){
         c.drawBitmap(cohete.imagen, cohete.pos.x, cohete.pos.y,null);
         cohete.movimiento(altoPantalla,anchoPantalla,velocidad);
         listaCohetes.add(cohete);
 
     }
 
+    private void AñadirCohete(Canvas c){
+        Cohete cohete = new Cohete(cohete_escalado,anchoPantalla,new Random().nextFloat()*(altoPantalla-cohete_escalado.getHeight()));
+        listaCohetes.add(cohete);
+    }
 
-    public void crearJack(){
+
+    private void crearJack(){
 
     }
+
+    private class CohetesVarios extends java.util.TimerTask {
+        @Override
+        public void run(){
+            AñadirCohete(c);
+        }
+    }
+
+
 
 }

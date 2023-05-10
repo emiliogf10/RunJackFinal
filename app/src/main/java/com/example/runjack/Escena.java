@@ -9,6 +9,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import java.util.Timer;
+
 public class Escena {
     int numEscena=-1;
     int altoPantalla;
@@ -18,6 +20,7 @@ public class Escena {
     Rect btnMenu;
     Bitmap menu;
     Bitmap menuEscalado;
+
 
     public Escena( Context context, int anchoPantalla, int altoPantalla, int numEscena) {
         this.altoPantalla = altoPantalla;
