@@ -14,6 +14,7 @@ public class Ajustes extends Escena {
     Bitmap bEsp = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_espana);
     Bitmap bMusica = BitmapFactory.decodeResource(context.getResources(),R.drawable.musica);
     Bitmap bVolumen = BitmapFactory.decodeResource(context.getResources(),R.drawable.altavoz);
+    GameSV cIdioma;
 
     Bitmap silencio_on,silencio_off, ingles,español, musica_off,musica_on;
     int anchoP,altoP;
@@ -23,10 +24,12 @@ public class Ajustes extends Escena {
         this.numEscena = numEscena;
         this.altoP = alp;
         this.anchoP = anp;
+        cIdioma = new GameSV(context);
 
         this.silencio_on = BitmapFactory.decodeResource(context.getResources(),R.drawable.silencio);
         this.ingles = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_inglesa);
         this.musica_off = BitmapFactory.decodeResource(context.getResources(),R.drawable.sin_musica);
+
         this.silencio_off = BitmapFactory.decodeResource(context.getResources(),R.drawable.altavoz);
         this.español = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_espana);
         this.musica_on = BitmapFactory.decodeResource(context.getResources(),R.drawable.musica);
@@ -69,7 +72,14 @@ public class Ajustes extends Escena {
             bMusica = (bMusica == musica_on) ? musica_off : musica_on;
 
         } else if (btnIdioma.contains(x, y)) {
-            bEsp = (bEsp == español) ? ingles : español;
+            /*bEsp = (bEsp == español) ? ingles : español;*/
+            if(btnIdioma.equals(español)){
+                bEsp = ingles;
+                cIdioma.CambiarIdioma("es");
+            }else{
+                bEsp = español;
+                cIdioma.CambiarIdioma("en");
+            }
         }
 
 

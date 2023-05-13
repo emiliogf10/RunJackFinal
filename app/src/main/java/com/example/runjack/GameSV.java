@@ -1,15 +1,18 @@
 package com.example.runjack;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.Locale;
 import java.util.Random;
 
 
@@ -28,6 +31,7 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
     Cohete cohete;
     Bitmap bitmapCohete;
 
+
     public GameSV(Context context) {
         super(context);
         this.surfaceHolder = getHolder();
@@ -36,6 +40,7 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
         this.context = context; // Obtenemos el contexto
         bitmapFondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.fondo);
         hilo = new Hilo();
+        CambiarIdioma("en");
     }
 
 
@@ -43,6 +48,8 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
 
     }
+
+
 
     public void setSurfaceSize(int width, int height) {
         synchronized (surfaceHolder) { // Se recomienda realizarlo de forma atómica
@@ -78,7 +85,7 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    @Override
+        @Override
         public void surfaceChanged (SurfaceHolder holder,int format, int width, int height){
 
             this.anchoPantalla = width;
@@ -153,6 +160,15 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
         public void dibujar (Canvas c){
 
         }
+
+    public void CambiarIdioma(String language){
+        Log.i("TAG","Cambiamos el idioma");
+        Resources re = context.getResources();
+        DisplayMetrics dm = re.getDisplayMetrics();
+        android.content.res.Configuration conf = re.getConfiguration();
+        conf.locale = new Locale(language.toLowerCase());
+        re.updateConfiguration(conf,dm);
+    }
 
 
         public class Hilo extends Thread {
