@@ -73,13 +73,15 @@ public class Ajustes extends Escena {
 
         } else if (btnIdioma.contains(x, y)) {
             /*bEsp = (bEsp == español) ? ingles : español;*/
-            if(btnIdioma.equals(español)){
+            /*if(btnIdioma.equals(español)){
                 bEsp = ingles;
                 cIdioma.CambiarIdioma("es");
             }else{
                 bEsp = español;
                 cIdioma.CambiarIdioma("en");
-            }
+            }*/
+            bEsp = (btnIdioma.equals(español)) ? ingles : español;
+            cIdioma.CambiarIdioma((btnIdioma.equals(español)) ? "es" : "en");
         }
 
 

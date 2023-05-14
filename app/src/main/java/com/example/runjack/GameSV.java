@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -20,6 +21,8 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
     SurfaceHolder surfaceHolder;
     Context context;
+
+    public MediaPlayer musica_fondo;
     Bitmap bitmapFondo;
     boolean funcionando = true;
     boolean esTitulo=true;
@@ -34,6 +37,9 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
     public GameSV(Context context) {
         super(context);
+        this.musica_fondo = MediaPlayer.create(this.getContext(),R.raw.musica_fondo);
+        this.musica_fondo.setLooping(true);
+        this.musica_fondo.start();
         this.surfaceHolder = getHolder();
         this.context = context;
         this.surfaceHolder.addCallback(this); // y se indica donde van las funciones callback
@@ -150,6 +156,9 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
                     case 6:
                         escenaActual = new Records(context, 6, anchoPantalla, altoPantalla);
                         break;
+                    case 7:
+                        escenaActual = new Informacion(context,7,anchoPantalla,altoPantalla);
+                        break;
 
                 }
             }
@@ -163,15 +172,16 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
     public void CambiarIdioma(String language){
         Log.i("TAG","Cambiamos el idioma");
-        Resources re = context.getResources();
-        DisplayMetrics dm = re.getDisplayMetrics();
-        android.content.res.Configuration conf = re.getConfiguration();
+        Resources res = context.getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        android.content.res.Configuration conf = res.getConfiguration();
         conf.locale = new Locale(language.toLowerCase());
-        re.updateConfiguration(conf,dm);
+        res.updateConfiguration(conf,dm);
     }
 
 
-        public class Hilo extends Thread {
+
+    public class Hilo extends Thread {
             @Override
             public void run() {
                 super.run();

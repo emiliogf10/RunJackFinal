@@ -47,11 +47,11 @@ public class Escena {
 
     }
 
-    int onTouchEvent(MotionEvent event){
-        int x=(int)event.getX();
-        int y=(int)event.getY();
+    int onTouchEvent(MotionEvent event) {
+        int x = (int) event.getX();
+        int y = (int) event.getY();
 
-     if (numEscena!=1)   if (btnMenu.contains(x,y)) return 1;
+        if (numEscena != 1) if (btnMenu.contains(x, y)) return 1;
 
         return -1;
     }
