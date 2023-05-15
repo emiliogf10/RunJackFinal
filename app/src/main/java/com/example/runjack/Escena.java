@@ -37,7 +37,7 @@ public class Escena {
     }
 
     public void dibuja(Canvas c){
-
+        c.drawColor(Color.parseColor("#8BC34A"));
         if (numEscena!=1){
             c.drawBitmap(menuEscalado,null,btnMenu,null);
         }

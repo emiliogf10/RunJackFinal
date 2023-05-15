@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 
 import org.jbox2d.common.Vec2;
@@ -18,7 +19,10 @@ import java.util.Timer;
 public class Juego extends Escena {
     int numEscena=2;
     Cohete cohete;
-    Bitmap bitmapCohete,bitmapFondo,cohete_escalado;
+
+    Rect btnPausa;
+    Bitmap bitmapCohete,bitmapFondo,cohete_escalado,pausa;
+
     GameSV game;
     Canvas c;
     Timer timerCohete;
@@ -46,7 +50,11 @@ public class Juego extends Escena {
         bitmapCohete = BitmapFactory.decodeResource(context.getResources(),R.drawable.cohete);
         cohete_escalado = Bitmap.createScaledBitmap(bitmapCohete,anchoPantalla/5,altoPantalla/5,false);
         cohete = new Cohete(cohete_escalado,anchoPantalla,new Random().nextFloat()*(altoPantalla-cohete_escalado.getHeight()));
-
+        //Boton pausa
+        this.pausa = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.pausa);
+        this.btnPausa = new Rect(anchoPantalla / 15 * 13, altoPantalla / 10, anchoPantalla / 15 * 14
+                , altoPantalla / 10 + 50);
         /*int[] recursosJack = {
                 R.drawable.jack1, R.drawable.jack2, R.drawable.jack3, R.drawable.jack4, R.drawable.jack5,
                 R.drawable.jack6, R.drawable.jack7, R.drawable.jack8, R.drawable.jack9, R.drawable.jack10,
@@ -69,6 +77,8 @@ public class Juego extends Escena {
             cohete.movimiento(altoPantalla,anchoPantalla,6);
         }
 
+        c.drawBitmap(pausa,null,btnPausa,null);
+
 
     }
 
@@ -80,9 +90,12 @@ public class Juego extends Escena {
     }
 
     int onTouchEvent(MotionEvent event){
+        int x=(int)event.getX();
+        int y=(int)event.getY();
 
         int aux=super.onTouchEvent(event);
         if (aux!=this.numEscena && aux!=-1) return aux;
+        else if (btnPausa.contains(x,y))return 8;
         return this.numEscena;
     }
 

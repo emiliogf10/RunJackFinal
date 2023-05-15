@@ -8,15 +8,14 @@ import android.view.MotionEvent;
 public class Informacion extends Escena {
 
     int numEscena = 7;
-    public Informacion(Context context, int anchoPantalla, int altoPantalla, int numEscena) {
+    public Informacion(Context context,int numEscena, int anchoPantalla, int altoPantalla) {
         super(context, anchoPantalla, altoPantalla, numEscena);
         this.numEscena = numEscena;
     }
 
     public void dibuja(Canvas c){
-        c.drawColor(Color.GRAY);
         super.dibuja(c);
-        c.drawText("Info",anchoPantalla/2, altoPantalla/10,p);
+        c.drawText(context.getString(R.string.information_title),anchoPantalla/2, altoPantalla/10,p);
     }
 
     int onTouchEvent(MotionEvent event){

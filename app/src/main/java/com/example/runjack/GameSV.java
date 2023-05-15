@@ -22,7 +22,9 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
     SurfaceHolder surfaceHolder;
     Context context;
 
-    public MediaPlayer musica_fondo;
+    public static MediaPlayer musica_fondo;
+
+    public static Bitmap sonido,musica,idioma;
     Bitmap bitmapFondo;
     boolean funcionando = true;
     boolean esTitulo=true;
@@ -37,15 +39,23 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
     public GameSV(Context context) {
         super(context);
-        this.musica_fondo = MediaPlayer.create(this.getContext(),R.raw.musica_fondo);
-        this.musica_fondo.setLooping(true);
-        this.musica_fondo.start();
+
+        musica_fondo = MediaPlayer.create(this.getContext(),R.raw.musica_fondo);
+        musica_fondo.setLooping(true);
+        musica_fondo.start();
+
+        sonido = BitmapFactory.decodeResource(context.getResources(), R.drawable.altavoz);
+        musica = BitmapFactory.decodeResource(context.getResources(), R.drawable.musica);
+        idioma = BitmapFactory.decodeResource(context.getResources(), R.drawable.bandera_espana);
+
         this.surfaceHolder = getHolder();
         this.context = context;
         this.surfaceHolder.addCallback(this); // y se indica donde van las funciones callback
         this.context = context; // Obtenemos el contexto
-        bitmapFondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.fondo);
         hilo = new Hilo();
+
+        bitmapFondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.fondo);
+
         CambiarIdioma("en");
     }
 
@@ -98,7 +108,9 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
             this.altoPantalla = height;
             escenaActual = new Menu(context, 1, anchoPantalla, altoPantalla);
 
-            if (hilo.getState() == Thread.State.NEW) hilo.start();
+            if (hilo.getState() == Thread.State.NEW){
+                hilo.start();
+            }
             if (hilo.getState() == Thread.State.TERMINATED) {
                 hilo = new Hilo();
                 hilo.start();
@@ -109,6 +121,7 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
         @Override
         public void surfaceDestroyed (SurfaceHolder holder){
             this.funcionando = false;
+            this.musica_fondo.stop();
             try {
                 hilo.join();
             } catch (InterruptedException e) {
@@ -127,7 +140,6 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
             switch (accion) {
                 case MotionEvent.ACTION_DOWN:
                     nuevaEscena = escenaActual.onTouchEvent(event);
-                    Log.i("escena", "onTouchEvent: " + nuevaEscena + " " + escenaActual.numEscena);
                     cambiaEscena(nuevaEscena);
                     return true;
             }
@@ -158,6 +170,9 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
                         break;
                     case 7:
                         escenaActual = new Informacion(context,7,anchoPantalla,altoPantalla);
+                        break;
+                    case 8:
+                        escenaActual = new Pausa(context,8,anchoPantalla,altoPantalla);
                         break;
 
                 }

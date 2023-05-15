@@ -67,6 +67,7 @@ public class Menu extends Escena {
         c.drawBitmap(ajustes_escalado,null,btnEscena5,null);
         c.drawBitmap(trofeo_escalado,null,btnEscena6,null);
         c.drawBitmap(informacion_escalado,null,btnEscena7,null);
+
         c.drawText("RUN JACK!",anchoPantalla/2, altoPantalla/10,p);
     }
 

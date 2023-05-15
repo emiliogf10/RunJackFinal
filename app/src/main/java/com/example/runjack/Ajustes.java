@@ -10,6 +10,8 @@ import android.view.MotionEvent;
 
 public class Ajustes extends Escena {
     int numEscena=5;
+
+    GameSV gsv;
     Rect btnIdioma,btnVolumen,btnMusica;
     Bitmap bEsp = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_espana);
     Bitmap bMusica = BitmapFactory.decodeResource(context.getResources(),R.drawable.musica);
@@ -25,6 +27,8 @@ public class Ajustes extends Escena {
         this.altoP = alp;
         this.anchoP = anp;
         cIdioma = new GameSV(context);
+
+        gsv = new GameSV(context);
 
         this.silencio_on = BitmapFactory.decodeResource(context.getResources(),R.drawable.silencio);
         this.ingles = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_inglesa);
@@ -60,28 +64,36 @@ public class Ajustes extends Escena {
     public  int onTouchEvent(MotionEvent event){
 
         int aux=super.onTouchEvent(event);
-        if (aux!=this.numEscena && aux!=-1) return aux;
+
         int x=(int)event.getX();
         int y=(int)event.getY();
+
+        if (aux!=this.numEscena && aux!=-1){
+            return aux;
+        }
 
         if (btnVolumen.contains(x, y)) {
 
             bVolumen = (bVolumen == silencio_on) ? silencio_off : silencio_on;
 
         } else if (btnMusica.contains(x, y)) {
-            bMusica = (bMusica == musica_on) ? musica_off : musica_on;
+
+            if(GameSV.musica.equals(musica_on)){
+                GameSV.musica = musica_off;
+                GameSV.musica_fondo.stop();
+            } else {
+                GameSV.musica = musica_on;
+                GameSV.musica_fondo.start();
+            }
 
         } else if (btnIdioma.contains(x, y)) {
-            /*bEsp = (bEsp == español) ? ingles : español;*/
-            /*if(btnIdioma.equals(español)){
-                bEsp = ingles;
-                cIdioma.CambiarIdioma("es");
-            }else{
-                bEsp = español;
-                cIdioma.CambiarIdioma("en");
-            }*/
-            bEsp = (btnIdioma.equals(español)) ? ingles : español;
-            cIdioma.CambiarIdioma((btnIdioma.equals(español)) ? "es" : "en");
+            if(GameSV.idioma.equals(español)){
+                GameSV.idioma = ingles;
+                gsv.CambiarIdioma("es");
+            } else {
+                GameSV.idioma = español;
+                gsv.CambiarIdioma("en");
+            }
         }
 
 

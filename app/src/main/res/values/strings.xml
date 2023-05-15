@@ -4,5 +4,7 @@
     <string name="gameOver_title">Fin del juego</string>
     <string name="records_title">Registros</string>
     <string name="settings_title">Ajustes</string>
+    <string name="information_title">Informacion</string>
+    <string name="Pause">Pausa</string>
 
 </resources>

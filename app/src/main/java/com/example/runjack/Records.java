@@ -13,9 +13,8 @@ public class Records extends Escena {
         this.numEscena=numEscena;
     }
     public void dibuja(Canvas c){
-        c.drawColor(Color.GRAY);
         super.dibuja(c);
-        c.drawText("Records",anchoPantalla/2, altoPantalla/10,p);
+        c.drawText(context.getString(R.string.records_title),anchoPantalla/2, altoPantalla/10,p);
     }
 
     public void actualizaFisica(){

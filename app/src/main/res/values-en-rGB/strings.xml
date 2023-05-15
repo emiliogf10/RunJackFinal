@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">RunJack!</string>
-    <string name="credits_title">Creditos</string>
+    <string name="credits_title">Credits</string>
     <string name="gameOver_title">Game Over</string>
     <string name="records_title">Records</string>
     <string name="settings_title">Settings</string>
+    <string name="information_title">Information</string>
+    <string name="Pause">Pause</string>
 </resources>
