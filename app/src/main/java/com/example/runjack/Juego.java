@@ -8,7 +8,12 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 import java.util.ArrayList;
@@ -28,12 +33,24 @@ public class Juego extends Escena {
     Timer timerCohete;
     int t = 8000;
     ArrayList<Cohete> listaCohetes;
+
     Bitmap[] imagenesJack;
     Vec2 gravity;
     World world;
     boolean doSleep = true;
 
+    BodyDef bdJack;
+    PolygonShape psJack;
 
+    FixtureDef fdJack;
+
+    Body bJack;
+
+    /*Texture textureJack;
+
+    Sprite sprite;
+
+    SpriteBatch batch;*/
 
 
 
@@ -55,6 +72,23 @@ public class Juego extends Escena {
                 R.drawable.pausa);
         this.btnPausa = new Rect(anchoPantalla / 15 * 13, altoPantalla / 10, anchoPantalla / 15 * 14
                 , altoPantalla / 10 + 50);
+
+        //Definicion del cuerpo (Jack)
+        bdJack = new BodyDef();
+        bdJack.position.set(5,5);
+        bdJack.type = BodyType.DYNAMIC;
+
+        psJack = new PolygonShape();
+        psJack.setAsBox(anchoPantalla / 2,altoPantalla / 2);
+
+        fdJack = new FixtureDef();
+        fdJack.shape = psJack;
+        fdJack.density = 1f;
+        fdJack.friction = 0.3f;
+
+        bJack = world.createBody(bdJack);
+        bJack.createFixture(fdJack);
+
         /*int[] recursosJack = {
                 R.drawable.jack1, R.drawable.jack2, R.drawable.jack3, R.drawable.jack4, R.drawable.jack5,
                 R.drawable.jack6, R.drawable.jack7, R.drawable.jack8, R.drawable.jack9, R.drawable.jack10,

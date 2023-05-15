@@ -76,7 +76,8 @@ public class Ajustes extends Escena {
 
             bVolumen = (bVolumen == silencio_on) ? silencio_off : silencio_on;
 
-        } else if (btnMusica.contains(x, y)) {
+        }
+        if (btnMusica.contains(x, y)) {
 
             if(GameSV.musica.equals(musica_on)){
                 GameSV.musica = musica_off;
@@ -86,7 +87,8 @@ public class Ajustes extends Escena {
                 GameSV.musica_fondo.start();
             }
 
-        } else if (btnIdioma.contains(x, y)) {
+        }
+        if (btnIdioma.contains(x, y)) {
             if(GameSV.idioma.equals(español)){
                 GameSV.idioma = ingles;
                 gsv.CambiarIdioma("es");
