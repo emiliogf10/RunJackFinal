@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import org.jbox2d.collision.shapes.EdgeShape;
@@ -40,16 +41,7 @@ public class Juego extends Escena {
     World world;
     boolean doSleep = true;
 
-    BodyDef bdJack;
-    PolygonShape psJack;
-
-    FixtureDef fdJack;
-
-    Body bJack;
-
-    EdgeShape suelo;
-
-    Vec2 v1,v2;
+    Jack jack;
 
     /*Texture textureJack;
 
@@ -78,27 +70,8 @@ public class Juego extends Escena {
         this.btnPausa = new Rect(anchoPantalla / 15 * 13, altoPantalla / 10, anchoPantalla / 15 * 14
                 , altoPantalla / 10 + 50);
 
-        //Definicion del cuerpo (Jack)
-        bdJack = new BodyDef();
-        bdJack.position.set(5,5);
-        bdJack.type = BodyType.DYNAMIC;
-
-        psJack = new PolygonShape();
-        psJack.setAsBox(anchoPantalla / 2,altoPantalla / 2);
-
-        fdJack = new FixtureDef();
-        fdJack.shape = psJack;
-        fdJack.density = 1f;
-        fdJack.friction = 0.3f;
-
-        bJack = world.createBody(bdJack);
-        bJack.createFixture(fdJack);
-
-        suelo = new EdgeShape();
-        v1 = new Vec2(2.0f, 10.0f);
-        v2 = new Vec2(2.0f, 10.0f);
-        suelo.set(v1, v2);
-
+        //AQUI
+        /*jack = new Jack(world,new RectF(0,0));*/
 
 
 
