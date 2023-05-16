@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.view.MotionEvent;
 
 import java.util.Timer;
@@ -21,6 +22,9 @@ public class Escena {
     Bitmap menu;
     Bitmap menuEscalado;
 
+    Typeface tf;
+
+
     public Escena( Context context, int anchoPantalla, int altoPantalla, int numEscena) {
         this.altoPantalla = altoPantalla;
         this.anchoPantalla = anchoPantalla;
@@ -32,12 +36,15 @@ public class Escena {
         menu = BitmapFactory.decodeResource(context.getResources(), R.drawable.casa);
         menuEscalado = Bitmap.createScaledBitmap(menu,menu.getWidth()/4,menu.getHeight()/4,true);
 
+        tf = Typeface.createFromAsset(context.getAssets(), "SUPERBOLT.ttf");
+        p.setTypeface(tf);
+
         this.numEscena=numEscena;
         this.btnMenu = new Rect(anchoPantalla/12, altoPantalla/12, anchoPantalla/12*2, altoPantalla/12*2);
     }
 
     public void dibuja(Canvas c){
-        c.drawColor(Color.parseColor("#8BC34A"));
+        c.drawColor(Color.parseColor("#e2e2e2"));
         if (numEscena!=1){
             c.drawBitmap(menuEscalado,null,btnMenu,null);
         }

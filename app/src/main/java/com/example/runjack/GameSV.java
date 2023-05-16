@@ -190,7 +190,7 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
         Resources res = context.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         android.content.res.Configuration conf = res.getConfiguration();
-        conf.locale = new Locale(language.toLowerCase());
+        conf.setLocale(new Locale(language.toLowerCase()));
         res.updateConfiguration(conf,dm);
     }
 

@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import org.jbox2d.collision.shapes.EdgeShape;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -45,6 +46,10 @@ public class Juego extends Escena {
     FixtureDef fdJack;
 
     Body bJack;
+
+    EdgeShape suelo;
+
+    Vec2 v1,v2;
 
     /*Texture textureJack;
 
@@ -88,6 +93,14 @@ public class Juego extends Escena {
 
         bJack = world.createBody(bdJack);
         bJack.createFixture(fdJack);
+
+        suelo = new EdgeShape();
+        v1 = new Vec2(2.0f, 10.0f);
+        v2 = new Vec2(2.0f, 10.0f);
+        suelo.set(v1, v2);
+
+
+
 
         /*int[] recursosJack = {
                 R.drawable.jack1, R.drawable.jack2, R.drawable.jack3, R.drawable.jack4, R.drawable.jack5,

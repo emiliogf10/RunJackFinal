@@ -12,23 +12,24 @@ import android.view.MotionEvent;
 
 public class Menu extends Escena {
     int numEscena=1;
-    Rect btnEscena3, btnEscena5, btnEscena6,btnEscena7,logo_menu;
+    Rect btnEscena3,btnEscena4, btnEscena5, btnEscena6,btnEscena7,logo_menu;
     Paint boton;
-    Bitmap btnPlay,btnAjustes,btnRecords,btnInformacion,logo;
+    Bitmap btnPlay,btnAjustes,btnRecords,btnInformacion,btnCreditos,logo;
 
-    Bitmap play_escalado,ajustes_escalado,trofeo_escalado,informacion_escalado,logo_escalado;
+    Bitmap play_escalado,ajustes_escalado,trofeo_escalado,informacion_escalado,creditos_escalado,logo_escalado;
 
     public Menu(Context context, int numEscena, int anp, int alp) {
         super(context,  anp, alp, numEscena);
         this.numEscena=numEscena;
         boton=new Paint();
 
-        this.logo = BitmapFactory.decodeResource(context.getResources(),R.drawable.logo_menu);
+        this.logo = BitmapFactory.decodeResource(context.getResources(),R.drawable.jetpack2);
 
         btnPlay = BitmapFactory.decodeResource(context.getResources(), R.drawable.play);
         btnAjustes = BitmapFactory.decodeResource(context.getResources(), R.drawable.ajustes);
         btnRecords = BitmapFactory.decodeResource(context.getResources(), R.drawable.trofeo);
         btnInformacion = BitmapFactory.decodeResource(context.getResources(),R.drawable.informacion);
+        btnCreditos = BitmapFactory.decodeResource(context.getResources(),R.drawable.creditos);
 
         this.play_escalado = Bitmap.createScaledBitmap(this.btnPlay,
                 anchoPantalla/8, altoPantalla/8, true);
@@ -37,6 +38,8 @@ public class Menu extends Escena {
         this.trofeo_escalado = Bitmap.createScaledBitmap(this.btnRecords,
                 anchoPantalla/8, altoPantalla/8, true);
         this.informacion_escalado = Bitmap.createScaledBitmap(this.btnInformacion,
+                anchoPantalla/8, altoPantalla/8, true);
+        this.creditos_escalado = Bitmap.createScaledBitmap(this.btnCreditos,
                 anchoPantalla/8, altoPantalla/8, true);
         this.logo_escalado = Bitmap.createScaledBitmap(this.logo,anchoPantalla/6,altoPantalla/6,true);
 
@@ -47,6 +50,8 @@ public class Menu extends Escena {
         btnEscena7 = new Rect(anchoPantalla/5,altoPantalla/8*8,anchoPantalla/5*2,altoPantalla/8*9);*/
 
         btnEscena3 =new Rect(anchoPantalla/13*2, altoPantalla/6*4, anchoPantalla/13*3,
+                altoPantalla/6*5);
+        btnEscena4 = new Rect(anchoPantalla/13*10, altoPantalla/6*4, anchoPantalla/13*11,
                 altoPantalla/6*5);
         btnEscena5 =new Rect(anchoPantalla/13*4, altoPantalla/6*4, anchoPantalla/13*5,
                 altoPantalla/6*5);
@@ -67,8 +72,12 @@ public class Menu extends Escena {
         c.drawBitmap(ajustes_escalado,null,btnEscena5,null);
         c.drawBitmap(trofeo_escalado,null,btnEscena6,null);
         c.drawBitmap(informacion_escalado,null,btnEscena7,null);
+        c.drawBitmap(creditos_escalado,null,btnEscena4,null);
 
-        c.drawText("RUN JACK!",anchoPantalla/2, altoPantalla/10,p);
+        p.setTextSize(anchoPantalla / 10);
+
+        c.drawText("RUN",anchoPantalla/2, altoPantalla/4,p);
+        c.drawText("JACK!",anchoPantalla/3*2, altoPantalla/2,p);
     }
 
     int onTouchEvent(MotionEvent event){
@@ -79,6 +88,7 @@ public class Menu extends Escena {
 
         if (aux!=this.numEscena && aux!=-1) return aux;
         if (btnEscena3.contains(x,y))return 2;
+        else if(btnEscena4.contains(x,y))return 4;
         else if (btnEscena5.contains(x,y))return 5;
         else if (btnEscena6.contains(x,y))return 6;
         else if(btnEscena7.contains(x,y))return 7;

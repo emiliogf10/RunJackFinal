@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import java.io.Console;
+
 public class Ajustes extends Escena {
     int numEscena=5;
 
@@ -79,21 +81,21 @@ public class Ajustes extends Escena {
         }
         if (btnMusica.contains(x, y)) {
 
-            if(GameSV.musica.equals(musica_on)){
-                GameSV.musica = musica_off;
-                GameSV.musica_fondo.stop();
+            if(gsv.musica.equals(musica_on)){
+                gsv.musica = musica_off;
+                gsv.musica_fondo.pause();
             } else {
-                GameSV.musica = musica_on;
-                GameSV.musica_fondo.start();
+                gsv.musica = musica_on;
+                gsv.musica_fondo.start();
             }
 
         }
         if (btnIdioma.contains(x, y)) {
-            if(GameSV.idioma.equals(español)){
-                GameSV.idioma = ingles;
+            if(gsv.idioma.equals(español)){
+                gsv.idioma = ingles;
                 gsv.CambiarIdioma("es");
             } else {
-                GameSV.idioma = español;
+                gsv.idioma = español;
                 gsv.CambiarIdioma("en");
             }
         }
