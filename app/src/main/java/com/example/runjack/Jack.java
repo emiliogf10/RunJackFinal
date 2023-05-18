@@ -1,6 +1,8 @@
 package com.example.runjack;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -27,6 +29,7 @@ public class Jack {
 
     boolean activo=true;
 
+    Context context;
     public Jack(World world,RectF hitbox,float density,float friction){
         //Definicion del cuerpo (Jack)
         this.hitbox = hitbox;
@@ -35,7 +38,7 @@ public class Jack {
         p = new Paint();
 
         PolygonShape psJack = new PolygonShape();
-        /*psJack.setAsBox(anchoPantalla / 2,altoPantalla / 2);*/
+        psJack.setAsBox(6,5);
 
         FixtureDef fdJack = new FixtureDef();
         fdJack.shape = psJack;
@@ -51,7 +54,10 @@ public class Jack {
     }
 
     public void dibuja(Canvas c) {
-        c.drawRect(hitbox,p);
+        Bitmap imagenJack = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack1);
+        float x = getX();
+        float y = getY();
+        c.drawBitmap(imagenJack, x, y, null);
     }
     public void destroy(){
         world.destroyBody(bJack);
@@ -104,5 +110,7 @@ public class Jack {
     public RectF getHitBox() {
         return hitbox;
     }
+
+
 
 }

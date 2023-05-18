@@ -1,5 +1,5 @@
 package com.example.runjack;
 
-public class Suelo {
+public class Superficies {
 
 }

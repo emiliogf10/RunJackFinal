@@ -71,7 +71,7 @@ public class Juego extends Escena {
                 , altoPantalla / 10 + 50);
 
         //AQUI
-        /*jack = new Jack(world,new RectF(0,0));*/
+        jack = new Jack(world,new RectF(100,200,50,100),4,1);
 
 
 
@@ -98,6 +98,8 @@ public class Juego extends Escena {
         }
 
         c.drawBitmap(pausa,null,btnPausa,null);
+
+        jack.dibuja(c);
 
 
     }
