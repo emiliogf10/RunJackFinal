@@ -6,5 +6,9 @@
     <string name="settings_title">Ajustes</string>
     <string name="information_title">Informacion</string>
     <string name="Pause">Pausa</string>
+    <string name="home">Menú</string>
+    <string name="resume">Reanudar</string>
+    <string name="play">Jugar</string>
+
 
 </resources>

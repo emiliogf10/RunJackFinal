@@ -39,7 +39,7 @@ public class Juego extends Escena {
     Bitmap[] imagenesJack;
     Vec2 gravity;
     World world;
-    boolean doSleep = true;
+    boolean doSleep = true,enPausa = false;
 
     Jack jack;
 
@@ -70,6 +70,14 @@ public class Juego extends Escena {
         this.btnPausa = new Rect(anchoPantalla / 15 * 13, altoPantalla / 10, anchoPantalla / 15 * 14
                 , altoPantalla / 10 + 50);
 
+        if(acabado){
+            btnCasa = new RectF((float)anchoPantalla/9*4, (float)altoPantalla/7*4,
+                    (float)anchoPantalla/9*6, (float)altoPantalla/7*5);
+        } else {
+            btnCasa = new RectF((float)anchoPantalla/9*2, (float)altoPantalla/7*4, (float)anchoPantalla/9*4, (float)altoPantalla/7*5);
+            btnResume = new RectF((float)anchoPantalla/9*5, (float)altoPantalla/7*4, (float)anchoPantalla/9*7, (float)altoPantalla/7*5);
+        }
+
         //AQUI
         jack = new Jack(world,new RectF(100,200,50,100),4,1);
 
@@ -92,10 +100,15 @@ public class Juego extends Escena {
         /*c.drawText("Juego",anchoPantalla/2, altoPantalla/10,p);*/
         /*game.dibujar(c);*/
 
-        for(Cohete cohete : listaCohetes){
-            c.drawBitmap(cohete.imagen,cohete.pos.x,cohete.pos.y,null);
-            cohete.movimiento(altoPantalla,anchoPantalla,6);
+        if(!enPausa){
+            for(Cohete cohete : listaCohetes){
+                c.drawBitmap(cohete.imagen,cohete.pos.x,cohete.pos.y,null);
+                cohete.movimiento(altoPantalla,anchoPantalla,6);
+            }
+        }else{
+            pantallaPausa(c,false);
         }
+
 
         c.drawBitmap(pausa,null,btnPausa,null);
 
@@ -117,7 +130,17 @@ public class Juego extends Escena {
 
         int aux=super.onTouchEvent(event);
         if (aux!=this.numEscena && aux!=-1) return aux;
-        else if (btnPausa.contains(x,y))return 8;
+        if (btnPausa.contains(x,y)){
+            this.enPausa = true;
+        }
+
+        if(btnResume.contains(x,y)){
+            this.enPausa = false;
+        }
+
+        if(btnCasa.contains(x,y)){
+            return 1;
+        }
         return this.numEscena;
     }
 

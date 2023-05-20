@@ -7,4 +7,8 @@
     <string name="settings_title">Settings</string>
     <string name="information_title">Information</string>
     <string name="Pause">Pause</string>
+    <string name="home">Menu</string>
+    <string name="resume">Resume</string>
+    <string name="play">Play Game</string>
+
 </resources>

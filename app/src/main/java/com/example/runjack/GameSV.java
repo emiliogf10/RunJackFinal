@@ -171,9 +171,6 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
                     case 7:
                         escenaActual = new Informacion(context,7,anchoPantalla,altoPantalla);
                         break;
-                    case 8:
-                        escenaActual = new Pausa(context,8,anchoPantalla,altoPantalla);
-                        break;
 
                 }
             }
