@@ -27,6 +27,8 @@ public class Jack {
 
     Paint p;
 
+    Bitmap imagenJack;
+
     boolean activo=true;
 
     Context context;
@@ -54,7 +56,7 @@ public class Jack {
     }
 
     public void dibuja(Canvas c) {
-        Bitmap imagenJack = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack1);
+        imagenJack = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack1);
         float x = getX();
         float y = getY();
         c.drawBitmap(imagenJack, x, y, null);

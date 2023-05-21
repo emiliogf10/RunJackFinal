@@ -120,11 +120,11 @@ public class Escena {
 
         this.ventana.setStyle(Paint.Style.FILL);
         this.titulo.setTextAlign(Paint.Align.CENTER);
-        this.ventana.setColor(ContextCompat.getColor(context,R.color.purple_500));
+        this.ventana.setColor(ContextCompat.getColor(context,R.color.gris));
 
         c.drawRoundRect(base, 20f, 20f, ventana);
 
-        this.ventana.setColor(ContextCompat.getColor(context, R.color.teal_200));
+        this.ventana.setColor(ContextCompat.getColor(context, R.color.color_letra));
         this.ventana.setTypeface(tf);
         this.ventana.setTextSize((float) altoPantalla / 8);
 
@@ -142,15 +142,15 @@ public class Escena {
         c.drawRoundRect(this.btnCasa, 20f, 20f, ventana);
         c.drawRoundRect(this.btnResume, 20f, 20f, ventana);
 
-        // Buttons Text
-        ventana.setColor(ContextCompat.getColor(context, R.color.white));
+
+        ventana.setColor(ContextCompat.getColor(context, R.color.color_letra));
         ventana.setTextSize((float) altoPantalla / 15);
-        if (!acabado) {
+        if (acabado) {
             c.drawText((String) context.getString(R.string.home),
                     (float) anchoPantalla / 7 * 4, (float) altoPantalla / 12 * 8, ventana);
         } else {
-            c.drawText((String) context.getString(R.string.resume), (float) anchoPantalla / 7 * 2, (float) altoPantalla / 12 * 8, ventana);
-            c.drawText((String) context.getString(R.string.home), (float) anchoPantalla / 7 * 4, (float) altoPantalla / 12 * 8, ventana);
+            c.drawText((String) context.getString(R.string.home), (float) anchoPantalla / 7 * 2, (float) altoPantalla / 12 * 8, ventana);
+            c.drawText((String) context.getString(R.string.resume), (float) anchoPantalla / 7 * 4, (float) altoPantalla / 12 * 8, ventana);
         }
 
     }

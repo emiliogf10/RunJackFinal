@@ -7,7 +7,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import org.jbox2d.collision.shapes.EdgeShape;
 import org.jbox2d.collision.shapes.PolygonShape;
@@ -78,7 +80,7 @@ public class Juego extends Escena {
             btnResume = new RectF((float)anchoPantalla/9*5, (float)altoPantalla/7*4, (float)anchoPantalla/9*7, (float)altoPantalla/7*5);
         }
 
-        //AQUI
+
         jack = new Jack(world,new RectF(100,200,50,100),4,1);
 
 
@@ -101,6 +103,7 @@ public class Juego extends Escena {
         /*game.dibujar(c);*/
 
         if(!enPausa){
+
             for(Cohete cohete : listaCohetes){
                 c.drawBitmap(cohete.imagen,cohete.pos.x,cohete.pos.y,null);
                 cohete.movimiento(altoPantalla,anchoPantalla,6);
