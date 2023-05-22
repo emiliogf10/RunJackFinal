@@ -13,7 +13,7 @@ import java.io.Console;
 public class Ajustes extends Escena {
     int numEscena=5;
 
-    GameSV gsv;
+    GameSV gsv = new GameSV(context);;
     Rect btnIdioma,btnVolumen,btnMusica;
     Bitmap bEsp = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_espana);
     Bitmap bMusica = BitmapFactory.decodeResource(context.getResources(),R.drawable.musica);
@@ -30,7 +30,7 @@ public class Ajustes extends Escena {
         this.anchoP = anp;
         cIdioma = new GameSV(context);
 
-        gsv = new GameSV(context);
+
 
         this.silencio_on = BitmapFactory.decodeResource(context.getResources(),R.drawable.silencio);
         this.ingles = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_inglesa);
@@ -81,20 +81,34 @@ public class Ajustes extends Escena {
         }
         if (btnMusica.contains(x, y)) {
 
-            if(gsv.musica.equals(musica_on)){
+            /*if(gsv.musica.equals(musica_on)){
                 gsv.musica = musica_off;
                 gsv.musica_fondo.pause();
             } else {
                 gsv.musica = musica_on;
                 gsv.musica_fondo.start();
-            }
+            }*/
+
+
+                if(bMusica == musica_on && gsv.musica.equals(musica_on)){
+                    bMusica = musica_off;
+                    gsv.musica = musica_off;
+                    gsv.musica_fondo.pause();
+
+                }else{
+                    bMusica = musica_on;
+                    gsv.musica = musica_on;
+                    gsv.musica_fondo.start();
+                }
 
         }
         if (btnIdioma.contains(x, y)) {
-            if(gsv.idioma.equals(español)){
+            if(bEsp == español && gsv.idioma.equals(español)){
+                bEsp = ingles;
                 gsv.idioma = ingles;
                 gsv.CambiarIdioma("es");
             } else {
+                bEsp = español;
                 gsv.idioma = español;
                 gsv.CambiarIdioma("en");
             }

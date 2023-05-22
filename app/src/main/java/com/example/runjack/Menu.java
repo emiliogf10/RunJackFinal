@@ -84,7 +84,6 @@ public class Menu extends Escena {
         int x=(int)event.getX();
         int y=(int)event.getY();
         int aux=super.onTouchEvent(event);
-        Log.i("boton", "onTouchEvent: "+(btnEscena3.contains(x,y))+" "+aux+" "+this.numEscena);
 
         if (aux!=this.numEscena && aux!=-1) return aux;
         if (btnEscena3.contains(x,y))return 2;

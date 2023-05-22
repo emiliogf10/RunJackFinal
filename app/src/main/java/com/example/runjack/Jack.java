@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.util.Log;
 
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
@@ -32,11 +33,11 @@ public class Jack {
     boolean activo=true;
 
     Context context;
-    public Jack(World world,RectF hitbox,float density,float friction){
+    public Jack(Context context,World world,RectF hitbox,float density,float friction){
         //Definicion del cuerpo (Jack)
         this.hitbox = hitbox;
         this.world = world;
-
+        this.context = context;
         p = new Paint();
 
         PolygonShape psJack = new PolygonShape();
@@ -60,6 +61,7 @@ public class Jack {
         float x = getX();
         float y = getY();
         c.drawBitmap(imagenJack, x, y, null);
+        /*Log.i("JACK3","x:"+ x + " y:" + y);*/
     }
     public void destroy(){
         world.destroyBody(bJack);

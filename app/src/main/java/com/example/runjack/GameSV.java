@@ -39,6 +39,7 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
     public GameSV(Context context) {
         super(context);
+        this.context = context;
 
         musica_fondo = MediaPlayer.create(this.getContext(),R.raw.musica_fondo);
         musica_fondo.setLooping(true);
@@ -56,7 +57,7 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
         bitmapFondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.fondo);
 
-        CambiarIdioma("en");
+        /*CambiarIdioma("en");*/
     }
 
 

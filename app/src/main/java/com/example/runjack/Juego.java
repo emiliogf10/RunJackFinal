@@ -27,7 +27,7 @@ import java.util.Timer;
 
 public class Juego extends Escena {
     int numEscena=2;
-    Cohete cohete;
+    /*Cohete cohete;*/
 
     Rect btnPausa;
     Bitmap bitmapCohete,bitmapFondo,cohete_escalado,pausa;
@@ -44,12 +44,9 @@ public class Juego extends Escena {
     boolean doSleep = true,enPausa = false;
 
     Jack jack;
+    Suelo suelo;
 
-    /*Texture textureJack;
-
-    Sprite sprite;
-
-    SpriteBatch batch;*/
+    boolean fin_juego = false;
 
 
 
@@ -58,14 +55,18 @@ public class Juego extends Escena {
         super(context,  anp, alp, numEscena);
         this.numEscena=numEscena;
         this.listaCohetes = new ArrayList<>();
+        //Timer cohete
         this.timerCohete = new Timer();
         this.timerCohete.schedule(new CohetesVarios(),3000,t);
-        gravity = new Vec2(0.0f, -10.0f);
+        //Creacion del mundo
+        gravity = new Vec2(2.0f, -10.0f);
         world = new World(gravity);
-        world.setSleepingAllowed(doSleep);
+        /*world.setSleepingAllowed(doSleep);*/
+
         bitmapCohete = BitmapFactory.decodeResource(context.getResources(),R.drawable.cohete);
         cohete_escalado = Bitmap.createScaledBitmap(bitmapCohete,anchoPantalla/5,altoPantalla/5,false);
-        cohete = new Cohete(cohete_escalado,anchoPantalla,new Random().nextFloat()*(altoPantalla-cohete_escalado.getHeight()));
+        /*cohete = new Cohete(cohete_escalado,anchoPantalla,new Random().nextFloat()*(altoPantalla-cohete_escalado.getHeight()));*/
+
         //Boton pausa
         this.pausa = BitmapFactory.decodeResource(context.getResources(),
                 R.drawable.pausa);
@@ -81,7 +82,8 @@ public class Juego extends Escena {
         }
 
 
-        jack = new Jack(world,new RectF(100,200,50,100),4,1);
+        jack = new Jack(context,world,new RectF(100,200,50,100),4,1);
+        suelo = new Suelo(context,world, new RectF(anchoPantalla / 10 * 2, altoPantalla / 10 * 5, anchoPantalla / 10 * 2.5f, altoPantalla / 10 * 6.5f), 0.9f, 0.1f, 0.5f);
 
 
 
@@ -97,25 +99,32 @@ public class Juego extends Escena {
 
     }
     public void dibuja(Canvas c){
-        c.drawColor(Color.WHITE);
-        super.dibuja(c);
-        /*c.drawText("Juego",anchoPantalla/2, altoPantalla/10,p);*/
-        /*game.dibujar(c);*/
+        try{
+            c.drawColor(Color.WHITE);
+            super.dibuja(c);
+            /*c.drawText("Juego",anchoPantalla/2, altoPantalla/10,p);*/
+            /*game.dibujar(c);*/
 
-        if(!enPausa){
+            if(!enPausa){
 
-            for(Cohete cohete : listaCohetes){
-                c.drawBitmap(cohete.imagen,cohete.pos.x,cohete.pos.y,null);
-                cohete.movimiento(altoPantalla,anchoPantalla,6);
+                for(Cohete cohete : listaCohetes){
+                    c.drawBitmap(cohete.imagen,cohete.pos.x,cohete.pos.y,null);
+                    cohete.movimiento(altoPantalla,anchoPantalla,6);
+                }
+            }else{
+                pantallaPausa(c,false);
             }
-        }else{
-            pantallaPausa(c,false);
+
+
+            c.drawBitmap(pausa,null,btnPausa,null);
+            /*suelo.dibuja(c);*/
+            jack.dibuja(c);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
-
-        c.drawBitmap(pausa,null,btnPausa,null);
-
-        jack.dibuja(c);
 
 
     }
@@ -124,6 +133,15 @@ public class Juego extends Escena {
 
 
     public void actualizaFisica(){
+        for(Cohete cohete : listaCohetes){
+            if(cohete.detectarColision(jack)){
+                fin_juego = true;
+                listaCohetes.remove(cohete);
+                Log.i("COLISION","SI Colision");
+            }else{
+                Log.i("COLISION","NO Colision");
+            }
+        }
 
     }
 
@@ -147,23 +165,18 @@ public class Juego extends Escena {
         return this.numEscena;
     }
 
-    //Funcion para crear un cohete
-    private void crearCohete(int velocidad,Canvas c){
+    //Funcion para crear un cohete y añadirlo a la lista
+    /*private void crearCohete(int velocidad,Canvas c){
         c.drawBitmap(cohete.imagen, cohete.pos.x, cohete.pos.y,null);
         cohete.movimiento(altoPantalla,anchoPantalla,velocidad);
         listaCohetes.add(cohete);
 
-    }
+    }*/
 
     //Funcion para añadir cohetes a la lista
     private void AñadirCohete(Canvas c){
         Cohete cohete = new Cohete(cohete_escalado,anchoPantalla,new Random().nextFloat()*(altoPantalla-cohete_escalado.getHeight()));
         listaCohetes.add(cohete);
-    }
-
-
-    private void crearJack(){
-
     }
 
     private class CohetesVarios extends java.util.TimerTask {

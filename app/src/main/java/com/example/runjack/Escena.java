@@ -115,6 +115,8 @@ public class Escena {
         return -1;
     }
 
+
+
     public void pantallaPausa(Canvas c,boolean acabado){
         this.acabado = acabado;
 
