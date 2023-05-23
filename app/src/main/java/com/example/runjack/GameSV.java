@@ -29,6 +29,7 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
     boolean funcionando = true;
     boolean esTitulo=true;
     Hilo hilo;
+
     boolean finJuego = false;
     int anchoPantalla, altoPantalla;
     Escena escenaActual;

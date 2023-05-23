@@ -23,22 +23,38 @@ public class Jack {
     Integer div = 10;
     BodyDef bdJack;          // Definición del cuerpo
     Body bJack;                // Cuerpo del objeto a dibujar
-    RectF hitbox;             // Rectangulo con el hitbox.
+    RectF hitbox,borde;             // Rectangulo con el hitbox.
     World world;              // Mundo JBox2D
 
-    Paint p;
+    Paint p,color;
 
     Bitmap imagenJack;
 
     boolean activo=true;
 
+    float anchoP,altoP;
+
+    PointF posicion;
+
     Context context;
-    public Jack(Context context,World world,RectF hitbox,float density,float friction){
+    public Jack(Context context,World world,float density,float friction,float anchoP,float altoP){
         //Definicion del cuerpo (Jack)
-        this.hitbox = hitbox;
+        this.hitbox = new RectF(100,200,50,100);
+
+        this.anchoP = anchoP;
+        this.altoP = altoP;
+
+        posicion = new PointF(anchoP / 2,altoP / 2);
+
+        imagenJack = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack1);
+
         this.world = world;
         this.context = context;
+
         p = new Paint();
+        color = new Paint(Color.RED);
+        this.color.setStyle(Paint.Style.STROKE);
+        this.color.setStrokeWidth(5);
 
         PolygonShape psJack = new PolygonShape();
         psJack.setAsBox(6,5);
@@ -49,22 +65,31 @@ public class Jack {
         fdJack.friction = friction;
 
         this.bdJack = new BodyDef();
-        bdJack.position.set(hitbox.centerX() / 10, hitbox.centerY() / 10);
+        bdJack.position.set(posicion.x,posicion.y);
         bdJack.type = BodyType.DYNAMIC;
 
         bJack = world.createBody(bdJack);
         bJack.createFixture(fdJack);
+        actualizaHit();
+
     }
 
     public void dibuja(Canvas c) {
-        imagenJack = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack1);
-        float x = getX();
-        float y = getY();
-        c.drawBitmap(imagenJack, x, y, null);
+
+
+
+        c.drawBitmap(imagenJack, posicion.x,posicion.y, null);
+        c.drawRect(this.hitbox,color);
         /*Log.i("JACK3","x:"+ x + " y:" + y);*/
+        actualizaHit();
     }
     public void destroy(){
         world.destroyBody(bJack);
+    }
+
+    public void actualizaHit(){
+        this.hitbox= new RectF(this.bdJack.position.x,this.bdJack.position.y,this.bdJack.position.x + this.imagenJack.getWidth(),this.bdJack.position.y + this.imagenJack.getHeight());
+
     }
 
     public void setPosition(float x, float y) {

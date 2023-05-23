@@ -157,4 +157,8 @@ public class Escena {
 
     }
 
+    public void pantallaGameOver(Canvas c){
+
+    }
+
 }

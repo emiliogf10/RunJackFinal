@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
@@ -20,12 +21,16 @@ public class Suelo {
     World world;
     Paint color;
 
+    float anchoP,altoP;
+
     Context context;
 
-    public Suelo(Context context,World world, RectF hitbox, float density, float friction, float restitution){
+    public Suelo(Context context,World world, float density, float friction,float anchoP,float altoP){
         this.context = context;
+        this.anchoP = anchoP;
+        this.altoP = altoP;
 
-        this.hitbox = hitbox;
+        this.hitbox = new RectF(anchoP / 10 * 2, altoP / 10 * 5, anchoP / 10 * 2.5f, altoP / 10 * 6.5f);
         this.world=world;
 
         PolygonShape ps = new PolygonShape();
@@ -35,7 +40,6 @@ public class Suelo {
         fd.shape = ps;
         fd.density = density;
         fd.friction = friction;
-        fd.restitution = restitution;
 
         this.bd = new BodyDef();
 
@@ -52,6 +56,22 @@ public class Suelo {
 
     public void destroy(){
         world.destroyBody(bSuelo);
+    }
+
+    public Vec2 getPosicion() {
+        return bSuelo.getPosition();
+    }
+
+    public float getX() {
+        return bSuelo.getPosition().x * 10;
+    }
+
+    public float getY() {
+        return bSuelo.getPosition().y * 10;
+    }
+
+    public RectF getHitBox() {
+        return hitbox;
     }
 
 
