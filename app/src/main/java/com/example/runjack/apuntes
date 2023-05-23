@@ -3,9 +3,8 @@ Arreglar Idioma
 Creditos(Agregar imagen)
 Como jugar(Agregar imagen)
 Pausar el timer de los cohetes.(Booleanas de pause y game over, comprobar primero si las dos son false)
-Implementar sonido de colisiones
-Implementar el vibrador en las colisiones.
-Crear ventana de GameOver.
 Revisar fisica del juego().
 Acabar de dibujar el suelo.
+Retocar pantalla de GameOver.
+Javadoc.
 

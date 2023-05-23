@@ -1,6 +1,7 @@
 package com.example.runjack;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,7 +15,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.Locale;
-import java.util.Random;
 
 
 public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
@@ -23,8 +23,6 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
     Context context;
 
     public static MediaPlayer musica_fondo;
-
-    public static Bitmap sonido,musica,idioma;
     Bitmap bitmapFondo;
     boolean funcionando = true;
     boolean esTitulo=true;
@@ -35,9 +33,20 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
     Escena escenaActual;
     int nuevaEscena;
     Cohete cohete;
-    Bitmap bitmapCohete;
+
+    public static Bitmap btnSonido, btnMusica, btnIdioma;
+    public static Configuration configuration;
+
+    public static String idioma;
+
+    public static MediaPlayer musica;
 
 
+    /**
+     * Crea un nuevo objeto GameSV con el contexto especificado.
+     *
+     * @param context   Contexto de la aplicacion.
+     */
     public GameSV(Context context) {
         super(context);
         this.context = context;
@@ -46,9 +55,9 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
         musica_fondo.setLooping(true);
         musica_fondo.start();
 
-        sonido = BitmapFactory.decodeResource(context.getResources(), R.drawable.altavoz);
-        musica = BitmapFactory.decodeResource(context.getResources(), R.drawable.musica);
-        idioma = BitmapFactory.decodeResource(context.getResources(), R.drawable.bandera_espana);
+        btnSonido = BitmapFactory.decodeResource(context.getResources(), R.drawable.altavoz);
+        btnMusica = BitmapFactory.decodeResource(context.getResources(), R.drawable.musica);
+        btnIdioma = BitmapFactory.decodeResource(context.getResources(), R.drawable.bandera_espana);
 
         this.surfaceHolder = getHolder();
         this.context = context;
@@ -58,25 +67,18 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
         bitmapFondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.fondo);
 
-        /*CambiarIdioma("en");*/
+        //Cambiar idioma
+
+        /*CambiarIdioma("en");
+        configuration = getResources().getConfiguration();
+        idioma = configuration.getLocales().get(0).getLanguage();
+        btnIdioma = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_inglesa);*/
     }
 
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
 
-    }
-
-
-
-    public void setSurfaceSize(int width, int height) {
-        synchronized (surfaceHolder) { // Se recomienda realizarlo de forma atómica
-            if (bitmapFondo != null) { // Cambiamos el tamaño de la imagen de fondo al tamaño de la pantalla
-                bitmapFondo = Bitmap.createScaledBitmap(bitmapFondo, width, height, true);
-            }
-            bitmapCohete = BitmapFactory.decodeResource(context.getResources(),R.drawable.cohete);
-            cohete = new Cohete(bitmapCohete,new Random().nextFloat()*(anchoPantalla-bitmapCohete.getWidth()),0);
-        }
     }
 
     public void actualizarFisica(){
@@ -184,12 +186,17 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
         }
 
-    public void CambiarIdioma(String language){
+    /**
+     * Cmbia el idioma del juego.
+     *
+     * @param idioma    Codigo del nuevo idioma.
+     */
+    public void CambiarIdioma(String idioma){
         Log.i("TAG","Cambiamos el idioma");
         Resources res = context.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         android.content.res.Configuration conf = res.getConfiguration();
-        conf.setLocale(new Locale(language.toLowerCase()));
+        conf.setLocale(new Locale(idioma.toLowerCase()));
         res.updateConfiguration(conf,dm);
     }
 

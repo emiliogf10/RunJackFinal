@@ -4,15 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Rect;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class Informacion extends Escena {
 
@@ -36,7 +28,7 @@ public class Informacion extends Escena {
         super.dibuja(c);
         c.drawText(context.getString(R.string.information_title),anchoPantalla/2, altoPantalla/10,p);
 
-        if(GameSV.idioma.equals("es")){
+        if(GameSV.btnIdioma.equals("es")){
             
         }else{
 

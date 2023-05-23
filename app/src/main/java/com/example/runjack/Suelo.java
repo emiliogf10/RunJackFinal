@@ -25,6 +25,16 @@ public class Suelo {
 
     Context context;
 
+    /**
+     *Crea un nuevo objeto Suelo con los parametros especificados.
+     *
+     * @param context   Contexto de la aplicación.
+     * @param world     Mundo físico donde se crea el suelo.
+     * @param density   Densidad del suelo.
+     * @param friction  Fricción del suelo.
+     * @param anchoP    Ancho de la pantalla.
+     * @param altoP     Alto de la pantalla.
+     */
     public Suelo(Context context,World world, float density, float friction,float anchoP,float altoP){
         this.context = context;
         this.anchoP = anchoP;
@@ -50,26 +60,46 @@ public class Suelo {
         bSuelo.createFixture(fd);
     }
 
+    /**
+     *Dibuja el objeto Suelo en el canvas especificado.
+     *
+     * @param c El objeto Canvas en el que se dibujará Suelo.
+     */
     public void dibuja(Canvas c) {
         c.drawRect(hitbox, color);
     }
 
+    /**
+     *Destruye el cuerpo del objeto Suelo en el mundo físico.
+     */
     public void destroy(){
         world.destroyBody(bSuelo);
     }
 
+    /**
+     *Obtiene la posición del objeto Suelo en el mundo físico.
+     *
+     * @return  La posición del objeto Suelo como un objeto Vec2.
+     */
     public Vec2 getPosicion() {
         return bSuelo.getPosition();
     }
 
-    public float getX() {
+
+    /*public float getX() {
         return bSuelo.getPosition().x * 10;
     }
 
+
     public float getY() {
         return bSuelo.getPosition().y * 10;
-    }
+    }*/
 
+    /**
+     *Obtiene el rectángulo de colisión (hitbox) del objeto Suelo.
+     *
+     * @return  El rectángulo de colisión del objeto Suelo.
+     */
     public RectF getHitBox() {
         return hitbox;
     }

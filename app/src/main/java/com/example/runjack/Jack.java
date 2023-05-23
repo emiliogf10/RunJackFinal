@@ -37,6 +37,17 @@ public class Jack {
     PointF posicion;
 
     Context context;
+
+    /**
+     *Crea un nuevo objeto Jack con los parámetros especificados.
+     *
+     * @param context   El contexto de la aplicación.
+     * @param world     El objeto World al que pertenece Jack.
+     * @param density   La densidad del cuerpo de Jack.
+     * @param friction  La fricción del cuerpo de Jack.
+     * @param anchoP    El ancho del área de juego.
+     * @param altoP     El alto del área de juego.
+     */
     public Jack(Context context,World world,float density,float friction,float anchoP,float altoP){
         //Definicion del cuerpo (Jack)
         this.hitbox = new RectF(100,200,50,100);
@@ -74,6 +85,11 @@ public class Jack {
 
     }
 
+    /**
+     *Dibuja el objeto Jack en el canvas especificado.
+     *
+     * @param c El objeto Canvas en el que se dibujará Jack.
+     */
     public void dibuja(Canvas c) {
 
 
@@ -83,59 +99,65 @@ public class Jack {
         /*Log.i("JACK3","x:"+ x + " y:" + y);*/
         actualizaHit();
     }
+
+    /**
+     * Destruye el cuerpo del objeto Jack en el mundo físico.
+     */
     public void destroy(){
         world.destroyBody(bJack);
     }
 
+    /**
+     * Actualiza el rectángulo de colisión (hitbox) del objeto Jack.
+     */
     public void actualizaHit(){
         this.hitbox= new RectF(this.bdJack.position.x,this.bdJack.position.y,this.bdJack.position.x + this.imagenJack.getWidth(),this.bdJack.position.y + this.imagenJack.getHeight());
 
     }
 
+    /**
+     * Establece la posición del objeto Jack en el mundo físico.
+     *
+     * @param x La coordenada x de la posición.
+     * @param y La coordenada y de la posición.
+     */
     public void setPosition(float x, float y) {
         bJack.setTransform(new Vec2(x / div, y / div), bJack.getAngle());
         bJack.setActive(true);
         bJack.setAwake(true);
     }
 
-
-    public boolean isActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
-        bJack.setActive(activo);
-    }
-
+    /**
+     * Establece el color de pintura del objeto Jack.
+     *
+     * @param color El color a establecer.
+     */
     public void setColor(int color) {
         this.p.setColor(color);
     }
 
+    /**
+     * Obtiene la posición del objeto Jack en el mundo físico.
+     *
+     * @return  La posición del objeto Jack como un objeto Vec2.
+     */
     public Vec2 getPosicion() {
         return bJack.getPosition();
     }
 
-    public float getX() {
+    /*public float getX() {
         return bJack.getPosition().x * div;
     }
 
     public float getY() {
         return bJack.getPosition().y * div;
-    }
+    }*/
 
-    public float getXMundo() {
-        return bJack.getPosition().x;
-    }
-
-    public float getYMundo() {
-        return bJack.getPosition().y;
-    }
-
-    public float getAngle() {
-        return bJack.getAngle();
-    }
-
+    /**
+     * Obtiene el rectángulo de colisión (hitbox) del objeto Jack.
+     *
+     * @return  El rectángulo de colisión del objeto Jack.
+     */
     public RectF getHitBox() {
         return hitbox;
     }

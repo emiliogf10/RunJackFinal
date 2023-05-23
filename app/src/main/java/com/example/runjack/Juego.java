@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
@@ -45,8 +46,9 @@ public class Juego extends Escena {
 
     Jack jack;
     Suelo suelo;
-
     Explosion explosion;
+
+    Hardware hw;
 
     //Booleana que si está a true, lanza el GameOver
     boolean fin_juego = false;
@@ -54,38 +56,48 @@ public class Juego extends Escena {
     //Lista de explosiones
     Explosion[] explosionesVarias = new Explosion[4];
 
+    //Sonido de la explosion
+    MediaPlayer sonido_explosion;
 
 
-
+    /**
+     *Método que construye una instancia de Juego (constructor)
+     *
+     * @param context   Contexto de la aplicacion
+     * @param numEscena Numero que identifica la escena
+     * @param anp       Ancho de la pantalla
+     * @param alp       Alto de la pantalla
+     */
     public Juego(Context context, int numEscena, int anp, int alp) {
         super(context,  anp, alp, numEscena);
         this.numEscena=numEscena;
+
+        this.hw = new Hardware(context);
+
+        //Sonido de explosion
+        sonido_explosion = MediaPlayer.create(context.getApplicationContext(),R.raw.explosion);
+
         this.listaCohetes = new ArrayList<>();
+        explosion = new Explosion(context);
+
         //Timer cohete
         this.timerCohete = new Timer();
         this.timerCohete.schedule(new CohetesVarios(),3000,t);
 
-        explosion = new Explosion(context);
-
+        //Se inicializa el array con 4 explosiones
         this.explosionesVarias[0] = new Explosion(context);
         this.explosionesVarias[1] = new Explosion(context);
         this.explosionesVarias[2] = new Explosion(context);
         this.explosionesVarias[3] = new Explosion(context);
 
-
-        /*this.explosionesVarias[1].dibujaExplosion(c,this.jack.posicion.x + 5,this.jack.posicion.y + 5);
-        this.explosionesVarias[2].dibujaExplosion(c,this.jack.posicion.x - 5,this.jack.posicion.y - 5);
-        this.explosionesVarias[3].dibujaExplosion(c,this.jack.posicion.x + 10,this.jack.posicion.y + 10);*/
-
-
         //Creacion del mundo
-        gravity = new Vec2(2.0f, -10.0f);
-        world = new World(gravity);
+        this.gravity = new Vec2(2.0f, -10.0f);
+        this.world = new World(gravity);
         /*world.setSleepingAllowed(doSleep);*/
 
-        bitmapCohete = BitmapFactory.decodeResource(context.getResources(),R.drawable.cohete);
-        cohete_escalado = Bitmap.createScaledBitmap(bitmapCohete,anchoPantalla/5,altoPantalla/5,false);
-        /*cohete = new Cohete(cohete_escalado,anchoPantalla,new Random().nextFloat()*(altoPantalla-cohete_escalado.getHeight()));*/
+        //Bitmap del cohete con su correspondiente escalado
+        this.bitmapCohete = BitmapFactory.decodeResource(context.getResources(),R.drawable.cohete);
+        this.cohete_escalado = Bitmap.createScaledBitmap(bitmapCohete,anchoPantalla/5,altoPantalla/5,false);
 
         //Boton pausa
         this.pausa = BitmapFactory.decodeResource(context.getResources(),
@@ -93,50 +105,42 @@ public class Juego extends Escena {
         this.btnPausa = new Rect(anchoPantalla / 15 * 13, altoPantalla / 10, anchoPantalla / 15 * 14
                 , altoPantalla / 10 + 50);
 
-        if(acabado){
-            btnCasa = new RectF((float)anchoPantalla/9*4, (float)altoPantalla/7*4,
-                    (float)anchoPantalla/9*6, (float)altoPantalla/7*5);
-        } else {
-            btnCasa = new RectF((float)anchoPantalla/9*2, (float)altoPantalla/7*4, (float)anchoPantalla/9*4, (float)altoPantalla/7*5);
-            btnResume = new RectF(anchoPantalla/9*5, altoPantalla/7*4, anchoPantalla/9*7, altoPantalla/7*5);
-        }
+        //Botones de los menus de pausa y GameOver
+        btnCasa = new RectF((float)anchoPantalla/9*2, (float)altoPantalla/7*4, (float)anchoPantalla/9*4, (float)altoPantalla/7*5);
+        btnResume = new RectF(anchoPantalla/9*5, altoPantalla/7*4, anchoPantalla/9*7, altoPantalla/7*5);
 
-
+        //Creacion de Jack y del suelo
         jack = new Jack(context,world,4,1,anchoPantalla,altoPantalla);
         suelo = new Suelo(context,world, 0.9f, 0.1f,anchoPantalla,altoPantalla);
 
 
-
-        /*int[] recursosJack = {
-                R.drawable.jack1, R.drawable.jack2, R.drawable.jack3, R.drawable.jack4, R.drawable.jack5,
-                R.drawable.jack6, R.drawable.jack7, R.drawable.jack8, R.drawable.jack9, R.drawable.jack10,
-                R.drawable.jack11, R.drawable.jack12, R.drawable.jack13, R.drawable.jack14, R.drawable.jack15
-        };
-        for (int i = 0; i < imagenesJack.length; i++) {
-            imagenesJack[i] = BitmapFactory.decodeResource(context.getResources(), recursosJack[i]);
-        }*/
-
-
     }
+
+    /**
+     * Metodo en el que se dibuja la escena en el canvas
+     *
+     * @param c El lienzo sobre el que debe dibujarse la escena.
+     */
     public void dibuja(Canvas c){
         try{
             c.drawColor(Color.WHITE);
             super.dibuja(c);
 
             jack.dibuja(c);
-            suelo.dibuja(c);
+            /*suelo.dibuja(c);*/
 
-            if(!enPausa){
+            //Si las booleanas estan a false se siguen creando cohetes
+            if(!enPausa && !fin_juego){
 
                 for(Cohete cohete : listaCohetes){
                     c.drawBitmap(cohete.imagen,cohete.pos.x,cohete.pos.y,null);
                     cohete.movimiento(altoPantalla,anchoPantalla,6);
                 }
             }else{
-                pantallaPausa(c,false);
+                pantallaPausa(c);
             }
 
-
+            //Se dibuja el boton pausa
             c.drawBitmap(pausa,null,btnPausa,null);
 
 
@@ -147,34 +151,38 @@ public class Juego extends Escena {
 
         if(fin_juego){
             for(Explosion explosion : explosionesVarias){
-                //CAMBIAR POSICION
+                //CAMBIAR POSICIONES DE LAS EXPLOSIONES
                 explosion.dibujaExplosion(c,this.jack.posicion.x,this.jack.posicion.y);
             }
-            if(this.explosion.frame == explosion.explosiones.length -1){
-                //LANZAR PANTALLA DE GAME OVER
-                pantallaGameOver(c);
-            }
-        }
+            pantallaGameOver(c);
 
+
+
+        }
 
     }
 
-
-
 //Se detectan colisiones; si hay una colision, se elimina el cohete y se pone booleana a true.
+    @Override
     public void actualizaFisica(){
-        for(int i=listaCohetes.size() -1;i >= 0;i--){
-            if(listaCohetes.get(i).detectarColision(jack)){
-                fin_juego = true;
-                listaCohetes.remove(listaCohetes.get(i));
-                Log.i("COLISION","SI Colision");
+        if(!fin_juego){
+            for(int i=listaCohetes.size() -1;i >= 0;i--){
+                if(listaCohetes.get(i).detectarColision(jack)){
+                    fin_juego = true;
+                    listaCohetes.remove(listaCohetes.get(i));
+                    this.hw.vibra();
+                    sonido_explosion.start();
+                    Log.i("COLISION","SI Colision");
+                }
             }
         }
+
 
         this.jack.actualizaHit();
 
     }
 
+    @Override
     int onTouchEvent(MotionEvent event){
         int x=(int)event.getX();
         int y=(int)event.getY();
@@ -195,6 +203,11 @@ public class Juego extends Escena {
         return this.numEscena;
     }
 
+    /**
+     * Funcion que crea un nuevo cohete y lo añade a la lista.
+     *
+     * @param c Canvas en donde se dibujará el cohete
+     */
     //Funcion para añadir un nuevo cohete y añadirlo a la lista
     private void AñadirCohete(Canvas c){
         if(!enPausa && !fin_juego){
@@ -204,6 +217,9 @@ public class Juego extends Escena {
 
     }
 
+    /**
+     * Funcion que es llamada por el timer de cohete, y que a su vez llama a AñadirCohete(c).
+     */
     //Funcion que se llama desde el timer
     private class CohetesVarios extends java.util.TimerTask {
         @Override

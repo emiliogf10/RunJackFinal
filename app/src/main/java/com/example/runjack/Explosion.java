@@ -12,6 +12,11 @@ public class Explosion {
 
     public int frame = 0;
 
+    /**
+     * Crea un nuevo objeto Explosion con el contexto especificado.
+     *
+     * @param context   Contexto de la aplicacion.
+     */
     public Explosion(Context context){
         this.context = context;
 
@@ -45,6 +50,13 @@ public class Explosion {
 
     }
 
+    /**
+     * Dibuja la explosión en el canvas en las coordenadas especificadas.
+     *
+     * @param c Canvas en el que se dibujará la explosión.
+     * @param x La coordenada x de la posición de la explosión.
+     * @param y La coordenada t de la posición de la explosión.
+     */
     public void dibujaExplosion(Canvas c, float x, float y){
         c.drawBitmap(this.explosiones[frame],x,y,null);
         if(this.frame < explosiones.length-1){
