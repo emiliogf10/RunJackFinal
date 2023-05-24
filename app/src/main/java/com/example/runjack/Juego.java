@@ -10,20 +10,11 @@ import android.graphics.RectF;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.widget.Toast;
 
-import org.jbox2d.collision.shapes.EdgeShape;
-import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 
@@ -32,16 +23,24 @@ public class Juego extends Escena {
 
     Rect btnPausa;
     Bitmap bitmapCohete,bitmapFondo,cohete_escalado,pausa;
-
-    GameSV game;
     Canvas c;
-    Timer timerCohete;
+    //Timer del cohete
+    Timer timer;
+    //Intervalo de cada cuanto se ejecuta el timer
     int t = 8000;
+    int tJack = 50;
     ArrayList<Cohete> listaCohetes;
-
-    Bitmap[] imagenesJack;
     Vec2 gravity;
     World world;
+    //Tiempo entre cada ejecucion
+    float timeStep = 1.0f / 10.0f;
+
+    //Numero de iteraciones en la fase de velocidad
+    int velocidadIteracion = 6;
+
+    //Numero de iteraciones en la fase de posicion
+    int iteracionPosicion = 2;
+
     boolean doSleep = true,enPausa = false;
 
     Jack jack;
@@ -58,6 +57,8 @@ public class Juego extends Escena {
 
     //Sonido de la explosion
     MediaPlayer sonido_explosion;
+
+    boolean aplicoFuerza = false;
 
 
     /**
@@ -81,8 +82,9 @@ public class Juego extends Escena {
         explosion = new Explosion(context);
 
         //Timer cohete
-        this.timerCohete = new Timer();
-        this.timerCohete.schedule(new CohetesVarios(),3000,t);
+        this.timer = new Timer();
+        this.timer.schedule(new CohetesVarios(),3000,t);
+        this.timer.schedule(new ImagenesVarias(),1000,tJack);
 
         //Se inicializa el array con 4 explosiones
         this.explosionesVarias[0] = new Explosion(context);
@@ -126,14 +128,15 @@ public class Juego extends Escena {
             c.drawColor(Color.WHITE);
             super.dibuja(c);
 
+            suelo.dibuja(c);
             jack.dibuja(c);
-            /*suelo.dibuja(c);*/
 
             //Si las booleanas estan a false se siguen creando cohetes
             if(!enPausa && !fin_juego){
 
                 for(Cohete cohete : listaCohetes){
-                    c.drawBitmap(cohete.imagen,cohete.pos.x,cohete.pos.y,null);
+                    /*c.drawBitmap(cohete.imagen,cohete.pos.x,cohete.pos.y,null);*/
+                    cohete.dibuja(c);
                     cohete.movimiento(altoPantalla,anchoPantalla,6);
                 }
             }else{
@@ -165,25 +168,57 @@ public class Juego extends Escena {
 //Se detectan colisiones; si hay una colision, se elimina el cohete y se pone booleana a true.
     @Override
     public void actualizaFisica(){
+        world.step(timeStep,velocidadIteracion,iteracionPosicion);
+
+        if(!jack.hitbox.intersect(suelo.hitbox)){
+            float y = jack.posicion.y + 20;
+            jack.posicion.y = y;
+            this.jack.actualizaHit();
+        }
+        Log.i("GRAVI","x: "+jack.getX() + " y: " + jack.getY());
+
         if(!fin_juego){
             for(int i=listaCohetes.size() -1;i >= 0;i--){
-                if(listaCohetes.get(i).detectarColision(jack)){
+                if(listaCohetes.get(i).detectarColision(jack.getHitBox())){
                     fin_juego = true;
                     listaCohetes.remove(listaCohetes.get(i));
                     this.hw.vibra();
                     sonido_explosion.start();
                     Log.i("COLISION","SI Colision");
                 }
+                if(jack.collision(listaCohetes.get(i).coheteRect)){
+                    Log.i("test", "colision");
+
+                }
+                listaCohetes.get(i).actualizaHit();
             }
+        }
+
+        if(aplicoFuerza){
+            jack.aplicarFuerza();
         }
 
 
         this.jack.actualizaHit();
 
+
     }
 
     @Override
-    int onTouchEvent(MotionEvent event){
+    public int onTouchEvent(MotionEvent event){
+        //Recogemos la pulsacion
+        int accion = event.getAction();
+
+        switch (accion){
+            case MotionEvent.ACTION_DOWN:
+                aplicoFuerza = true;
+                jack.aplicarFuerza(10.0f,5.0f);
+            case MotionEvent.ACTION_UP:
+                aplicoFuerza = false;
+
+
+        }
+
         int x=(int)event.getX();
         int y=(int)event.getY();
 
@@ -192,15 +227,22 @@ public class Juego extends Escena {
         if (btnPausa.contains(x,y)){
             this.enPausa = true;
         }
+        if(this.enPausa || this.fin_juego){
+            if(btnResume.contains(x,y)){
+                this.enPausa = false;
+            }
 
-        if(btnResume.contains(x,y)){
-            this.enPausa = false;
+            if(btnCasa.contains(x,y)){
+                return 1;
+            }
         }
 
-        if(btnCasa.contains(x,y)){
-            return 1;
-        }
+
         return this.numEscena;
+
+
+
+
     }
 
     /**
@@ -228,6 +270,15 @@ public class Juego extends Escena {
         }
     }
 
+    public class ImagenesVarias extends java.util.TimerTask {
+        @Override
+        public void run(){
+
+            if(!enPausa && !fin_juego){
+                jack.dibujaAnimaciones();
+            }
+        }
+    }
 
 
 }

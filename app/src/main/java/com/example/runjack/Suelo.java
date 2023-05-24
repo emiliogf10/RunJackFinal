@@ -2,6 +2,7 @@ package com.example.runjack;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
@@ -40,7 +41,10 @@ public class Suelo {
         this.anchoP = anchoP;
         this.altoP = altoP;
 
-        this.hitbox = new RectF(anchoP / 10 * 2, altoP / 10 * 5, anchoP / 10 * 2.5f, altoP / 10 * 6.5f);
+        color=new Paint();
+        color.setColor(context.getResources().getColor(R.color.color_suelo));
+
+        this.hitbox = new RectF(0, altoP / 10 * 9, anchoP, altoP);
         this.world=world;
 
         PolygonShape ps = new PolygonShape();

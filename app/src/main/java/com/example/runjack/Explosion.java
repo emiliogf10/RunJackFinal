@@ -10,7 +10,7 @@ public class Explosion {
 
     Bitmap[] explosiones = new Bitmap[19];
 
-    public int frame = 0;
+    public int frame;
 
     /**
      * Crea un nuevo objeto Explosion con el contexto especificado.
