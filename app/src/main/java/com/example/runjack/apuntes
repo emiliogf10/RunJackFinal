@@ -1,9 +1,13 @@
+Javadoc.
 Arreglar Musica
 Arreglar Idioma
 Creditos(Agregar imagen)
 Como jugar(Agregar imagen)
-Revisar fisica del juego(Jack no se cae).
 Aplicar fuerza a jack para que se mueva hacia delante.
+Sonido explosion.
 Retocar pantalla de GameOver(Crear otro boton) y timer de explosiones para que vaya mas lento.
-Javadoc.
+Eliminar cohetes cuando salen de la pantalla(arreglarlo).
+Quitar casa casita del juego.
+Implementar que por cada cohete que se salga fuera de la pantalla, se incrementen 10 puntos en la primera ronda,
+cuando se aumente la velocidad, se aumentan los puntos al doble, y asi sucesivamente o hacerlo simplemente con el numero de cohetes que se esquivan(Cada 10 cohetes esquivados se añaden x puntos).
 

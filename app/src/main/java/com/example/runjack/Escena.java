@@ -68,7 +68,9 @@ public class Escena {
         this.ventana = new Paint();
         base = new RectF((float) anchoPantalla / 5,(float) altoPantalla / 5,(float) anchoPantalla / 5 * 4,(float) altoPantalla / 5 * 4);
 
-        this.btnAtras = new Rect(anchoPantalla / 20,altoPantalla / 12,anchoPantalla / 20 + 50,altoPantalla / 12 + 50);
+            this.btnAtras = new Rect(anchoPantalla / 20,altoPantalla / 12,anchoPantalla / 20 + 50,altoPantalla / 12 + 50);
+
+
         menu = BitmapFactory.decodeResource(context.getResources(), R.drawable.casa);
         menuEscalado = Bitmap.createScaledBitmap(menu,menu.getWidth()/4,menu.getHeight()/4,true);
 
@@ -85,7 +87,8 @@ public class Escena {
      */
     public void dibuja(Canvas c){
         c.drawColor(Color.parseColor("#e2e2e2"));
-        if (numEscena!=1){
+        //Se dibuja el icono de la casa en todas las escenas menos en el menú y en el juego.
+        if (numEscena != 2 && numEscena != 1){
             c.drawBitmap(menuEscalado,null,btnMenu,null);
         }
     }
@@ -110,7 +113,7 @@ public class Escena {
         int x = (int) event.getX();
         int y = (int) event.getY();
 
-        if (numEscena != 1) if (btnMenu.contains(x, y)) return 1;
+        if (numEscena != 1 && numEscena != 2) if (btnMenu.contains(x, y)) return 1;
 
         return -1;
     }

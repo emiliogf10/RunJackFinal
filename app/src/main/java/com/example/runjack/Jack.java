@@ -26,11 +26,11 @@ public class Jack {
     Integer div = 10;
     BodyDef bdJack;          // Definición del cuerpo
     Body bJack;                // Cuerpo del objeto a dibujar
-    RectF hitbox,borde;             // Rectangulo con el hitbox.
+    RectF hitbox;             // Rectangulo con el hitbox.
     World world;              // Mundo JBox2D
     Paint p,color;
 
-    Bitmap imagenJack;
+    //Bitmap imagenJack;
 
     boolean activo=true;
 
@@ -40,7 +40,7 @@ public class Jack {
 
     Context context;
 
-    Bitmap[] imagenesJack = new Bitmap[15];
+    Bitmap[] imagenesJack = new Bitmap[27];
 
     public int frame;
 
@@ -62,7 +62,7 @@ public class Jack {
      * @param anchoP    El ancho del área de juego.
      * @param altoP     El alto del área de juego.
      */
-    public Jack(Context context,World world,float density,float friction,float anchoP,float altoP){
+    public Jack(Context context,World world,float density,float friction,float anchoP,float altoP,float x,float y){
 
 
         imagenesJack[0] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack1);
@@ -80,24 +80,36 @@ public class Jack {
         imagenesJack[12] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack13);
         imagenesJack[13] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack14);
         imagenesJack[14] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack15);
+        imagenesJack[15] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack16);
+        imagenesJack[16] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack17);
+        imagenesJack[17] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack18);
+        imagenesJack[18] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack19);
+        imagenesJack[19] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack20);
+        imagenesJack[20] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack21);
+        imagenesJack[21] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack22);
+        imagenesJack[22] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack23);
+        imagenesJack[23] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack24);
+        imagenesJack[24] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack25);
+        imagenesJack[25] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack26);
+        imagenesJack[26] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack27);
+
+       for(int i = 0;i < imagenesJack.length;i++){
+           imagenesJack[i] = Bitmap.createScaledBitmap(imagenesJack[i],300,300,false);
+        }
 
         this.frame = 0;
 
-        //Definicion del cuerpo (Jack)
-        this.hitbox = new RectF(100,200,50,100);
-
         this.anchoP = anchoP;
         this.altoP = altoP;
-        imagenJack = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack1);
 
-        posicion = new PointF(anchoP / 4 - imagenJack.getWidth(),altoP / 2 - imagenJack.getHeight());
-
+        this.posicion = new PointF(x,y);
 
         this.world = world;
         this.context = context;
 
         p = new Paint();
         color = new Paint(Color.RED);
+        color.setColor(Color.RED);
         this.color.setStyle(Paint.Style.STROKE);
         this.color.setStrokeWidth(5);
 
@@ -116,7 +128,12 @@ public class Jack {
         bJack = world.createBody(bdJack);
         bJack.createFixture(fdJack);
 
+        //AÑADIRLE UN VALOR A FUERZA.
         punto = bJack.getWorldPoint(bJack.getWorldCenter());
+
+        this.hitbox= new RectF(this.posicion.x,this.posicion.y,this.posicion.x + this.imagenesJack[0].getWidth(),this.posicion.y + this.imagenesJack[0].getHeight());
+
+        actualizaHit();
 
 
 
@@ -153,7 +170,12 @@ public class Jack {
      * Actualiza el rectángulo de colisión (hitbox) del objeto Jack.
      */
     public void actualizaHit(){
-        this.hitbox= new RectF(this.posicion.x,this.posicion.y,this.posicion.x + this.imagenJack.getWidth(),this.posicion.y + this.imagenJack.getHeight());
+
+
+
+        this.hitbox= new RectF(this.posicion.x,this.posicion.y,this.posicion.x + this.imagenesJack[0].getWidth(),this.posicion.y + this.imagenesJack[0].getHeight());
+        RectF jack = this.hitbox;
+        Log.i("POS","JACKK2 -->Iz:" + this.hitbox.left+ " \tArriba: " + jack.top + " \tDerecha: " + jack.right + " Abajo: " + jack.bottom );
 
     }
 
@@ -219,6 +241,8 @@ public class Jack {
             bJack.applyForce(fuerza,punto);
         }
     }
+
+
 
 
 

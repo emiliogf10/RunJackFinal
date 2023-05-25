@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.RectF;
 
 import org.jbox2d.collision.shapes.PolygonShape;
@@ -57,7 +58,7 @@ public class Suelo {
 
         this.bd = new BodyDef();
 
-        bd.position.set(hitbox.centerX() / 10, hitbox.centerY() / 10);
+        /*bd.position.set(hitbox.centerX() / 10, hitbox.centerY() / 10);*/
         bd.type = BodyType.STATIC;
 
         bSuelo = world.createBody(bd);
