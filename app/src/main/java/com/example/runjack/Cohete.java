@@ -24,6 +24,15 @@ public class Cohete {
 
     Paint color;
 
+    /**
+     * Crea un nuevo objeto Cohete con los parámetros especificados.
+     *
+     * @param context   Contexto de la aplicacion.
+     * @param x Posicion X del cohete.
+     * @param y Posicion Y del cohete.
+     * @param anchoPantalla Ancho de la pantalla.
+     * @param altoPantalla  Alto de la pantalla.
+     */
     public Cohete(Context context,float x,float y,float anchoPantalla,float altoPantalla){
         this.context = context;
 
@@ -39,6 +48,11 @@ public class Cohete {
         coheteRect = new RectF(this.pos.x, this.pos.y, this.pos.x + cohete_escalado.getWidth(), this.pos.y + cohete_escalado.getHeight());
     }
 
+    /**
+     * Dibuja el objeto cohete en el canvas especificado.
+     *
+     * @param c Lienzo en donde se dibujará el cohete.
+     */
     public void dibuja(Canvas c){
         c.drawBitmap(cohete_escalado, this.pos.x,this.pos.y, null);
         c.drawRect(this.coheteRect,color);
@@ -57,7 +71,7 @@ public class Cohete {
     }
 
     /**
-     *Método que detecta si hay colision entre un objeto Jack y un cohete.
+     *Método que detecta si hay colision entre un objeto Jack y un Cohete.
      *
      * @param jack  Objeto Jack que se le pasa para comprobar si colisiona con el cohete.
      * @return      Devuelve true si hay colision y false si no.
@@ -69,11 +83,19 @@ public class Cohete {
         return cohetaux.intersect(jackaux);
     }
 
+    /**
+     *Actualiza el rectángulo de colisión (hitbox) del objeto Cohete en función de su posición actualizada.
+     */
     public void actualizaHit(){
         this.coheteRect= new RectF(this.pos.x,this.pos.y,this.pos.x + this.cohete_escalado.getWidth(),this.pos.y + this.cohete_escalado.getHeight());
 
     }
 
+    /**
+     *Obtiene el rectángulo de colisión (hitbox) del objeto Cohete.
+     *
+     * @return  El rectángulo de colisión del objeto Cohete.
+     */
     public RectF getHitBox() {
         return coheteRect;
     }

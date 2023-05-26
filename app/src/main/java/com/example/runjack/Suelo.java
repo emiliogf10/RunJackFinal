@@ -28,7 +28,7 @@ public class Suelo {
     Context context;
 
     /**
-     *Crea un nuevo objeto Suelo con los parametros especificados.
+     *Crea un nuevo objeto Suelo con los parámetros especificados.
      *
      * @param context   Contexto de la aplicación.
      * @param world     Mundo físico donde se crea el suelo.
@@ -66,7 +66,7 @@ public class Suelo {
     }
 
     /**
-     *Dibuja el objeto Suelo en el canvas especificado.
+     * Dibuja el objeto Suelo en el Canvas especificado.
      *
      * @param c El objeto Canvas en el que se dibujará Suelo.
      */

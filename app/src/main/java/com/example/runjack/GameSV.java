@@ -69,10 +69,10 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
         //Cambiar idioma
 
-        /*CambiarIdioma("en");
+        CambiarIdioma("en");
         configuration = getResources().getConfiguration();
-        idioma = configuration.getLocales().get(0).getLanguage();
-        btnIdioma = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_inglesa);*/
+        idioma = configuration.locale.getLanguage();
+        btnIdioma = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_inglesa);
     }
 
 
@@ -81,28 +81,12 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
+    /**
+     * Actualiza la física del cohete en la escena.
+     * Mueve el cohete según los límites de la pantalla y una velocidad dada.
+     */
     public void actualizarFisica(){
         cohete.movimiento(altoPantalla,anchoPantalla,10);
-    }
-
-    public void run() {
-        while (funcionando) {
-            Canvas c = null; //Necesario repintar _todo el lienzo
-            try {
-                // Obtenemos el lienzo. La sincronización es necesaria por ser recurso común
-                c = surfaceHolder.lockCanvas();
-                synchronized (surfaceHolder) {
-                    if (!esTitulo){
-                        actualizarFisica(); // Movimiento de los elementos
-                    }
-                    dibujar(c);
-                }
-            } finally { // Haya o no excepción, hay que liberar el lienzo
-                if (c != null) {
-                    surfaceHolder.unlockCanvasAndPost(c);
-                }
-            }
-        }
     }
 
         @Override
@@ -151,7 +135,12 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
         }
 
 
-        public void cambiaEscena ( int cambiaEscena){
+    /**
+     *Cambia la escena actual a una nueva escena según el número de escena especificado.
+     *
+     * @param cambiaEscena  Numero de la escena nueva a la que se desea cambiar.
+     */
+    public void cambiaEscena ( int cambiaEscena){
             if (escenaActual.numEscena != nuevaEscena) {
                 switch (nuevaEscena) {
                     case 1:
@@ -159,9 +148,6 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
                         break;
                     case 2:
                         escenaActual = new Juego(context, 2, anchoPantalla, altoPantalla);
-                        break;
-                    case 3:
-                        escenaActual = new GameOver(context, 3, anchoPantalla, altoPantalla);
                         break;
                     case 4:
                         escenaActual = new Creditos(context, 4, anchoPantalla, altoPantalla);
@@ -181,11 +167,6 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
         }
 
 
-
-        public void dibujar (Canvas c){
-
-        }
-
     /**
      * Cmbia el idioma del juego.
      *
@@ -201,7 +182,10 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
     }
 
 
-
+    /**
+     * Clase que representa un hilo de ejecución para la actualización y dibujado de la escena en un canvas.
+     * Extiende de la clase Thread.
+     */
     public class Hilo extends Thread {
             @Override
             public void run() {

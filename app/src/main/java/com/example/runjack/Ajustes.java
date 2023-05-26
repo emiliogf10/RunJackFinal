@@ -21,6 +21,14 @@ public class Ajustes extends Escena {
     Bitmap silencio_on,silencio_off, ingles,español, musica_off,musica_on;
     int anchoP,altoP;
 
+    /**
+     * Crea un objeto Ajustes con los parámetros especificados.
+     *
+     * @param context   Contexto de la aplicacion.
+     * @param numEscena Numero identificativo de la escena.
+     * @param anp   Ancho de la pantalla.
+     * @param alp   Alto de la pantalla.
+     */
     public Ajustes(Context context, int numEscena, int anp, int alp) {
         super(context, anp, alp, numEscena);
         this.numEscena = numEscena;
@@ -47,6 +55,11 @@ public class Ajustes extends Escena {
 
     }
 
+    /**
+     * Dibuja la escena Ajustes en el Canvas especificado.
+     *
+     * @param c El Canvas en donde será dibujada la escena.
+     */
     public void dibuja(Canvas c){
         c.drawColor(Color.GREEN);
         super.dibuja(c);
@@ -57,10 +70,19 @@ public class Ajustes extends Escena {
 
     }
 
+    /**
+     * Actualiza la fisica de los elementos de la escena.
+     */
     public void actualizaFisica(){
 
     }
 
+    /**
+     * Maneja los eventos táctiles en la pantalla.
+     *
+     * @param event Representa el evento.
+     * @return Devuelve el numero de escena al que se debe cambiar.
+     */
     public  int onTouchEvent(MotionEvent event){
 
         int aux=super.onTouchEvent(event);

@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
  * Clase que implementa el hardware; en mi caso el vibrador y el giroscopio.
  * @author Emilio
  * @version 1
- * @since 23/05/2023
  */
 public class Hardware extends AppCompatActivity implements SensorEventListener {
 
@@ -23,7 +22,7 @@ public class Hardware extends AppCompatActivity implements SensorEventListener {
     /**
      * Crea un nuevo objeto Hardware con el contexto especificado.
      *
-     * @param context   Contexto de la aplicacion.
+     * @param context   Contexto de la aplicación.
      */
     public Hardware(Context context){
         this.vibrador = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
@@ -40,7 +39,7 @@ public class Hardware extends AppCompatActivity implements SensorEventListener {
     }
 
     /**
-     * Activa la vibracion del dispositivo
+     * Activa la vibración del dispositivo
      * Si el dispositivo tiene soporte para vibración y el vibrador está disponible, se activará una vibración corta.
      * La duración de la vibración es de 400 milisegundos.
      */

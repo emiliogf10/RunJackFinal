@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">RunJack!</string>
-    <string name="credits_title">Credits</string>
+    <string name="credits_title">Créditos</string>
     <string name="gameOver_title">Fin del juego</string>
     <string name="records_title">Registros</string>
     <string name="settings_title">Ajustes</string>
-    <string name="information_title">Informacion</string>
+    <string name="information_title">Información</string>
     <string name="Pause">Pausa</string>
     <string name="home">Menú</string>
     <string name="resume">Reanudar</string>

@@ -54,8 +54,8 @@ public class Explosion {
      * Dibuja la explosión en el canvas en las coordenadas especificadas.
      *
      * @param c Canvas en el que se dibujará la explosión.
-     * @param x La coordenada x de la posición de la explosión.
-     * @param y La coordenada t de la posición de la explosión.
+     * @param x La coordenada X de la posición de la explosión.
+     * @param y La coordenada Y de la posición de la explosión.
      */
     public void dibujaExplosion(Canvas c, float x, float y){
         c.drawBitmap(this.explosiones[frame],x,y,null);

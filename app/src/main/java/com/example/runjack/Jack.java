@@ -56,11 +56,13 @@ public class Jack {
      *Crea un nuevo objeto Jack con los parámetros especificados.
      *
      * @param context   El contexto de la aplicación.
-     * @param world     El objeto World al que pertenece Jack.
+     * @param world El objeto World al que pertenece Jack.
      * @param density   La densidad del cuerpo de Jack.
      * @param friction  La fricción del cuerpo de Jack.
      * @param anchoP    El ancho del área de juego.
-     * @param altoP     El alto del área de juego.
+     * @param altoP El alto del área de juego.
+     * @param x Posicion X de Jack.
+     * @param y Posicion Y de Jack.
      */
     public Jack(Context context,World world,float density,float friction,float anchoP,float altoP,float x,float y){
 
@@ -140,7 +142,7 @@ public class Jack {
     }
 
     /**
-     *Dibuja el objeto Jack en el canvas especificado.
+     *Dibuja el objeto Jack en el Canvas especificado.
      *
      * @param c El objeto Canvas en el que se dibujará Jack.
      */
@@ -152,6 +154,9 @@ public class Jack {
         actualizaHit();
     }
 
+    /**
+     * Método que dibuja las animaciones en un ciclo continuo.
+     */
     public void dibujaAnimaciones(){
         if(this.frame == this.imagenesJack.length - 1){
             this.frame = 0;
@@ -182,8 +187,8 @@ public class Jack {
     /**
      * Establece la posición del objeto Jack en el mundo físico.
      *
-     * @param x La coordenada x de la posición.
-     * @param y La coordenada y de la posición.
+     * @param x La coordenada X de la posición.
+     * @param y La coordenada Y de la posición.
      */
     public void setPosition(float x, float y) {
         bJack.setTransform(new Vec2(x / div, y / div), bJack.getAngle());
@@ -210,10 +215,20 @@ public class Jack {
         return bJack.getPosition();
     }
 
+    /**
+     * Devuelve la posición X del objeto bJack multiplicada por el factor de escala div.
+     *
+     * @return  La posición X del objeto bJack multiplicado por div.
+     */
     public float getX() {
         return bJack.getPosition().x * div;
     }
 
+    /**
+     * Devuelve la posición Y del objeto bJack multiplicada por el factor de escala div.
+     *
+     * @return  La posición Y del objeto bJack multiplicado por div.
+     */
     public float getY() {
         return bJack.getPosition().y * div;
     }
@@ -227,21 +242,45 @@ public class Jack {
         return hitbox;
     }
 
+    /**
+     * Comprueba si hay colisión entre el objeto actual y el rectángulo especificado.
+     *
+     * @param hide_box  Rectángulo con el cual se va a comprobar la colisión.
+     * @return  True si hay colisión, false si no.
+     */
     public boolean collision(RectF hide_box){
         return this.hitbox.intersect(hide_box);
     }
 
+    /**
+     * Aplica una fuerza especificada en los ejes X e Y al objeto Jack.
+     *
+     * @param fuerzaX   Componente de fuerza en el eje X.
+     * @param fuerzaY   Componente de fuerza en el eje Y.
+     */
     public void aplicarFuerza(float fuerzaX,float fuerzaY){
         this.fuerza = new Vec2(fuerzaX,fuerzaY);
         bJack.applyLinearImpulse(fuerza,punto);
     }
 
+    /**
+     * Aplica la fuerza almacenada en el objeto Jack.
+     * Si no se ha establecido una fuerza previamente, no se aplicará nunguna fuerza.
+     */
     public void aplicarFuerza(){
         if(this.fuerza != null){
-            bJack.applyForce(fuerza,punto);
+            bJack.applyLinearImpulse(fuerza,punto);
+            Log.i("TOUCH","Hay fuerza");
+        }else{
+            Log.i("TOUCH","No hay fuerza");
         }
     }
 
+    public static float getFuerza(float limiteInferior, float limiteSuperior){
+        double fuerza=(Math.random() * (limiteSuperior - limiteInferior)) + limiteInferior;
+        int limite = (int) Math.random() * (3 - 1) + 1;
+        return (float) (limite==1?fuerza:fuerza*-1);
+    }
 
 
 

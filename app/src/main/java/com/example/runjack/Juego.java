@@ -69,16 +69,17 @@ public class Juego extends Escena {
     //Contador
     int cont_cohetes = 0;
 
+    //Cuenta los cohetes que se han supera
     int contGeneralCohetes = 0;
 
 
     /**
-     *Método que construye una instancia de Juego (constructor)
+     * Constructor de la clase Juego.
      *
-     * @param context   Contexto de la aplicacion
+     * @param context   Contexto de la aplicación
      * @param numEscena Numero que identifica la escena
-     * @param anp       Ancho de la pantalla
-     * @param alp       Alto de la pantalla
+     * @param anp   Ancho de la pantalla
+     * @param alp   Alto de la pantalla
      */
     public Juego(Context context, int numEscena, int anp, int alp) {
         super(context,  anp, alp, numEscena);
@@ -131,9 +132,9 @@ public class Juego extends Escena {
     }
 
     /**
-     * Metodo en el que se dibuja la escena en el canvas
+     * Metodo en el que se dibuja la escena en el Canvas especificado.
      *
-     * @param c El lienzo sobre el que debe dibujarse la escena.
+     * @param c El Canvas sobre el que debe dibujarse la escena.
      */
     public void dibuja(Canvas c){
         try{
@@ -206,7 +207,7 @@ public class Juego extends Escena {
 
     }
 
-//Se detectan colisiones; si hay una colision, se elimina el cohete y se pone booleana a true.
+    //Se detectan colisiones; si hay una colision, se elimina el cohete y se pone booleana a true.
     @Override
     public void actualizaFisica(){
         world.step(timeStep,velocidadIteracion,iteracionPosicion);
@@ -260,10 +261,14 @@ public class Juego extends Escena {
             case MotionEvent.ACTION_DOWN:
                 aplicoFuerza = true;
                 Log.i("TOUCH","tocaste la pantalla");
-                jack.aplicarFuerza(10.0f,5.0f);
+                jack.aplicarFuerza(Jack.getFuerza(120f, 160f),  -10);
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                aplicoFuerza = false;
+                break;
             case MotionEvent.ACTION_UP:
                 aplicoFuerza = false;
-
+                break;
 
         }
 
@@ -296,7 +301,7 @@ public class Juego extends Escena {
     }
 
     /**
-     * Funcion que es llamada por el timer de cohete, y que a su vez llama a AñadirCohete(c).
+     * Función que es llamada por el timer de cohete, y que a su vez llama a AñadirCohete(c).
      */
     //Funcion que se llama desde el timer
     private class CohetesVarios extends java.util.TimerTask {
@@ -309,7 +314,7 @@ public class Juego extends Escena {
     /**
      * Funcion que crea un nuevo cohete y lo añade a la lista.
      *
-     * @param c Canvas en donde se dibujará el cohete
+     * @param c Canvas en donde se dibujará el cohete.
      */
     //Funcion para añadir un nuevo cohete y añadirlo a la lista
     private void AñadirCohete(Canvas c){
@@ -329,8 +334,7 @@ public class Juego extends Escena {
 
 
     /**
-     * Funcion que es llamada por el timer y que a su vez llama a jack.dibujaAnimaciones() y
-     * dibuja la animacion de Jack.
+     * Función que es llamada por el timer y que a su vez llama a jack.dibujaAnimaciones() y dibuja la animacion de Jack.
      */
     public class ImagenesVarias extends java.util.TimerTask {
         @Override
@@ -343,7 +347,7 @@ public class Juego extends Escena {
     }
 
     /**
-     * Funcion que libera recursos.
+     * Función que libera recursos.
      */
     public void liberarRecursos(){
         //Libera recursos del timer
@@ -352,6 +356,8 @@ public class Juego extends Escena {
         //Limpia la lista de cohetes.
         this.listaCohetes.clear();
     }
+
+
 
 
 }

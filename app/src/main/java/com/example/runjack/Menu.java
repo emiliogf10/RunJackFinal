@@ -18,6 +18,14 @@ public class Menu extends Escena {
 
     Bitmap play_escalado,ajustes_escalado,trofeo_escalado,informacion_escalado,creditos_escalado,logo_escalado;
 
+    /**
+     * Crea un objeto Menu con los parámetros especificados.
+     *
+     * @param context   Contexto de la aplicación.
+     * @param numEscena Numero identificativo de la escena.
+     * @param anp   Ancho de la pantalla.
+     * @param alp   Alto de la pantalla.
+     */
     public Menu(Context context, int numEscena, int anp, int alp) {
         super(context,  anp, alp, numEscena);
         this.numEscena=numEscena;
@@ -63,6 +71,12 @@ public class Menu extends Escena {
         this.logo_menu = new Rect(anchoPantalla/8, altoPantalla/7, anchoPantalla/8*3,
                 altoPantalla/7*4);
     }
+
+    /**
+     * Dibuja el objeto Menu en el Canvas especificado.
+     *
+     * @param c El objeto Canvas en el que se dibujará la escena de créditos.
+     */
     public void dibuja(Canvas c){
         c.drawColor(Color.RED);
 
@@ -80,6 +94,13 @@ public class Menu extends Escena {
         c.drawText("JACK!",anchoPantalla/3*2, altoPantalla/2,p);
     }
 
+
+    /**
+     * Maneja los eventos táctiles en la pantalla.
+     *
+     * @param event Representa el evento.
+     * @return  Devuelve el numero de escena al que se debe cambiar.
+     */
     int onTouchEvent(MotionEvent event){
         int x=(int)event.getX();
         int y=(int)event.getY();

@@ -17,11 +17,9 @@ import androidx.core.content.ContextCompat;
 import java.util.Timer;
 
 /**
- * Clase padre para todas las subclases que crearemos; Creditos,Informacion,Records,Ajustes,Pausa,
- * Game Over y Menu.
+ * Clase padre para todas las subclases que crearemos; Creditos,Informacion,Records,Ajustes,Pausa y Menu.
  * @author Emilio
  * @version 1
- * @since
  */
 public class Escena {
     int numEscena=-1;
@@ -37,12 +35,12 @@ public class Escena {
     Typeface tf;
 
     /**
-     * Constructs an instance of the Scene class.
+     * Crea un nuevo objeto Escena con los parámetros especificados.
      *
-     * @param context Contexto de la aplicacion
-     * @param altoPantalla Alto de la pantalla
-     * @param anchoPantalla Alto de la pantalla
-     * @param numEscena Numero de identificacion de la escena
+     * @param context Contexto de la aplicacion.
+     * @param altoPantalla Alto de la pantalla.
+     * @param anchoPantalla Alto de la pantalla.
+     * @param numEscena Numero de identificación de la escena.
      */
 
     public Escena( Context context, int anchoPantalla, int altoPantalla, int numEscena) {
@@ -77,13 +75,13 @@ public class Escena {
 
 
         this.numEscena=numEscena;
-        this.btnMenu = new Rect(anchoPantalla/12, altoPantalla/12, anchoPantalla/12*2, altoPantalla/12*2);
+        this.btnMenu = new Rect(anchoPantalla/14, altoPantalla/14, anchoPantalla/12*2, altoPantalla/12*2);
     }
 
     /**
-     * Dibuja la escena en canvas
+     * Dibuja la escena en el Canvas especificado.
      *
-     * @param c The canvas on which the scene should be drawn.
+     * @param c El objeto Canvas en el que se dibujará la escena de créditos.
      */
     public void dibuja(Canvas c){
         c.drawColor(Color.parseColor("#e2e2e2"));
@@ -94,7 +92,7 @@ public class Escena {
     }
 
     /**
-     * Actualiza la fisica de cada escena
+     * Actualiza la fisica de cada escena.
      *
      */
     public void actualizaFisica(){
@@ -102,7 +100,7 @@ public class Escena {
     }
 
     /**
-     * Maneja los eventos táctiles en la escena.
+     * Maneja los eventos táctiles en la pantalla.
      *
      * @param event Representa el evento.
      * @return Devuelve el resultado del evento click.
@@ -121,6 +119,7 @@ public class Escena {
 
     /**
      * Dibuja un menú de pausa en el Canvas.
+     *
      * @param c Canvas en donde se va a dibujar el menú de pausa.
      */
     public void pantallaPausa(Canvas c){
@@ -156,6 +155,7 @@ public class Escena {
 
     /**
      * Dibuja un menú de Game Over en el Canvas.
+     *
      * @param c Canvas en donde se va a dibujar el menú de Game Over.
      */
     public void pantallaGameOver(Canvas c){
