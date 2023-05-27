@@ -13,15 +13,37 @@ import android.util.Log;
 
 import java.util.Random;
 
+/**
+ * Esta clase representa los cohetes en el juego.
+ *
+ *
+ * @author Emilio
+ * @version 1
+ */
 public class Cohete {
+    /**
+     * Contexto de la aplicación.
+     */
     Context context;
+
+    /**
+     * Bitmap del cohete y el cohete escalado.
+     */
     Bitmap bitmapCohete,cohete_escalado;
+
+    /**
+     * Posición del cohete (tanto en x como en y).
+     */
     public PointF pos;
 
-    private Random g;
-
+    /**
+     * Rectángulo del cohete.
+     */
     RectF coheteRect;
 
+    /**
+     * Instanciación de la clase Paint.
+     */
     Paint color;
 
     /**

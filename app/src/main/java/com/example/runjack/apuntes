@@ -1,3 +1,4 @@
+
 Javadoc.
 
 Arreglar Musica
@@ -12,8 +13,14 @@ Sonido explosion.
 
 Retocar pantalla de GameOver(Crear otro boton) y timer de explosiones para que vaya mas lento.
 
-Eliminar cohetes cuando salen de la pantalla(arreglarlo).
+Implementar que por cada cohete que se salga fuera de la pantalla, se incrementen 5 puntos en la primera ronda,
+cuando se aumente la velocidad, se aumentan los puntos a 8,despues a 10 y por ultimo a 12. En este último nivel, la velocidad estará fija a 14 y los cohetes saldrán cada 500 ms.
 
-Implementar que por cada cohete que se salga fuera de la pantalla, se incrementen 10 puntos en la primera ronda,
-cuando se aumente la velocidad, se aumentan los puntos al doble, y asi sucesivamente o hacerlo simplemente con el numero de cohetes que se esquivan(Cada 10 cohetes esquivados se añaden x puntos).
+GIROSCOIPIO: Con el timer general de cohetes, cada vez que salgan 20 cohetes de la pantalla, se podrá agitar el telefono, para que elimine los cohetes en pantalla y sume 5 puntos por cada cohete eliminado.Se podrá ver lo de restaurar la configuracion para que los cohetes vayan un poco mas lentos.
+
+Probar a añadir otro cohete en el nivel final que se lance cada 3 segundos por ejemplo.
+
+Añadir base de datos.
+
+Añadir a la pantalla de GameOver los puntos obtenidos. Pero antes, hacer toda la implementacion de los puntos.
 

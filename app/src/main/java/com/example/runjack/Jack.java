@@ -21,35 +21,83 @@ import org.jbox2d.dynamics.World;
 
 import java.util.Timer;
 
+/**
+ * Representa el personaje Jack en el juego.
+ *
+ *
+ * @author Emilio
+ * @version 1
+ */
 public class Jack {
 
+    /**
+     * Divisor que se utilizará para escalar bitmaps y demás.
+     */
     Integer div = 10;
+
+    /**
+     * BodyDef de Jack.
+     */
     BodyDef bdJack;          // Definición del cuerpo
+
+    /**
+     * Body de Jack.
+     */
     Body bJack;                // Cuerpo del objeto a dibujar
+
+    /**
+     * Rectángulo de Jack (el que lo rodea).
+     */
     RectF hitbox;             // Rectangulo con el hitbox.
+
+    /**
+     * Instanciación de un mundo.
+     */
     World world;              // Mundo JBox2D
+
+    /**
+     * Instanciación de la clase Paint.
+     */
     Paint p,color;
 
-    //Bitmap imagenJack;
-
-    boolean activo=true;
-
+    /**
+     * Ancho de pantalla y alto de pantalla.
+     */
     float anchoP,altoP;
 
+    /**
+     * Posición de Jack (contiene posicion x e y).
+     */
     PointF posicion;
 
+    /**
+     * Contexto de la aplicación.
+     */
     Context context;
 
+    /**
+     * Array de imagenes de Jack.
+     */
     Bitmap[] imagenesJack = new Bitmap[27];
 
+    /**
+     * Contador que vamos a utilizar para cambiar de imagen en la animación de Jack.
+     */
     public int frame;
 
+    /**
+     * Lienzo en el que se dibujará.
+     */
     Canvas c;
 
-    //Fuerza de impulso que se le aplicará a Jack
+    /**
+     * Fuerza de impulso que se le aplicará a Jack.
+     */
     Vec2 fuerza;
 
-    //Punto donde se aplica la fuerza(centro de Jack)
+    /**
+     * Punto donde se aplica la fuerza (centro de Jack).
+     */
     Vec2 punto;
 
     /**
@@ -130,7 +178,7 @@ public class Jack {
         bJack = world.createBody(bdJack);
         bJack.createFixture(fdJack);
 
-        //AÑADIRLE UN VALOR A FUERZA.
+        //Se guarda el punto en donde se le aplicará la fuerza a Jack.
         punto = bJack.getWorldPoint(bJack.getWorldCenter());
 
         this.hitbox= new RectF(this.posicion.x,this.posicion.y,this.posicion.x + this.imagenesJack[0].getWidth(),this.posicion.y + this.imagenesJack[0].getHeight());
@@ -260,7 +308,8 @@ public class Jack {
      */
     public void aplicarFuerza(float fuerzaX,float fuerzaY){
         this.fuerza = new Vec2(fuerzaX,fuerzaY);
-        bJack.applyLinearImpulse(fuerza,punto);
+        bJack.applyForce(fuerza,punto);
+        Log.i("TOUCH","Fuerza = " + this.fuerza);
     }
 
     /**
@@ -269,8 +318,7 @@ public class Jack {
      */
     public void aplicarFuerza(){
         if(this.fuerza != null){
-            bJack.applyLinearImpulse(fuerza,punto);
-            Log.i("TOUCH","Hay fuerza");
+            bJack.applyForce(fuerza,punto);
         }else{
             Log.i("TOUCH","No hay fuerza");
         }

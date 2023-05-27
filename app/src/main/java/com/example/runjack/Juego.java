@@ -18,60 +18,148 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 
+/**
+ *  Clase principal del Juego.
+ *
+ *  @author Emilio
+ *  @version 1
+ */
 public class Juego extends Escena {
+    /**
+     * Numero identificativo de la escena.
+     */
     int numEscena = 2;
 
-    Rect btnPausa;
-
-    Bitmap bitmapFondo,pausa,cohete_escalado,bitmapCohete;
-    Canvas c;
-    //Timer del cohete
-    Timer timer;
-    //Intervalo de cada cuanto se ejecuta el timer
-    int t = 1500;
-
-    int velocidad_cohete = 6;
-    int tJack = 50;
-    ArrayList<Cohete> listaCohetes;
-    Vec2 gravity;
+    /**
+     * Instanciación de un mundo.
+     */
     World world;
-    //Tiempo entre cada ejecucion
-    float timeStep = 1.0f / 10.0f;
 
-    //Numero de iteraciones en la fase de velocidad
-    int velocidadIteracion = 6;
-
-    //Numero de iteraciones en la fase de posicion
-    int iteracionPosicion = 2;
-
-    boolean enPausa = false;
-
+    /**
+     * Instanciación de la clase Jack.
+     */
     Jack jack;
+    /**
+     * Instanciación de la clase Suelo.
+     */
     Suelo suelo;
+    /**
+     * Instanciación de la clase Explosion.
+     */
     Explosion explosion;
 
+    /**
+     * Instanciación de la clase Hardware.
+     */
     Hardware hw;
 
-    //Booleana que si está a true, lanza el GameOver
+    /**
+     * Rectangulo del botón pausa.
+     */
+    Rect btnPausa;
+
+    /**
+     * Bitmaps de la imagen de fondo,del cohete y del escalado del cohete.
+     */
+
+    Bitmap bitmapFondo,pausa,cohete_escalado,bitmapCohete;
+
+    /**
+     * Lienzo sobre el que se va a dibujar.
+     */
+    Canvas c;
+
+    /**
+     * Timer del cohete.
+     */
+    Timer timer;
+
+    /**
+     * Intervalo de cada cuanto se crea un cohete.
+     */
+    int t = 2500;
+
+    /**
+     * Velocidad del cohete.
+     */
+    int velocidad_cohete = 8;
+
+    /**
+     * Intervalo de cada cuanto se cambia cada animación de Jack.
+     */
+    int tJack = 50;
+
+    /**
+     * Lista de cohetes.
+     */
+    ArrayList<Cohete> listaCohetes;
+
+    /**
+     * Gravedad con la que se comporta nuestro mundo
+     */
+    Vec2 gravity;
+
+    /**
+     * Tiempo entre cada ejecución del mundo.
+     */
+    float timeStep = 1.0f / 10.0f;
+
+    /**
+     * Número de iteraciones en la fase de velocidad del mundo.
+     */
+    int velocidadIteracion = 6;
+
+    /**
+     * Número de iteraciones en la fase de posición del mundo.
+     */
+    int iteracionPosicion = 2;
+
+    /**
+     * Booleana que si está a true indica que el juego está en pausa.
+     */
+    boolean enPausa = false;
+
+    /**
+     * Booleana que si está a true indica el final del juego.
+     */
     boolean fin_juego = false;
 
-    //Se lanza cuando se saca el nivel maximo
+    /**
+     * Booleana que si está a true, indica que se alcanzó el nivel máximo.
+     * A partir de aqui, los cohetes saldrán a una velocidad fija y cada 500 ms.
+     */
     boolean nMaximo = false;
 
-    //Lista de explosiones
+    /**
+     * Array de explosiones(muestra varias explosiones en pantalla cuando un cohete impacta con Jack).
+     */
     Explosion[] explosionesVarias = new Explosion[4];
 
-    //Sonido de la explosion
+    /**
+     * Sonido de la explosión.
+     */
     MediaPlayer sonido_explosion;
 
+    /**
+     * Booleana que si está a true, indica que se le aplica fuerza a Jack(salta).
+     */
     boolean aplicoFuerza = false;
 
-    //Contador
+    /**
+     * Cantidad de cohetes que se van creando.
+     */
     int cont_cohetes = 0;
 
-    //Cuenta los cohetes que se han supera
-    int contGeneralCohetes = 0;
 
+    /**
+     * Numero de cohetes que salieron fuera de la pantalla.
+     */
+    int contCohetesSalieron = 0;
+
+    /**
+     * Puntos totales que va consiguiendo el jugador durante el juego.
+     */
+    int puntos = 0;
 
     /**
      * Constructor de la clase Juego.
@@ -149,11 +237,21 @@ public class Juego extends Escena {
 
                 for(Cohete cohete : listaCohetes){
                     cohete.dibuja(c);
+                    if(coheteFueraDePantalla(cohete,altoPantalla)){
+                        listaCohetes.remove(cohete);
+                    }
                     cohete.movimiento(altoPantalla,anchoPantalla,velocidad_cohete);
-                }
 
+                    //Si el cohete sale de la pantalla, se elimina de la lista.
+                    if(cohete.pos.x < 0){
+                        contCohetesSalieron++;
+                        listaCohetes.remove(cohete);
+                        Log.i("salieron","salieron: " + contCohetesSalieron + "\tCohete: " + cohete);
+                    }
+                }
+                //Mientras el nivel maximo está a false, se sigue aumentando la velocidad cada
                 if(!nMaximo){
-                    if(cont_cohetes == 5){
+                    if(cont_cohetes == 10){
                         t = t - 500;
                         velocidad_cohete = velocidad_cohete + 1;
                         cont_cohetes = 0;
@@ -163,8 +261,8 @@ public class Juego extends Escena {
                         nMaximo = true;
                     }
                 }else{
-                    t = 250;
-                    velocidad_cohete = 12;
+                    t = 500;
+                    velocidad_cohete = 14;
 
                 }
 
@@ -239,6 +337,8 @@ public class Juego extends Escena {
 
                 listaCohetes.get(i).actualizaHit();
             }
+        }else{
+            //INTRODUCIR DATOS A BASE DE DATOS
         }
 
 
@@ -261,7 +361,7 @@ public class Juego extends Escena {
             case MotionEvent.ACTION_DOWN:
                 aplicoFuerza = true;
                 Log.i("TOUCH","tocaste la pantalla");
-                jack.aplicarFuerza(Jack.getFuerza(120f, 160f),  -10);
+                jack.aplicarFuerza(Jack.getFuerza(120f, 160f),  10);
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
                 aplicoFuerza = false;
@@ -269,6 +369,13 @@ public class Juego extends Escena {
             case MotionEvent.ACTION_UP:
                 aplicoFuerza = false;
                 break;
+
+        }
+
+        if(accion == MotionEvent.ACTION_DOWN){
+
+            Log.i("TOUCH","tocaste la pantalla");
+            aplicoFuerza = true;
 
         }
 
@@ -321,10 +428,10 @@ public class Juego extends Escena {
         if(!enPausa && !fin_juego){
             /*Random r = new Random();
             float aleatorio = r.nextFloat() * (altoPantalla - suelo.getHitBox().top)+ suelo.getHitBox().top;*/
-            /*Cohete cohete = new Cohete(context,anchoPantalla,new Random().nextFloat()*(altoPantalla-cohete_escalado.getHeight()),anchoPantalla,altoPantalla);
-            listaCohetes.add(cohete);*/
-            Cohete cohete = new Cohete(context,anchoPantalla,300,anchoPantalla,altoPantalla);
+            Cohete cohete = new Cohete(context,anchoPantalla,new Random().nextFloat()*(altoPantalla-cohete_escalado.getHeight()),anchoPantalla,altoPantalla);
             listaCohetes.add(cohete);
+            /*Cohete cohete = new Cohete(context,anchoPantalla,300,anchoPantalla,altoPantalla);*/
+            /*listaCohetes.add(cohete);*/
             cont_cohetes++;
             Log.i("cohete","añade cohete" + "\tCont: " + cont_cohetes + "\tIntervalo: " + t + "\tVelocidad: " + velocidad_cohete);
 
@@ -355,6 +462,21 @@ public class Juego extends Escena {
 
         //Limpia la lista de cohetes.
         this.listaCohetes.clear();
+    }
+
+    public boolean coheteFueraDePantalla(Cohete cohete,int altoPantalla){
+        float coheteX = cohete.pos.x;
+        float coheteY = cohete.pos.y;
+
+        if(coheteX < 0){
+            return true;
+        }
+
+        if(coheteY < 0 || coheteY > altoPantalla){
+            return true;
+        }
+
+        return false;
     }
 
 

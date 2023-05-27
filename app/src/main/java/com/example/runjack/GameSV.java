@@ -41,6 +41,8 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
     public static MediaPlayer musica;
 
+    public static int puntuacion = 0;
+
 
     /**
      * Crea un nuevo objeto GameSV con el contexto especificado.

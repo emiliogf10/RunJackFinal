@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -13,8 +14,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+/**
+ * Main Activity de RunJack!.
+ *
+ * @author Emilio
+ * @version 1
+ */
 public class MainActivity extends AppCompatActivity {
 
+    public static BaseDeDatos base_Datos;
+
+    SQLiteDatabase bd;
     Vibrator vibrator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//PANTALLA HORIZONTAL
         GameSV gamesv=new GameSV(this);
+
+        //Base de datos
+        base_Datos = new BaseDeDatos(this);
+        this.bd = base_Datos.getReadableDatabase();
+
+        if(this.bd != null){
+            base_Datos.onCreate(this.bd);
+        }
 
         this.vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
