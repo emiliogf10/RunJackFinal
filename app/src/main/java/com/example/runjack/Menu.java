@@ -11,11 +11,26 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 public class Menu extends Escena {
+
+    /**
+     * Número identificativo de la escena.
+     */
     int numEscena=1;
+
+    /**
+     * Rectángulos de las ecenas y de la imagen del menú.
+     */
     Rect btnEscena3,btnEscena4, btnEscena5, btnEscena6,btnEscena7,logo_menu;
-    Paint boton;
+
+
+    /**
+     * Bitmaps de los botones del menú y el del logo.
+     */
     Bitmap btnPlay,btnAjustes,btnRecords,btnInformacion,btnCreditos,logo;
 
+    /**
+     * Bitmaps de los botones del menú y el del logo, escalados.
+     */
     Bitmap play_escalado,ajustes_escalado,trofeo_escalado,informacion_escalado,creditos_escalado,logo_escalado;
 
     /**
@@ -29,7 +44,6 @@ public class Menu extends Escena {
     public Menu(Context context, int numEscena, int anp, int alp) {
         super(context,  anp, alp, numEscena);
         this.numEscena=numEscena;
-        boton=new Paint();
 
         this.logo = BitmapFactory.decodeResource(context.getResources(),R.drawable.jetpack2);
 
@@ -51,7 +65,6 @@ public class Menu extends Escena {
                 anchoPantalla/8, altoPantalla/8, true);
         this.logo_escalado = Bitmap.createScaledBitmap(this.logo,anchoPantalla/6,altoPantalla/6,true);
 
-        boton.setColor(Color.GREEN);
         /*btnEscena3 =new Rect(anchoPantalla/5,altoPantalla/8*2,anchoPantalla/5*2,altoPantalla/8*3);
         btnEscena5 =new Rect(anchoPantalla/5,altoPantalla/8*4,anchoPantalla/5*2,altoPantalla/8*5);
         btnEscena6 =new Rect(anchoPantalla/5,altoPantalla/8*6,anchoPantalla/5*2,altoPantalla/8*7);

@@ -9,17 +9,52 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 
 public class Ajustes extends Escena {
+    /**
+     * Número identificativo de las escena.
+     */
     int numEscena=5;
 
-    GameSV gsv = new GameSV(context);;
+    /**
+     * Objeto GameSV con el contexto especificado.
+     */
+    GameSV gsv = new GameSV(context);
+
+    /**
+     *  Rectángulos de los botones de idioma,música y volumen.
+     */
     Rect btnIdioma,btnVolumen,btnMusica;
+
+    /**
+     * Imagen del botón de Idioma.
+     */
     Bitmap bEsp = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_espana);
+
+    /**
+     * Imagen del botón de música.
+     */
     Bitmap bMusica = BitmapFactory.decodeResource(context.getResources(),R.drawable.musica);
+
+    /**
+     * Imagen del botón de volumen.
+     */
     Bitmap bVolumen = BitmapFactory.decodeResource(context.getResources(),R.drawable.altavoz);
+
+    /**
+     * Idioma del juego.
+     */
     GameSV cIdioma;
 
+    /**
+     * Bitmaps auxiliares de los botones de idioma, música y volumen.
+     */
+
     Bitmap silencio_on,silencio_off, ingles,español, musica_off,musica_on;
+
+    /**
+     * Ancho y alto de la pantalla.
+     */
     int anchoP,altoP;
+
 
     /**
      * Crea un objeto Ajustes con los parámetros especificados.
@@ -34,7 +69,6 @@ public class Ajustes extends Escena {
         this.numEscena = numEscena;
         this.altoP = alp;
         this.anchoP = anp;
-        cIdioma = new GameSV(context);
 
 
 

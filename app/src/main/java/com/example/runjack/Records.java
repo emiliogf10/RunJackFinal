@@ -6,7 +6,12 @@ import android.graphics.Color;
 import android.view.MotionEvent;
 
 public class Records extends Escena {
+
+    /**
+     * Número identificativo de la escena.
+     */
     int numEscena=6;
+
 
     /**
      *

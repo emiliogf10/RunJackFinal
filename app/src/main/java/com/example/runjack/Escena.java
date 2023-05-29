@@ -18,21 +18,58 @@ import java.util.Timer;
 
 /**
  * Clase padre para todas las subclases que crearemos; Creditos,Informacion,Records,Ajustes,Pausa y Menu.
+ *
  * @author Emilio
  * @version 1
  */
 public class Escena {
-    int numEscena=-1;
-    int altoPantalla;
-    int anchoPantalla;
+    /**
+     * Contexto de la aplicación
+     */
     Context context;
-    Paint p,ventana,titulo;
-    Rect btnMenu,btnAtras;
 
+    /**
+     * Número identificativo de la escena.
+     */
+    int numEscena=-1;
+
+    /**
+     * Alto de la pantalla.
+     */
+    int altoPantalla;
+
+    /**
+     * Ancho de la pantalla.
+     */
+    int anchoPantalla;
+
+    /**
+     *  Representa la pintura en las ventanas de gameOver y pausa.
+     */
+    Paint p,ventana,titulo;
+
+    /**
+     * Rectángulo que representa el botón de la casita.
+     */
+    Rect btnMenu;
+
+    /*Rect btnAtras;*/
+
+    /**
+     *  Rectángulos que representan a los botones de las ventanas de pausa y gameOver.
+     */
     RectF base,btnCasa,btnResume;
-    Bitmap menu;
-    Bitmap menuEscalado;
+
+    /**
+     * Bitmaps de la imagen del menú.
+     */
+    Bitmap menu,menuEscalado;
+
+    /**
+     * Objeto typeface que representa el tipo de letra del juego.
+     */
     Typeface tf;
+
 
     /**
      * Crea un nuevo objeto Escena con los parámetros especificados.
@@ -66,7 +103,7 @@ public class Escena {
         this.ventana = new Paint();
         base = new RectF((float) anchoPantalla / 5,(float) altoPantalla / 5,(float) anchoPantalla / 5 * 4,(float) altoPantalla / 5 * 4);
 
-            this.btnAtras = new Rect(anchoPantalla / 20,altoPantalla / 12,anchoPantalla / 20 + 50,altoPantalla / 12 + 50);
+            /*this.btnAtras = new Rect(anchoPantalla / 20,altoPantalla / 12,anchoPantalla / 20 + 50,altoPantalla / 12 + 50);*/
 
 
         menu = BitmapFactory.decodeResource(context.getResources(), R.drawable.casa);

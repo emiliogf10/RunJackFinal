@@ -157,9 +157,11 @@ public class Juego extends Escena {
     int contCohetesSalieron = 0;
 
     /**
-     * Puntos totales que va consiguiendo el jugador durante el juego.
+     * Niveles del juego; en donde consigues diferentes puntos por esquivar cohetes dependiendo
+     * en el nivel en el que estés.
      */
-    int puntos = 0;
+
+    int nivel = 1;
 
     /**
      * Constructor de la clase Juego.
@@ -246,13 +248,32 @@ public class Juego extends Escena {
                     if(cohete.pos.x < 0){
                         contCohetesSalieron++;
                         listaCohetes.remove(cohete);
-                        Log.i("salieron","salieron: " + contCohetesSalieron + "\tCohete: " + cohete);
+                        switch (nivel){
+                            case 1:
+                                GameSV.puntuacion += 5;
+                                break;
+                            case 2:
+                                GameSV.puntuacion += 8;
+                                break;
+                            case 3:
+                                GameSV.puntuacion += 10;
+                                break;
+                            case 4:
+                                GameSV.puntuacion += 12;
+                                break;
+                            case 5:
+                                GameSV.puntuacion += 14;
+                                break;
+                        }
+
+                        Log.i("salieron","salieron: " + contCohetesSalieron + "\tCohete: " + cohete + "\tPuntuación total: " + GameSV.puntuacion + "\tNivel: " + nivel);
                     }
                 }
-                //Mientras el nivel maximo está a false, se sigue aumentando la velocidad cada
+                //Mientras el nivel maximo está a false, se sigue aumentando la velocidad.
                 if(!nMaximo){
                     if(cont_cohetes == 10){
                         t = t - 500;
+                        nivel += 1;
                         velocidad_cohete = velocidad_cohete + 1;
                         cont_cohetes = 0;
                     }
@@ -262,6 +283,7 @@ public class Juego extends Escena {
                     }
                 }else{
                     t = 500;
+                    nivel = 5;
                     velocidad_cohete = 14;
 
                 }
@@ -275,6 +297,8 @@ public class Juego extends Escena {
                 pantallaGameOver(c);
                 this.timer.cancel();
                 this.listaCohetes.clear();
+
+
 
             }
 
@@ -323,7 +347,13 @@ public class Juego extends Escena {
                 if(listaCohetes.get(i).detectarColision(jack.getHitBox())){
                     fin_juego = true;
                     cont_cohetes = 0;
+                    GameSV.puntuacion = 0;
+                    this.nivel = 1;
                     listaCohetes.remove(listaCohetes.get(i));
+                    //Se comprueba que la puntuación es mayor que 0; si lo es, se inserta en la base de datos.
+                    if(GameSV.puntuacion > 0){
+                        MainActivity.base_Datos.añadirPuntos(GameSV.puntuacion);
+                    }
                     this.hw.vibra();
                     sonido_explosion.start();
                     Log.i("COLISION","SI Colision");

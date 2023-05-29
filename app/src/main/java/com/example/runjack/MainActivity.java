@@ -65,19 +65,5 @@ public class MainActivity extends AppCompatActivity {
         gamesv.setKeepScreenOn(true); //Pantalla siempre encendida
         setContentView(gamesv);
 
-        /*public void Vibrate() {
-            Log.i("tag", "null vibrate");
-            if (vibrator != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    this.vibrator.vibrate(VibrationEffect.createOneShot(300,
-                            VibrationEffect.DEFAULT_AMPLITUDE));
-
-                    Log.i("tag", "we vibrate");
-                } else {
-                    this.vibrator.vibrate(500);
-                    Log.i("tag", "you vibrate");
-                }
-            }
-        }*/
     }
 }

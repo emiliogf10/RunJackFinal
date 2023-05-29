@@ -9,11 +9,21 @@ import android.view.MotionEvent;
 
 public class Informacion extends Escena {
 
+    /**
+     * Número identificativo de la escena.
+     */
     int numEscena = 7;
 
+    /**
+     * Bitmaps de información en español y en inglés.
+     */
     Bitmap inf_esp,inf_ing;
 
+    /**
+     * Bitmaps de información en español y en inglés, escalados.
+     */
     Bitmap esp_escalado,ing_escalado;
+
 
     /**
      * Crea un nuevo objeto Informacion con los parámetros especificados.

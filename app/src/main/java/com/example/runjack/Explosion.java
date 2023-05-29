@@ -6,10 +6,20 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 public class Explosion {
+
+    /**
+     * Contexto de la aplicación.
+     */
     Context context;
 
+    /**
+     * Array de bitmaps de las explosiones.
+     */
     Bitmap[] explosiones = new Bitmap[19];
 
+    /**
+     * Contador que servirá para ir mostrando todos los bitmaps de las explosiones.
+     */
     public int frame;
 
     /**

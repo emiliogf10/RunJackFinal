@@ -11,9 +11,21 @@ import android.view.MotionEvent;
 import java.io.IOException;
 
 public class Creditos extends Escena {
+
+    /**
+     * Número identificativo de la escena.
+     */
     int numEscena=4;
 
+    /**
+     * Imagenes de los créditos en español y los créditos en inglés.
+     */
+
     Bitmap creditos_esp,creditos_ing;
+
+    /**
+     * Imagenes de los créditos en español y en inglés, escalados.
+     */
 
     Bitmap esp_escalado,ing_escalado;
 

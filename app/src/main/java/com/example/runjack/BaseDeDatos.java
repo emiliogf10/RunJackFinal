@@ -11,33 +11,74 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase encargada de crear,actualizar y borrar la base de datos del juego.
+ * Como es evidente, también tenemos una función que nos devuelve las 2 puntuaciones más altas.
+ *
+ * @author Emilio
+ * @version 1
+ */
 public class BaseDeDatos extends SQLiteOpenHelper {
 
+    /**
+     * Contexto de la aplicación
+     */
     Context context;
 
+    /**
+     * Nombre de la base de datos.
+     */
     private static final String NOMBRE = "run_jack:db.db";
+
+    /**
+     * Nombre de la tabla.
+     */
 
     public static final String TABLA = "puntos_mas_altos";
 
+    /**
+     * Version de la bd.
+     */
     private static final int DB_VERSION = 1;
 
-
+    /**
+     * Crea un anueva instancia de BaseDeDatos.
+     *
+     * @param context   El contexto de la aplicación.
+     */
     public BaseDeDatos(@Nullable Context context) {
         super(context, NOMBRE, null, DB_VERSION);
         this.context = context;
     }
 
+    /**
+     * Crea la base de datos si esta no existe.
+     *
+     * @param db El objeto SQLiteDatabase.
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLA + "(" + "id INTEGER PRIMARY KEY AUTOINCREMENT," + "puntuacion INTEGER NOT NULL)");
     }
 
+    /**
+     * Elimina la tabla reciente y crea una nueva.
+     *
+     * @param db    Objeto SQLiteDatabase.
+     * @param vieja Version antigua de la base de datos.
+     * @param nueva Version reciente de la base de datos.
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int vieja, int nueva) {
         db.execSQL("DROP TABLE " + TABLA);
         onCreate(db);
     }
 
+    /**
+     * Inserta una puntuacion dentro de la tabla de puntos_mas_altos.
+     *
+     * @param puntos    La puntuación que se va a insertar.
+     */
     public void añadirPuntos(int puntos){
         try{
             SQLiteDatabase db = this.getWritableDatabase();
@@ -52,6 +93,11 @@ public class BaseDeDatos extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Devuelve las dos puntuaciones más altas.
+     *
+     * @return Una lista de las puntuaciones más altas.
+     */
     public List<Integer> obtenerPuntos(){
         List<Integer> puntos_maximos = new ArrayList<>();
 
@@ -72,6 +118,9 @@ public class BaseDeDatos extends SQLiteOpenHelper {
         return puntos_maximos;
     }
 
+    /**
+     * Elimina todos los datos de la tabla puntos_mas_altos.
+     */
     public void eliminarPuntos(){
         try{
             SQLiteDatabase db = this.getWritableDatabase();

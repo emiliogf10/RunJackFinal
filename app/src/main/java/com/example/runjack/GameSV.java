@@ -19,27 +19,74 @@ import java.util.Locale;
 
 public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
-    SurfaceHolder surfaceHolder;
+    /**
+     * Contexto de la aplicación.
+     */
     Context context;
 
+    /**
+     * El objeto SurfaceHolder que maneja el surface surface.
+     */
+    SurfaceHolder surfaceHolder;
+
+    /**
+     * Objeto MediaPlayer que maneja la música de fondo.
+     */
     public static MediaPlayer musica_fondo;
-    Bitmap bitmapFondo;
+    /*Bitmap bitmapFondo;*/
+
+    /**
+     *  Booleana que indica si se está jugando al juego.
+     */
     boolean funcionando = true;
-    boolean esTitulo=true;
+
+
+    /*boolean esTitulo=true;*/
+
+    /**
+     * Hilo del juego que corre su lógica.
+     */
     Hilo hilo;
 
-    boolean finJuego = false;
+    /*boolean finJuego = false;*/
+
+    /**
+     * Ancho y alto de la pantalla.
+     */
     int anchoPantalla, altoPantalla;
+
+    /**
+     * Escena actual que se está mostrando en el juego.
+     */
     Escena escenaActual;
+    /**
+     * Escena a la que se va a cambiar.
+     */
     int nuevaEscena;
+
+    /**
+     * Instancia de un objeto Cohete.
+     */
     Cohete cohete;
 
+    /**
+     * Bitmaps de botón de sonido, botón de música y botón de idioma.
+     */
     public static Bitmap btnSonido, btnMusica, btnIdioma;
+
+    /**
+     * Objeto configuración que nos va a permitir manejar los ajustes del juego.
+     */
     public static Configuration configuration;
 
+    /**
+     * Idioma seleccionado para el juego.
+     */
     public static String idioma;
 
-    public static MediaPlayer musica;
+    /**
+     * Puntuación actual del juego.
+     */
 
     public static int puntuacion = 0;
 
@@ -67,7 +114,7 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
         this.context = context; // Obtenemos el contexto
         hilo = new Hilo();
 
-        bitmapFondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.fondo);
+        /*bitmapFondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.fondo);*/
 
         //Cambiar idioma
 

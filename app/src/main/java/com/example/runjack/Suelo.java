@@ -17,15 +17,41 @@ import org.jbox2d.dynamics.World;
 
 public class Suelo {
 
+    /**
+     * Contexto de la aplicación.
+     */
+    Context context;
+
+    /**
+     * BodyDef del Suelo.
+     */
     BodyDef bd;
+
+    /**
+     * Body del Suelo.
+     */
     Body bSuelo;
+
+    /**
+     * Rectángulo del suelo.
+     */
     RectF hitbox;
+
+    /**
+     * Mundo Jbox2D.
+     */
     World world;
+
+    /**
+     * Color del suelo.
+     */
     Paint color;
 
+    /**
+     * Ancho y alto de pantalla.
+     */
     float anchoP,altoP;
 
-    Context context;
 
     /**
      *Crea un nuevo objeto Suelo con los parámetros especificados.
