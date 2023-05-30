@@ -31,6 +31,11 @@ import java.util.Timer;
 public class Jack {
 
     /**
+     * Booleana que si se pone a true está en suelo, si no, no.
+     */
+    boolean enSuelo = false;
+
+    /**
      * Divisor que se utilizará para escalar bitmaps y demás.
      */
     Integer div = 10;
@@ -331,6 +336,32 @@ public class Jack {
     }
 
 
+    /**
+     * Función que devuelve la booleana enSuelo.
+     *
+     * @return enSuelo.
+     */
+    public boolean isEnSuelo(){
+        return  enSuelo;
+    }
+
+    /**
+     * Modifica la booleana enSuelo con la booleana que le pasas.
+     *
+     * @param enSuelo   Booleana que si está a true, significa que está en suelo.
+     */
+    public void setEnSuelo(boolean enSuelo){
+        this.enSuelo = enSuelo;
+    }
+
+    /**
+     * Función que devuelve un array de bitmaps.
+     *
+     * @return  Devuelve un array de bitmaps de jack.
+     */
+    public Bitmap[] getImagenesJack(){
+        return imagenesJack;
+    }
 
 
 }

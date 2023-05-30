@@ -10,5 +10,6 @@
     <string name="home">Menu</string>
     <string name="resume">Resume</string>
     <string name="play">Play Game</string>
+    <string name="noRegistros">No scores to show</string>
 
 </resources>

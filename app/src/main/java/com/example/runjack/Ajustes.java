@@ -1,5 +1,7 @@
 package com.example.runjack;
 
+import static com.example.runjack.Juego.sonido_explosion;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -121,6 +123,7 @@ public class Ajustes extends Escena {
 
         int aux=super.onTouchEvent(event);
 
+
         int x=(int)event.getX();
         int y=(int)event.getY();
 
@@ -128,20 +131,23 @@ public class Ajustes extends Escena {
             return aux;
         }
 
-        if (btnVolumen.contains(x, y)) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            if (btnVolumen.contains(x, y)) {
 
-            bVolumen = (bVolumen == silencio_on) ? silencio_off : silencio_on;
+                bVolumen = (bVolumen == silencio_on) ? silencio_off : silencio_on;
 
-        }
-        if (btnMusica.contains(x, y)) {
+                if(bVolumen == silencio_on){
+                    bVolumen = silencio_off;
+                    /*sonido_explosion.start();*/
+                    gsv.btnSonido = silencio_off;
+                }else{
+                    bVolumen = silencio_on;
+                    /*sonido_explosion.stop();*/
+                    gsv.btnSonido = silencio_on;
+                }
 
-            /*if(gsv.musica.equals(musica_on)){
-                gsv.musica = musica_off;
-                gsv.musica_fondo.pause();
-            } else {
-                gsv.musica = musica_on;
-                gsv.musica_fondo.start();
-            }*/
+            }
+            if (btnMusica.contains(x, y)) {
 
 
                 if(bMusica == musica_on && gsv.btnMusica.equals(musica_on)){
@@ -151,22 +157,25 @@ public class Ajustes extends Escena {
 
                 }else{
                     bMusica = musica_on;
-                    gsv.btnMusica = musica_on;
+
                     gsv.musica_fondo.start();
                 }
 
-        }
-        if (btnIdioma.contains(x, y)) {
-            if(bEsp == español && gsv.btnIdioma.equals(español)){
-                bEsp = ingles;
-                gsv.btnIdioma = ingles;
-                gsv.CambiarIdioma("es");
-            } else {
-                bEsp = español;
-                gsv.btnIdioma = español;
-                gsv.CambiarIdioma("en");
+            }
+            if (btnIdioma.contains(x, y)) {
+                if(bEsp == español && gsv.btnIdioma.equals(español)){
+                    bEsp = ingles;
+                    gsv.btnIdioma = ingles;
+                    gsv.CambiarIdioma("es");
+                } else {
+                    bEsp = español;
+                    gsv.btnIdioma = español;
+                    gsv.CambiarIdioma("en");
+                }
             }
         }
+
+
 
 
         return this.numEscena;

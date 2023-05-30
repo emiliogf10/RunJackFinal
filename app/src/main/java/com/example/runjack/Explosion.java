@@ -73,4 +73,10 @@ public class Explosion {
             this.frame++;
         }
     }
+
+    public void actualizaExplosion(){
+        if(this.frame < explosiones.length - 1){
+            this.frame++;
+        }
+    }
 }

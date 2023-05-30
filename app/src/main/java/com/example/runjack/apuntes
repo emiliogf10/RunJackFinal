@@ -5,11 +5,13 @@ Arreglar Musica
 
 Arreglar Idioma
 
+Ordenar carpetas.
+
 Aplicar fuerza a jack para que se mueva hacia delante(Primero hay que aplicar una funcion y despues otra;
 Primero la de aplicar fuerza pero con dos parametros para guardar la fuerza en el objeto jack, y despues
 la otra sin parametros para aplicarsela al objeto Jack.
 
-Sonido explosion y hacer que se vea la explosión antes de que salga el menú de gameOver.
+Hacer que se vea la explosión antes de que salga el menú de gameOver.
 
 Retocar pantalla de GameOver(Crear otro boton) y timer de explosiones para que vaya mas lento.
 
@@ -18,5 +20,6 @@ GIROSCOPIO: Con el timer general de cohetes, cada vez que salgan 20 cohetes de l
 
 Probar a añadir otro cohete en el nivel final que se lance cada 3 segundos por ejemplo.
 
-Añadir los puntos a la escena de Records.
+
+Poner contador de puntos en el juego.
 

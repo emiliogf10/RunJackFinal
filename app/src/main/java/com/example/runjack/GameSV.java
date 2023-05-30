@@ -1,6 +1,7 @@
 package com.example.runjack;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -33,15 +34,12 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
      * Objeto MediaPlayer que maneja la música de fondo.
      */
     public static MediaPlayer musica_fondo;
-    /*Bitmap bitmapFondo;*/
 
     /**
      *  Booleana que indica si se está jugando al juego.
      */
     boolean funcionando = true;
 
-
-    /*boolean esTitulo=true;*/
 
     /**
      * Hilo del juego que corre su lógica.
@@ -90,6 +88,24 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
     public static int puntuacion = 0;
 
+    /**
+     * Se utilizará para guardar datos de los ajustes del juego.
+     */
+
+    public static SharedPreferences sp;
+
+    /**
+     * Booleana que indica cuando la musica está encendida.
+     */
+    public static boolean musica_on = true;
+
+    /**
+     * Booleana que indica cuando el los efectos de sonido están encendidos.
+     */
+
+    public static boolean sonido_on = true;
+
+
 
     /**
      * Crea un nuevo objeto GameSV con el contexto especificado.
@@ -99,6 +115,9 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
     public GameSV(Context context) {
         super(context);
         this.context = context;
+
+        sp = context.getApplicationContext().getSharedPreferences("SettingsValues", Context.MODE_PRIVATE);
+
 
         musica_fondo = MediaPlayer.create(this.getContext(),R.raw.musica_fondo);
         musica_fondo.setLooping(true);

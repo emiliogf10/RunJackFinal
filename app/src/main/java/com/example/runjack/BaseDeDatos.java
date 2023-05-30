@@ -103,12 +103,12 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 
         try{
             SQLiteDatabase db = this.getWritableDatabase();
-            String query = "SELECT DISTINCT puntos FROM " + TABLA + " ORDER BY puntos DESC LIMIT 2";
+            String query = "SELECT DISTINCT puntuacion FROM " + TABLA + " ORDER BY puntuacion DESC LIMIT 3";
             Cursor cursor = db.rawQuery(query,null);
 
             while (cursor.moveToNext()){
-                int puntuacion = cursor.getInt(cursor.getColumnIndexOrThrow("puntuacion"));
-                puntos_maximos.add(puntuacion);
+                int punt = cursor.getInt(cursor.getColumnIndexOrThrow("puntuacion"));
+                puntos_maximos.add(punt);
             }
             cursor.close();
 

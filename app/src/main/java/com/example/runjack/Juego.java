@@ -138,7 +138,7 @@ public class Juego extends Escena {
     /**
      * Sonido de la explosión.
      */
-    MediaPlayer sonido_explosion;
+    public static MediaPlayer sonido_explosion;
 
     /**
      * Booleana que si está a true, indica que se le aplica fuerza a Jack(salta).
@@ -190,6 +190,7 @@ public class Juego extends Escena {
         this.timer = new Timer();
         this.timer.schedule(new CohetesVarios(),2000,t);
         this.timer.schedule(new ImagenesVarias(),500,tJack);
+        this.timer.schedule(new Animaciones(),300,300);
 
         //Se inicializa el array con 4 explosiones
         this.explosionesVarias[0] = new Explosion(context);
@@ -200,7 +201,6 @@ public class Juego extends Escena {
         //Creacion del mundo
         this.gravity = new Vec2(2.0f, -10.0f);
         this.world = new World(gravity);
-        /*world.setSleepingAllowed(doSleep);*/
 
 
 
@@ -298,8 +298,6 @@ public class Juego extends Escena {
                 this.timer.cancel();
                 this.listaCohetes.clear();
 
-
-
             }
 
             //Se dibuja el boton pausa
@@ -335,10 +333,15 @@ public class Juego extends Escena {
         world.step(timeStep,velocidadIteracion,iteracionPosicion);
 
         //Se hace que Jack caiga hacia abajo
-        if(!jack.hitbox.intersect(suelo.hitbox)){
+        if(!jack.hitbox.intersect(suelo.hitbox) && !jack.isEnSuelo()){
             float y = jack.posicion.y - gravity.y;
             jack.posicion.y = y;
             this.jack.actualizaHit();
+        }else{
+            if(!jack.isEnSuelo()){
+                jack.setEnSuelo(true);
+                jack.posicion.y = suelo.hitbox.top - jack.getImagenesJack()[0].getHeight();
+            }
         }
         Log.i("GRAVI","x: "+jack.getX() + " y: " + jack.getY());
 
@@ -346,35 +349,35 @@ public class Juego extends Escena {
             for(int i=listaCohetes.size() -1;i >= 0;i--){
                 if(listaCohetes.get(i).detectarColision(jack.getHitBox())){
                     fin_juego = true;
-                    cont_cohetes = 0;
-                    GameSV.puntuacion = 0;
-                    this.nivel = 1;
-                    listaCohetes.remove(listaCohetes.get(i));
                     //Se comprueba que la puntuación es mayor que 0; si lo es, se inserta en la base de datos.
                     if(GameSV.puntuacion > 0){
                         MainActivity.base_Datos.añadirPuntos(GameSV.puntuacion);
                     }
+                    cont_cohetes = 0;
+                    GameSV.puntuacion = 0;
+                    this.nivel = 1;
+                    listaCohetes.remove(listaCohetes.get(i));
+
                     this.hw.vibra();
                     sonido_explosion.start();
                     Log.i("COLISION","SI Colision");
                 }
 
-                //SE ELIMINAN LOS COHETES CUANDO SALEN DE LA PANTALLA
-                /*if(listaCohetes.get(i).pos.y > anchoPantalla){
-                    listaCohetes.remove(listaCohetes.get(i));
-                    Log.i("ELIMINAR","cohete eliminado");
-                }*/
 
                 listaCohetes.get(i).actualizaHit();
             }
-        }else{
-            //INTRODUCIR DATOS A BASE DE DATOS
+
+            if(aplicoFuerza && jack.isEnSuelo()){
+
+                jack.aplicarFuerza();
+                jack.setEnSuelo(false);
+
+            }
+
         }
 
 
-        if(aplicoFuerza){
-            jack.aplicarFuerza();
-        }
+
 
 
         this.jack.actualizaHit();
@@ -391,7 +394,7 @@ public class Juego extends Escena {
             case MotionEvent.ACTION_DOWN:
                 aplicoFuerza = true;
                 Log.i("TOUCH","tocaste la pantalla");
-                jack.aplicarFuerza(Jack.getFuerza(120f, 160f),  10);
+                jack.aplicarFuerza(Jack.getFuerza(120f, 160f),  14);
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
                 aplicoFuerza = false;
@@ -480,6 +483,13 @@ public class Juego extends Escena {
             if(!enPausa && !fin_juego){
                 jack.dibujaAnimaciones();
             }
+        }
+    }
+
+    public class Animaciones extends java.util.TimerTask {
+        @Override
+        public void run(){
+            explosion.actualizaExplosion();
         }
     }
 

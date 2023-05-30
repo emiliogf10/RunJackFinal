@@ -9,6 +9,7 @@
     <string name="home">Menú</string>
     <string name="resume">Reanudar</string>
     <string name="play">Jugar</string>
+    <string name="noRegistros">No hay puntuaciones para mostrar</string>
 
 
 </resources>
