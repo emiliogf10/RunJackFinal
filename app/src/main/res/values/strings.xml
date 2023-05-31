@@ -1,15 +1,17 @@
 <resources>
     <string name="app_name">RunJack!</string>
-    <string name="credits_title">Créditos</string>
-    <string name="gameOver_title">Fin del juego</string>
-    <string name="records_title">Registros</string>
-    <string name="settings_title">Ajustes</string>
-    <string name="information_title">Información</string>
-    <string name="Pause">Pausa</string>
-    <string name="home">Menú</string>
-    <string name="resume">Reanudar</string>
-    <string name="play">Jugar</string>
+    <string name="titulo_creditos">Créditos</string>
+    <string name="titulo_fin_juego">Fin del juego</string>
+    <string name="titulo_records">Registros</string>
+    <string name="titulo_ajustes">Ajustes</string>
+    <string name="titulo_informacion">Información</string>
+    <string name="pausa">Pausa</string>
+    <string name="menu">Menú</string>
+    <string name="reanudar">Reanudar</string>
+    <string name="jugar">Jugar</string>
     <string name="noRegistros">No hay puntuaciones para mostrar</string>
+    <string name="eliminar_records">Eliminar Puntuaciones</string>
+    <string name="puntos">Puntos</string>
 
 
 </resources>

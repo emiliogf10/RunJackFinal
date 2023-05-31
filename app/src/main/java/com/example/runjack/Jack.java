@@ -329,6 +329,13 @@ public class Jack {
         }
     }
 
+    /**
+     * Genera una fuerza aleatoria dentro de un rango especificado.
+     *
+     * @param limiteInferior    El límite inferior del rango de fuerza.
+     * @param limiteSuperior    El límite superior del rango de fuerza.
+     * @return  La fuerza generada aleatoriamente dentro del rango especificado, con signo positivo o negativo.
+     */
     public static float getFuerza(float limiteInferior, float limiteSuperior){
         double fuerza=(Math.random() * (limiteSuperior - limiteInferior)) + limiteInferior;
         int limite = (int) Math.random() * (3 - 1) + 1;

@@ -15,6 +15,12 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
+/**
+ * Representa el suelo de RunJack!
+ *
+ * @author Emilio
+ * @version 1
+ */
 public class Suelo {
 
     /**
@@ -115,16 +121,6 @@ public class Suelo {
     public Vec2 getPosicion() {
         return bSuelo.getPosition();
     }
-
-
-    /*public float getX() {
-        return bSuelo.getPosition().x * 10;
-    }
-
-
-    public float getY() {
-        return bSuelo.getPosition().y * 10;
-    }*/
 
     /**
      *Obtiene el rectángulo de colisión (hitbox) del objeto Suelo.

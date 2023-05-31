@@ -5,6 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
+/**
+ * Clase que representa las explosiones de RunJack!
+ *
+ * @author Emilio
+ * @version 1
+ */
 public class Explosion {
 
     /**
@@ -15,7 +21,7 @@ public class Explosion {
     /**
      * Array de bitmaps de las explosiones.
      */
-    Bitmap[] explosiones = new Bitmap[19];
+    Bitmap[] explosiones;
 
     /**
      * Contador que servirá para ir mostrando todos los bitmaps de las explosiones.
@@ -29,6 +35,8 @@ public class Explosion {
      */
     public Explosion(Context context){
         this.context = context;
+
+        this.explosiones = new Bitmap[19];
 
 
                 this.explosiones[0] = BitmapFactory.decodeResource(context.getResources(),R.drawable.explosion1);
@@ -69,11 +77,14 @@ public class Explosion {
      */
     public void dibujaExplosion(Canvas c, float x, float y){
         c.drawBitmap(this.explosiones[frame],x,y,null);
-        if(this.frame < explosiones.length-1){
+        if(this.frame < explosiones.length - 1){
             this.frame++;
         }
     }
 
+    /**
+     * Se comprueba que el frame actual es menor que la longitud del array de bitmaps; si es asi se suma 1;
+     */
     public void actualizaExplosion(){
         if(this.frame < explosiones.length - 1){
             this.frame++;

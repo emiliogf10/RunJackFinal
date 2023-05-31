@@ -16,7 +16,6 @@ import java.util.Random;
 /**
  * Esta clase representa los cohetes en el juego.
  *
- *
  * @author Emilio
  * @version 1
  */

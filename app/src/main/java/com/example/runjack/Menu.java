@@ -10,6 +10,14 @@ import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 
+/**
+ * Escena que represnta el menú de RunJack!
+ * En ella tendremos todas las opciones del juego; Jugar,Ajustes,Records,Cómo Jugar y Créditos.
+ * Hereda de Escena.
+ *
+ * @author Emilio
+ * @version 1
+ */
 public class Menu extends Escena {
 
     /**

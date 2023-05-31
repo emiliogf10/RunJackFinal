@@ -1,8 +1,7 @@
 package com.example.runjack;
 
-import static com.example.runjack.Juego.sonido_explosion;
-
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,6 +9,14 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+/**
+ *  Escena que representa los ajustes de RunJack!
+ *  En ella puedes cambiar el idioma y apagar y encender la música y efectos sonoros.
+ *  Hereda de Escena.
+ *
+ * @author Emilio
+ * @version 1
+ */
 public class Ajustes extends Escena {
     /**
      * Número identificativo de las escena.
@@ -19,7 +26,7 @@ public class Ajustes extends Escena {
     /**
      * Objeto GameSV con el contexto especificado.
      */
-    GameSV gsv = new GameSV(context);
+    GameSV gsv;
 
     /**
      *  Rectángulos de los botones de idioma,música y volumen.
@@ -27,24 +34,19 @@ public class Ajustes extends Escena {
     Rect btnIdioma,btnVolumen,btnMusica;
 
     /**
-     * Imagen del botón de Idioma.
-     */
-    Bitmap bEsp = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_espana);
-
-    /**
-     * Imagen del botón de música.
-     */
-    Bitmap bMusica = BitmapFactory.decodeResource(context.getResources(),R.drawable.musica);
-
-    /**
-     * Imagen del botón de volumen.
-     */
-    Bitmap bVolumen = BitmapFactory.decodeResource(context.getResources(),R.drawable.altavoz);
-
-    /**
      * Idioma del juego.
      */
-    GameSV cIdioma;
+    String idioma;
+
+    /**
+     * Se guarda la musica de las shared preferences.
+     */
+    boolean musica;
+
+    /**
+     * Se guarda el sonido de las shared preferences.
+     */
+    boolean sonido;
 
     /**
      * Bitmaps auxiliares de los botones de idioma, música y volumen.
@@ -65,9 +67,11 @@ public class Ajustes extends Escena {
      * @param numEscena Numero identificativo de la escena.
      * @param anp   Ancho de la pantalla.
      * @param alp   Alto de la pantalla.
+     * @param gsv   Con esta clase gestionaremos la música
      */
-    public Ajustes(Context context, int numEscena, int anp, int alp) {
+    public Ajustes(Context context, int numEscena, int anp, int alp,GameSV gsv) {
         super(context, anp, alp, numEscena);
+        this.gsv = gsv;
         this.numEscena = numEscena;
         this.altoP = alp;
         this.anchoP = anp;
@@ -89,6 +93,11 @@ public class Ajustes extends Escena {
         this.btnMusica = new Rect(anchoP/10*6, altoP/3, anchoP/10*7,
                 altoP/3*2);
 
+        //Shared Preferences
+        this.sonido = GameSV.sp.getBoolean("sonido_on",true);
+        this.musica = GameSV.sp.getBoolean("musica_on",true);
+        this.idioma = GameSV.sp.getString("idioma","es");
+
     }
 
     /**
@@ -99,17 +108,27 @@ public class Ajustes extends Escena {
     public void dibuja(Canvas c){
         c.drawColor(Color.GREEN);
         super.dibuja(c);
-        c.drawText("Ajustes",anchoPantalla/2, altoPantalla/10,p);
-        c.drawBitmap(bMusica,null,btnMusica,null);
-        c.drawBitmap(bVolumen,null,btnVolumen,null);
-        c.drawBitmap(bEsp,null,btnIdioma,null);
+        c.drawText(context.getString(R.string.titulo_ajustes),anchoPantalla/2, altoPantalla/10,p);
 
-    }
+        //Dependiendo de las booleanas, se pone un icono u otro.
+        if(this.musica){
+            c.drawBitmap(this.musica_on,null,btnMusica,null);
+        }else{
+            c.drawBitmap(this.musica_off,null,btnMusica,null);
+        }
 
-    /**
-     * Actualiza la fisica de los elementos de la escena.
-     */
-    public void actualizaFisica(){
+        if (this.sonido){
+            c.drawBitmap(this.silencio_off,null,btnVolumen,null);
+        }else{
+            c.drawBitmap(this.silencio_on,null,btnVolumen,null);
+        }
+
+        if(idioma.equals("es")){
+            c.drawBitmap(this.español,null,btnIdioma,null);
+        }else{
+            c.drawBitmap(this.ingles,null,btnIdioma,null);
+        }
+
 
     }
 
@@ -132,51 +151,34 @@ public class Ajustes extends Escena {
         }
 
         if(event.getAction() == MotionEvent.ACTION_DOWN){
-            if (btnVolumen.contains(x, y)) {
+            SharedPreferences.Editor ed = GameSV.sp.edit();
 
-                bVolumen = (bVolumen == silencio_on) ? silencio_off : silencio_on;
+            if (this.btnVolumen.contains(x, y)) {
 
-                if(bVolumen == silencio_on){
-                    bVolumen = silencio_off;
-                    /*sonido_explosion.start();*/
-                    gsv.btnSonido = silencio_off;
-                }else{
-                    bVolumen = silencio_on;
-                    /*sonido_explosion.stop();*/
-                    gsv.btnSonido = silencio_on;
-                }
+                this.sonido = !this.sonido;
+                ed.putBoolean("sonido_on",this.sonido);
+                gsv.setSonido(this.sonido);
 
             }
             if (btnMusica.contains(x, y)) {
 
-
-                if(bMusica == musica_on && gsv.btnMusica.equals(musica_on)){
-                    bMusica = musica_off;
-                    gsv.btnMusica = musica_off;
-                    gsv.musica_fondo.pause();
-
-                }else{
-                    bMusica = musica_on;
-
-                    gsv.musica_fondo.start();
-                }
+                this.musica = !this.musica;
+                ed.putBoolean("musica_on",this.musica);
+                gsv.setMusica(this.musica);
 
             }
-            if (btnIdioma.contains(x, y)) {
-                if(bEsp == español && gsv.btnIdioma.equals(español)){
-                    bEsp = ingles;
-                    gsv.btnIdioma = ingles;
-                    gsv.CambiarIdioma("es");
+            if (this.btnIdioma.contains(x, y)) {
+                if(idioma.equals("es")){
+                   this.idioma = "en";
+                   gsv.CambiarIdioma("en");
                 } else {
-                    bEsp = español;
-                    gsv.btnIdioma = español;
-                    gsv.CambiarIdioma("en");
+                    this.idioma = "es";
+                    gsv.CambiarIdioma("es");
                 }
+                ed.putString("idioma",idioma);
             }
+            ed.apply();
         }
-
-
-
 
         return this.numEscena;
     }

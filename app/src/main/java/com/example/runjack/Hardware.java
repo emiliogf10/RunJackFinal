@@ -4,6 +4,7 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -11,13 +12,21 @@ import android.os.Vibrator;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * Clase que implementa el hardware; en mi caso el vibrador y el giroscopio.
+ * Clase que implementa el hardware; en mi caso el vibrador y el acelerómetro.
+ *
  * @author Emilio
  * @version 1
  */
 public class Hardware extends AppCompatActivity implements SensorEventListener {
 
+    /**
+     * Instancia del vibrador del juego.
+     */
     Vibrator vibrador;
+
+    SensorManager sm;
+
+    public Sensor acelerometro;
 
     /**
      * Crea un nuevo objeto Hardware con el contexto especificado.
@@ -26,6 +35,9 @@ public class Hardware extends AppCompatActivity implements SensorEventListener {
      */
     public Hardware(Context context){
         this.vibrador = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+
+        this.sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        this.acelerometro = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
     }
     @Override

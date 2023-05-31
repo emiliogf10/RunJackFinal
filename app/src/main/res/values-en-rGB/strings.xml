@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">RunJack!</string>
-    <string name="credits_title">Credits</string>
-    <string name="gameOver_title">Game Over</string>
-    <string name="records_title">Records</string>
-    <string name="settings_title">Settings</string>
-    <string name="information_title">Information</string>
-    <string name="Pause">Pause</string>
-    <string name="home">Menu</string>
-    <string name="resume">Resume</string>
-    <string name="play">Play Game</string>
+    <string name="titulo_creditos">Credits</string>
+    <string name="titulo_fin_juego">Game Over</string>
+    <string name="titulo_records">Records</string>
+    <string name="titulo_ajustes">Settings</string>
+    <string name="titulo_informacion">Information</string>
+    <string name="pausa">Pause</string>
+    <string name="menu">Menu</string>
+    <string name="reanudar">Resume</string>
+    <string name="jugar">Play Game</string>
     <string name="noRegistros">No scores to show</string>
+    <string name="eliminar_records">Delete all records</string>
+    <string name="puntos">Points</string>
 
 </resources>

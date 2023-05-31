@@ -1,6 +1,7 @@
 package com.example.runjack;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,13 +12,10 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.view.MotionEvent;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import java.util.Timer;
-
 /**
- * Clase padre para todas las subclases que crearemos; Creditos,Informacion,Records,Ajustes,Pausa y Menu.
+ * Clase padre para todas las subclases que crearemos; Créditos,Informacion,Records,Ajustes y Menu.
  *
  * @author Emilio
  * @version 1
@@ -53,8 +51,6 @@ public class Escena {
      */
     Rect btnMenu;
 
-    /*Rect btnAtras;*/
-
     /**
      *  Rectángulos que representan a los botones de las ventanas de pausa y gameOver.
      */
@@ -69,6 +65,18 @@ public class Escena {
      * Objeto typeface que representa el tipo de letra del juego.
      */
     Typeface tf;
+
+    /**
+     * Objeto configuration para controlar los ajustes del juego.
+     */
+
+    Configuration config;
+
+    /**
+     * Idioma del juego.
+     */
+
+    String idioma;
 
 
     /**
@@ -103,8 +111,6 @@ public class Escena {
         this.ventana = new Paint();
         base = new RectF((float) anchoPantalla / 5,(float) altoPantalla / 5,(float) anchoPantalla / 5 * 4,(float) altoPantalla / 5 * 4);
 
-            /*this.btnAtras = new Rect(anchoPantalla / 20,altoPantalla / 12,anchoPantalla / 20 + 50,altoPantalla / 12 + 50);*/
-
 
         menu = BitmapFactory.decodeResource(context.getResources(), R.drawable.casa);
         menuEscalado = Bitmap.createScaledBitmap(menu,menu.getWidth()/4,menu.getHeight()/4,true);
@@ -113,6 +119,9 @@ public class Escena {
 
         this.numEscena=numEscena;
         this.btnMenu = new Rect(anchoPantalla/14, altoPantalla/14, anchoPantalla/12*2, altoPantalla/12*2);
+
+        config = context.getResources().getConfiguration();
+        idioma = config.locale.getLanguage();
     }
 
     /**
@@ -171,7 +180,7 @@ public class Escena {
         this.ventana.setTypeface(tf);
         this.ventana.setTextSize((float) altoPantalla / 8);
 
-        c.drawText((String) context.getText(R.string.Pause), (float) anchoPantalla / 5 * 2,
+        c.drawText((String) context.getText(R.string.pausa), (float) anchoPantalla / 5 * 2,
                     (float) altoPantalla / 7 * 3, this.ventana);
 
 
@@ -184,8 +193,8 @@ public class Escena {
         ventana.setTextSize((float) altoPantalla / 15);
 
 
-        c.drawText((String) context.getString(R.string.home), (float) anchoPantalla / 7 * 2, (float) altoPantalla / 12 * 8, ventana);
-        c.drawText((String) context.getString(R.string.resume), (float) anchoPantalla / 7 * 4, (float) altoPantalla / 12 * 8, ventana);
+        c.drawText((String) context.getString(R.string.menu), (float) anchoPantalla / 7 * 2, (float) altoPantalla / 12 * 8, ventana);
+        c.drawText((String) context.getString(R.string.reanudar), (float) anchoPantalla / 7 * 4, (float) altoPantalla / 12 * 8, ventana);
 
 
     }
@@ -201,27 +210,36 @@ public class Escena {
         this.titulo.setTextAlign(Paint.Align.CENTER);
         this.ventana.setColor(ContextCompat.getColor(context,R.color.gris));
 
-        c.drawRoundRect(base, 20f, 20f, ventana);
+        c.drawRoundRect(base, 25f, 25f, ventana);
 
         this.ventana.setColor(ContextCompat.getColor(context, R.color.color_letra));
         this.ventana.setTypeface(tf);
         this.ventana.setTextSize((float) altoPantalla / 8);
 
-        c.drawText((String) context.getText(R.string.gameOver_title),
+        c.drawText((String) context.getText(R.string.titulo_fin_juego),
                 (float) anchoPantalla / 5 * 1.5f,
                 (float) altoPantalla / 7 * 2.5f, this.ventana);
+
+        this.ventana.setColor(ContextCompat.getColor(context, R.color.color_letra));
+        this.ventana.setTypeface(tf);
+        this.ventana.setTextSize((float) altoPantalla / 15);
+
+        c.drawText((String) context.getText(R.string.puntos) + ": " + String.valueOf(GameSV.puntuacion),
+                (float) anchoPantalla / 7 * 3.5f,
+                (float) altoPantalla /12 * 8, this.ventana);
 
         ventana.setColor(ContextCompat.getColor(context, R.color.black));
         c.drawRoundRect(this.btnCasa, 20f, 20f, ventana);
 
 
 
+
         ventana.setColor(ContextCompat.getColor(context, R.color.color_letra));
         ventana.setTextSize((float) altoPantalla / 15);
 
-        c.drawText((String) context.getString(R.string.home),
+        c.drawText((String) context.getString(R.string.menu),
                 (float) anchoPantalla / 7 * 2, (float) altoPantalla / 12 * 8, ventana);
-
+        /*c.drawText((String) String.valueOf(GameSV.puntuacion), (float) anchoPantalla / 7 * 4, (float) altoPantalla / 12 * 8, ventana);*/
     }
 
 }

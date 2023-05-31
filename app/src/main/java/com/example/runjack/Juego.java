@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.MediaPlayer;
@@ -19,7 +20,8 @@ import java.util.Random;
 import java.util.Timer;
 
 /**
- *  Clase principal del Juego.
+ *  Clase del juego en RunJack!
+ *  En ella nos podemos enconntrar las colisiones,movimiento del personaje y los cohetes y la actualizión de  estos
  *
  *  @author Emilio
  *  @version 1
@@ -82,7 +84,7 @@ public class Juego extends Escena {
     /**
      * Velocidad del cohete.
      */
-    int velocidad_cohete = 8;
+    int velocidad_cohete = 6;
 
     /**
      * Intervalo de cada cuanto se cambia cada animación de Jack.
@@ -164,6 +166,11 @@ public class Juego extends Escena {
     int nivel = 1;
 
     /**
+     * Pintura para la puntuacion
+     */
+    Paint puntuacion;
+
+    /**
      * Constructor de la clase Juego.
      *
      * @param context   Contexto de la aplicación
@@ -184,13 +191,12 @@ public class Juego extends Escena {
         sonido_explosion = MediaPlayer.create(context.getApplicationContext(),R.raw.explosion);
 
         this.listaCohetes = new ArrayList<>();
-        explosion = new Explosion(context);
 
         //Timer cohete
         this.timer = new Timer();
         this.timer.schedule(new CohetesVarios(),2000,t);
+        this.timer.schedule(new CohetesVarios(),3000,t);
         this.timer.schedule(new ImagenesVarias(),500,tJack);
-        this.timer.schedule(new Animaciones(),300,300);
 
         //Se inicializa el array con 4 explosiones
         this.explosionesVarias[0] = new Explosion(context);
@@ -234,20 +240,23 @@ public class Juego extends Escena {
             suelo.dibuja(c);
             jack.dibuja(c);
 
+            c.drawText(GameSV.puntuacion + "",(float) anchoPantalla / 10, (float) altoPantalla / 10 + 50, p);
+
             //Si las booleanas estan a false se siguen creando cohetes
             if(!enPausa && !fin_juego){
 
                 for(Cohete cohete : listaCohetes){
-                    cohete.dibuja(c);
-                    if(coheteFueraDePantalla(cohete,altoPantalla)){
-                        listaCohetes.remove(cohete);
-                    }
+
+                        cohete.dibuja(c);
+
+
                     cohete.movimiento(altoPantalla,anchoPantalla,velocidad_cohete);
 
                     //Si el cohete sale de la pantalla, se elimina de la lista.
-                    if(cohete.pos.x < 0){
-                        contCohetesSalieron++;
+                    if(cohete.pos.x < 0 || cohete.pos.y > altoPantalla || cohete.pos.y < suelo.getHitBox().height()){
                         listaCohetes.remove(cohete);
+                        contCohetesSalieron++;
+
                         switch (nivel){
                             case 1:
                                 GameSV.puntuacion += 5;
@@ -265,6 +274,8 @@ public class Juego extends Escena {
                                 GameSV.puntuacion += 14;
                                 break;
                         }
+
+
 
                         Log.i("salieron","salieron: " + contCohetesSalieron + "\tCohete: " + cohete + "\tPuntuación total: " + GameSV.puntuacion + "\tNivel: " + nivel);
                     }
@@ -284,7 +295,7 @@ public class Juego extends Escena {
                 }else{
                     t = 500;
                     nivel = 5;
-                    velocidad_cohete = 14;
+                    velocidad_cohete = 12;
 
                 }
 
@@ -292,11 +303,6 @@ public class Juego extends Escena {
 
             }else if(enPausa && !fin_juego){
                 pantallaPausa(c);
-
-            }else{
-                pantallaGameOver(c);
-                this.timer.cancel();
-                this.listaCohetes.clear();
 
             }
 
@@ -310,16 +316,14 @@ public class Juego extends Escena {
         }
 
         if(fin_juego){
-            for(Explosion explosion : explosionesVarias){
-                //CAMBIAR POSICIONES DE LAS EXPLOSIONES
 
-                    explosion.dibujaExplosion(c,this.jack.posicion.x,this.jack.posicion.y);
-                    if(explosion.frame == 19){
+                    this.explosion.dibujaExplosion(c,this.jack.posicion.x,this.jack.posicion.y);
+                    if(explosion.frame == 18){
                         pantallaGameOver(c);
                         liberarRecursos();
 
                     }
-            }
+
 
         }
 
@@ -348,18 +352,22 @@ public class Juego extends Escena {
         if(!fin_juego){
             for(int i=listaCohetes.size() -1;i >= 0;i--){
                 if(listaCohetes.get(i).detectarColision(jack.getHitBox())){
+                    listaCohetes.remove(listaCohetes.get(i));
+                    explosion = new Explosion(context);
                     fin_juego = true;
                     //Se comprueba que la puntuación es mayor que 0; si lo es, se inserta en la base de datos.
                     if(GameSV.puntuacion > 0){
                         MainActivity.base_Datos.añadirPuntos(GameSV.puntuacion);
                     }
                     cont_cohetes = 0;
-                    GameSV.puntuacion = 0;
                     this.nivel = 1;
-                    listaCohetes.remove(listaCohetes.get(i));
 
-                    this.hw.vibra();
-                    sonido_explosion.start();
+
+                    if(GameSV.sonido_on){
+                        this.hw.vibra();
+                        sonido_explosion.start();
+                    }
+
                     Log.i("COLISION","SI Colision");
                 }
 
@@ -426,6 +434,7 @@ public class Juego extends Escena {
             }
 
             if(btnCasa.contains(x,y)){
+                 GameSV.puntuacion = 0;
                 liberarRecursos();
                 return 1;
 
@@ -459,12 +468,11 @@ public class Juego extends Escena {
     //Funcion para añadir un nuevo cohete y añadirlo a la lista
     private void AñadirCohete(Canvas c){
         if(!enPausa && !fin_juego){
-            /*Random r = new Random();
-            float aleatorio = r.nextFloat() * (altoPantalla - suelo.getHitBox().top)+ suelo.getHitBox().top;*/
+
             Cohete cohete = new Cohete(context,anchoPantalla,new Random().nextFloat()*(altoPantalla-cohete_escalado.getHeight()),anchoPantalla,altoPantalla);
             listaCohetes.add(cohete);
-            /*Cohete cohete = new Cohete(context,anchoPantalla,300,anchoPantalla,altoPantalla);*/
-            /*listaCohetes.add(cohete);*/
+           /* Cohete cohete = new Cohete(context,anchoPantalla,300,anchoPantalla,altoPantalla);
+            listaCohetes.add(cohete);*/
             cont_cohetes++;
             Log.i("cohete","añade cohete" + "\tCont: " + cont_cohetes + "\tIntervalo: " + t + "\tVelocidad: " + velocidad_cohete);
 
@@ -477,19 +485,26 @@ public class Juego extends Escena {
      * Función que es llamada por el timer y que a su vez llama a jack.dibujaAnimaciones() y dibuja la animacion de Jack.
      */
     public class ImagenesVarias extends java.util.TimerTask {
+
+        /**
+         * Actualiza a Jack, a los cohetes y cuando se acaba el juego, a la explosión.
+         */
         @Override
         public void run(){
 
             if(!enPausa && !fin_juego){
                 jack.dibujaAnimaciones();
             }
-        }
-    }
 
-    public class Animaciones extends java.util.TimerTask {
-        @Override
-        public void run(){
-            explosion.actualizaExplosion();
+            for(Cohete cohete : listaCohetes){
+                cohete.actualizaHit();
+            }
+
+            if(fin_juego){
+                explosion.actualizaExplosion();
+            }
+
+            jack.actualizaHit();
         }
     }
 
@@ -502,21 +517,6 @@ public class Juego extends Escena {
 
         //Limpia la lista de cohetes.
         this.listaCohetes.clear();
-    }
-
-    public boolean coheteFueraDePantalla(Cohete cohete,int altoPantalla){
-        float coheteX = cohete.pos.x;
-        float coheteY = cohete.pos.y;
-
-        if(coheteX < 0){
-            return true;
-        }
-
-        if(coheteY < 0 || coheteY > altoPantalla){
-            return true;
-        }
-
-        return false;
     }
 
 

@@ -13,7 +13,8 @@ import java.util.List;
 
 /**
  * Clase encargada de crear,actualizar y borrar la base de datos del juego.
- * Como es evidente, también tenemos una función que nos devuelve las 2 puntuaciones más altas.
+ * Como es evidente, también tenemos una función que nos devuelve las 3 puntuaciones más altas.
+ * Hereda de SQLiteOpenHelper.
  *
  * @author Emilio
  * @version 1

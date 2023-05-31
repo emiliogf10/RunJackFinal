@@ -7,6 +7,14 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+/**
+ * Escena de Cómo jugar de RunJack!
+ * En ella puedes ver cómo se juega.
+ * Hereda de Escena.
+ *
+ * @author Emilio
+ * @version 1
+ */
 public class Informacion extends Escena {
 
     /**
@@ -54,9 +62,9 @@ public class Informacion extends Escena {
      */
     public void dibuja(Canvas c){
         super.dibuja(c);
-        c.drawText(context.getString(R.string.information_title),anchoPantalla/2, altoPantalla/10,p);
+        c.drawText(context.getString(R.string.titulo_informacion),anchoPantalla/2, altoPantalla/10,p);
 
-        if(GameSV.idioma.equals("en")){
+        if(idioma.equals("en")){
             c.drawBitmap(this.ing_escalado,null,new Rect(c.getWidth() / 10,c.getHeight()/5,c.getWidth() - c.getWidth() / 10,c.getHeight()),null);
         }else{
             c.drawBitmap(this.esp_escalado,null,new Rect(c.getWidth() / 10,c.getHeight()/5,c.getWidth() - c.getWidth() / 10,c.getHeight()),null);

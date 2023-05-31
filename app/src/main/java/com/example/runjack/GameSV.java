@@ -15,8 +15,16 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import androidx.annotation.NonNull;
+
 import java.util.Locale;
 
+/**
+ * Clase principal de RunJack!
+ *
+ * @author Emilio
+ * @version 1
+ */
 
 public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -38,15 +46,13 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
     /**
      *  Booleana que indica si se está jugando al juego.
      */
-    boolean funcionando = true;
+    boolean funcionando;
 
 
     /**
      * Hilo del juego que corre su lógica.
      */
     Hilo hilo;
-
-    /*boolean finJuego = false;*/
 
     /**
      * Ancho y alto de la pantalla.
@@ -73,16 +79,6 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
     public static Bitmap btnSonido, btnMusica, btnIdioma;
 
     /**
-     * Objeto configuración que nos va a permitir manejar los ajustes del juego.
-     */
-    public static Configuration configuration;
-
-    /**
-     * Idioma seleccionado para el juego.
-     */
-    public static String idioma;
-
-    /**
      * Puntuación actual del juego.
      */
 
@@ -97,13 +93,18 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
     /**
      * Booleana que indica cuando la musica está encendida.
      */
-    public static boolean musica_on = true;
+    boolean musica_on;
 
     /**
      * Booleana que indica cuando el los efectos de sonido están encendidos.
      */
 
     public static boolean sonido_on = true;
+
+    /**
+     * Idioma seleccionado para el juego.
+     */
+    String idioma;
 
 
 
@@ -114,50 +115,71 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
      */
     public GameSV(Context context) {
         super(context);
-        this.context = context;
-
-        sp = context.getApplicationContext().getSharedPreferences("SettingsValues", Context.MODE_PRIVATE);
-
-
-        musica_fondo = MediaPlayer.create(this.getContext(),R.raw.musica_fondo);
-        musica_fondo.setLooping(true);
-        musica_fondo.start();
-
-        btnSonido = BitmapFactory.decodeResource(context.getResources(), R.drawable.altavoz);
-        btnMusica = BitmapFactory.decodeResource(context.getResources(), R.drawable.musica);
-        btnIdioma = BitmapFactory.decodeResource(context.getResources(), R.drawable.bandera_espana);
-
         this.surfaceHolder = getHolder();
         this.context = context;
         this.surfaceHolder.addCallback(this); // y se indica donde van las funciones callback
         this.context = context; // Obtenemos el contexto
         hilo = new Hilo();
+        this.funcionando = true;
 
-        /*bitmapFondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.fondo);*/
+        sp = context.getApplicationContext().getSharedPreferences("SettingsValues", Context.MODE_PRIVATE);
+        sonido_on = sp.getBoolean("sonido_on",true);
+        musica_on = sp.getBoolean("musica_on",true);
+        this.idioma = sp.getString("idioma","es");
+
+        musica_fondo = MediaPlayer.create(this.getContext(),R.raw.musica_fondo);
+        musica_fondo.setLooping(true);
+        musica();
+
+        btnSonido = BitmapFactory.decodeResource(context.getResources(), R.drawable.altavoz);
+        btnMusica = BitmapFactory.decodeResource(context.getResources(), R.drawable.musica);
+        btnIdioma = BitmapFactory.decodeResource(context.getResources(), R.drawable.bandera_espana);
+
 
         //Cambiar idioma
 
-        CambiarIdioma("en");
-        configuration = getResources().getConfiguration();
-        idioma = configuration.locale.getLanguage();
-        btnIdioma = BitmapFactory.decodeResource(context.getResources(),R.drawable.bandera_inglesa);
-    }
-
-
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-
+        CambiarIdioma(idioma);
     }
 
     /**
-     * Actualiza la física del cohete en la escena.
-     * Mueve el cohete según los límites de la pantalla y una velocidad dada.
+     * Función que controla la música de fondo.
+     * La música se reproducirá si la booleana musica_on está a true y la musica no esté sonando, si no se pausa.
      */
-    public void actualizarFisica(){
-        cohete.movimiento(altoPantalla,anchoPantalla,10);
+    public void musica(){
+        if(musica_on){
+            if(!musica_fondo.isPlaying()){
+                musica_fondo.start();
+            }
+        }else{
+            musica_fondo.pause();
+        }
     }
 
-        @Override
+    /**
+     *  Función que con la booleana establece el estado de la música, y llama a la función musica().
+     *
+     * @param musica
+     */
+    public void setMusica(boolean musica){
+        musica_on = musica;
+        musica();
+    }
+
+    /**
+     *  Activa o desactiva el sonido.
+     *
+     * @param sonido    Booleana que indica cuando la música tiene que activarse.
+     */
+    public void setSonido(boolean sonido){
+        sonido_on = sonido;
+    }
+
+    @Override
+    public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
+
+    }
+
+    @Override
         public void surfaceChanged (SurfaceHolder holder,int format, int width, int height){
 
             this.anchoPantalla = width;
@@ -221,7 +243,7 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
                         escenaActual = new Creditos(context, 4, anchoPantalla, altoPantalla);
                         break;
                     case 5:
-                        escenaActual = new Ajustes(context, 5, anchoPantalla, altoPantalla);
+                        escenaActual = new Ajustes(context, 5, anchoPantalla, altoPantalla,this);
                         break;
                     case 6:
                         escenaActual = new Records(context, 6, anchoPantalla, altoPantalla);
@@ -245,7 +267,7 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
         Resources res = context.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         android.content.res.Configuration conf = res.getConfiguration();
-        conf.setLocale(new Locale(idioma.toLowerCase()));
+        conf.locale = new Locale(idioma.toLowerCase());
         res.updateConfiguration(conf,dm);
     }
 

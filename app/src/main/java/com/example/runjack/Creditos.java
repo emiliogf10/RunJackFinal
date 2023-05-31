@@ -8,8 +8,14 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import java.io.IOException;
-
+/**
+ * Escena créditos de RunJack!
+ * En ella se muestran de donde se sacan todos los recursos del juego.
+ * Hereda de Escena.
+ *
+ * @author Emilio
+ * @version 1
+ */
 public class Creditos extends Escena {
 
     /**
@@ -60,20 +66,15 @@ public class Creditos extends Escena {
     public void dibuja(Canvas c){
         c.drawColor(Color.DKGRAY);
         super.dibuja(c);
-        c.drawText(context.getString(R.string.credits_title),anchoPantalla/2, altoPantalla/10,p);
+        c.drawText(context.getString(R.string.titulo_records),
+                (float)anchoPantalla/2 - p.measureText((String)context.getString(R.string.titulo_records))/2,
+                (float)altoPantalla/6, p);
 
-        if(GameSV.idioma.equals("en")){
+        if(idioma.equals("en")){
             c.drawBitmap(this.ing_escalado,null,new Rect(c.getWidth() / 10,c.getHeight()/5,c.getWidth() - c.getWidth() / 10,c.getHeight()),null);
         }else{
             c.drawBitmap(this.esp_escalado,null,new Rect(c.getWidth() / 10,c.getHeight()/5,c.getWidth() - c.getWidth() / 10,c.getHeight()),null);
         }
-    }
-
-    /**
-     * Actualiza la fisica de los elementos de la escena.
-     */
-    public void actualizaFisica(){
-
     }
 
     /**
