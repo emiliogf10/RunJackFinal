@@ -108,7 +108,7 @@ public class Ajustes extends Escena {
     public void dibuja(Canvas c){
         c.drawColor(Color.GREEN);
         super.dibuja(c);
-        c.drawText(context.getString(R.string.titulo_ajustes),anchoPantalla/2, altoPantalla/10,p);
+        c.drawText((String) context.getString(R.string.titulo_ajustes),anchoPantalla/2, altoPantalla/10,p);
 
         //Dependiendo de las booleanas, se pone un icono u otro.
         if(this.musica){

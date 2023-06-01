@@ -74,11 +74,6 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
     Cohete cohete;
 
     /**
-     * Bitmaps de botón de sonido, botón de música y botón de idioma.
-     */
-    public static Bitmap btnSonido, btnMusica, btnIdioma;
-
-    /**
      * Puntuación actual del juego.
      */
 
@@ -130,10 +125,6 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
         musica_fondo = MediaPlayer.create(this.getContext(),R.raw.musica_fondo);
         musica_fondo.setLooping(true);
         musica();
-
-        btnSonido = BitmapFactory.decodeResource(context.getResources(), R.drawable.altavoz);
-        btnMusica = BitmapFactory.decodeResource(context.getResources(), R.drawable.musica);
-        btnIdioma = BitmapFactory.decodeResource(context.getResources(), R.drawable.bandera_espana);
 
 
         //Cambiar idioma
@@ -220,6 +211,9 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
                     nuevaEscena = escenaActual.onTouchEvent(event);
                     cambiaEscena(nuevaEscena);
                     return true;
+                   case MotionEvent.ACTION_UP:
+                       escenaActual.onTouchEvent(event);
+                       return true;
             }
             return super.onTouchEvent(event);
         }

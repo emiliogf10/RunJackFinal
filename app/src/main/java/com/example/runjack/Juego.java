@@ -61,10 +61,10 @@ public class Juego extends Escena {
     Rect btnPausa;
 
     /**
-     * Bitmaps de la imagen de fondo,del cohete y del escalado del cohete.
+     * Bitmaps del cohete y del escalado del cohete.
      */
 
-    Bitmap bitmapFondo,pausa,cohete_escalado,bitmapCohete;
+    Bitmap pausa,cohete_escalado,bitmapCohete;
 
     /**
      * Lienzo sobre el que se va a dibujar.
@@ -205,7 +205,7 @@ public class Juego extends Escena {
         this.explosionesVarias[3] = new Explosion(context);
 
         //Creacion del mundo
-        this.gravity = new Vec2(2.0f, -10.0f);
+        this.gravity = new Vec2(2.0f, -8.0f);
         this.world = new World(gravity);
 
 
@@ -303,6 +303,7 @@ public class Juego extends Escena {
 
             }else if(enPausa && !fin_juego){
                 pantallaPausa(c);
+                aplicoFuerza = false;
 
             }
 
@@ -317,12 +318,13 @@ public class Juego extends Escena {
 
         if(fin_juego){
 
-                    this.explosion.dibujaExplosion(c,this.jack.posicion.x,this.jack.posicion.y);
-                    if(explosion.frame == 18){
-                        pantallaGameOver(c);
-                        liberarRecursos();
+            aplicoFuerza = false;
+            this.explosion.dibujaExplosion(c,this.jack.posicion.x,this.jack.posicion.y);
+            if(explosion.frame == 18){
+                pantallaGameOver(c);
+                liberarRecursos();
 
-                    }
+            }
 
 
         }
@@ -336,13 +338,18 @@ public class Juego extends Escena {
     public void actualizaFisica(){
         world.step(timeStep,velocidadIteracion,iteracionPosicion);
 
+        if(aplicoFuerza){
+            jack.aplicarFuerza(Jack.getFuerza(120f, 160f),  8);
+
+        }
+
         //Se hace que Jack caiga hacia abajo
-        if(!jack.hitbox.intersect(suelo.hitbox) && !jack.isEnSuelo()){
+        if(!jack.hitbox.intersect(suelo.hitbox) && !jack.isEnSuelo() && !aplicoFuerza){
             float y = jack.posicion.y - gravity.y;
             jack.posicion.y = y;
             this.jack.actualizaHit();
         }else{
-            if(!jack.isEnSuelo()){
+            if(!jack.isEnSuelo() && !aplicoFuerza){
                 jack.setEnSuelo(true);
                 jack.posicion.y = suelo.hitbox.top - jack.getImagenesJack()[0].getHeight();
             }
@@ -375,12 +382,33 @@ public class Juego extends Escena {
                 listaCohetes.get(i).actualizaHit();
             }
 
+            /*if(jack.hitbox.intersect(suelo.hitbox) && jack.isEnSuelo()){
+                jack.aplicarFuerza();
+                this.jack.actualizaHit();
+            }else{
+                if(jack.isEnSuelo()){
+                    jack.setEnSuelo(false);
+                    jack.posicion.y = suelo.hitbox.top - jack.getImagenesJack()[0].getHeight();
+                }
+            }*/
+
+            Log.i("fuerza","AplicoFuerza: " + aplicoFuerza + "\tPosY: " + jack.posicion.y );
             if(aplicoFuerza && jack.isEnSuelo()){
 
                 jack.aplicarFuerza();
                 jack.setEnSuelo(false);
+                this.jack.actualizaHit();
 
+
+
+            }else{
+                if(aplicoFuerza){
+                    jack.aplicarFuerza();
+                    jack.actualizaHit();
+                }
             }
+
+
 
         }
 
@@ -400,12 +428,11 @@ public class Juego extends Escena {
 
         switch (accion){
             case MotionEvent.ACTION_DOWN:
+
                 aplicoFuerza = true;
+
                 Log.i("TOUCH","tocaste la pantalla");
-                jack.aplicarFuerza(Jack.getFuerza(120f, 160f),  14);
-                break;
-            case MotionEvent.ACTION_POINTER_DOWN:
-                aplicoFuerza = false;
+
                 break;
             case MotionEvent.ACTION_UP:
                 aplicoFuerza = false;
@@ -413,12 +440,12 @@ public class Juego extends Escena {
 
         }
 
-        if(accion == MotionEvent.ACTION_DOWN){
+        /*if(accion == MotionEvent.ACTION_DOWN){
 
             Log.i("TOUCH","tocaste la pantalla");
             aplicoFuerza = true;
 
-        }
+        }*/
 
         int x=(int)event.getX();
         int y=(int)event.getY();

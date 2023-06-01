@@ -24,9 +24,16 @@ public class Hardware extends AppCompatActivity implements SensorEventListener {
      */
     Vibrator vibrador;
 
+    /**
+     * Instancia de Sensor Manager.
+     */
     SensorManager sm;
 
-    public Sensor acelerometro;
+    /**
+     * Instancia de un sensor; en este caso el giroscopio.
+     */
+
+    public Sensor giroscopio;
 
     /**
      * Crea un nuevo objeto Hardware con el contexto especificado.
@@ -37,7 +44,7 @@ public class Hardware extends AppCompatActivity implements SensorEventListener {
         this.vibrador = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 
         this.sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        this.acelerometro = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        this.giroscopio = sm.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
     }
     @Override

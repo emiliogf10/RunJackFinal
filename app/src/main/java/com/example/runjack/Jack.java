@@ -314,6 +314,12 @@ public class Jack {
     public void aplicarFuerza(float fuerzaX,float fuerzaY){
         this.fuerza = new Vec2(fuerzaX,fuerzaY);
         bJack.applyForce(fuerza,punto);
+
+        this.posicion.y = this.posicion.y - fuerzaY;
+        actualizaHit();
+
+
+        Log.i("coord","Y: " + posicion.y);
         Log.i("TOUCH","Fuerza = " + this.fuerza);
     }
 
@@ -324,6 +330,8 @@ public class Jack {
     public void aplicarFuerza(){
         if(this.fuerza != null){
             bJack.applyForce(fuerza,punto);
+            this.posicion.y = this.posicion.y - fuerza.y;
+            actualizaHit();
         }else{
             Log.i("TOUCH","No hay fuerza");
         }
@@ -337,7 +345,7 @@ public class Jack {
      * @return  La fuerza generada aleatoriamente dentro del rango especificado, con signo positivo o negativo.
      */
     public static float getFuerza(float limiteInferior, float limiteSuperior){
-        double fuerza=(Math.random() * (limiteSuperior - limiteInferior)) + limiteInferior;
+        double fuerza = (Math.random() * (limiteSuperior - limiteInferior)) + limiteInferior;
         int limite = (int) Math.random() * (3 - 1) + 1;
         return (float) (limite==1?fuerza:fuerza*-1);
     }

@@ -83,10 +83,10 @@ public class Records extends Escena {
      */
     public void dibuja(Canvas c){
         super.dibuja(c);
-        c.drawText(context.getString(R.string.titulo_records),anchoPantalla/2, altoPantalla/10,p);
+        c.drawText((String) context.getString(R.string.titulo_records),anchoPantalla/2, altoPantalla/10,p);
 
         if(puntuaciones_mas_altas.size() == 0){
-            c.drawText(context.getString(R.string.noRegistros),(float)this.anchoPantalla/2 - this.pun.measureText((String)context.getString(R.string.noRegistros))/2,
+            c.drawText((String) context.getString(R.string.noRegistros),(float)this.anchoPantalla/2 - this.pun.measureText((String)context.getString(R.string.noRegistros))/2,
                     (float)altoPantalla / 2, this.pun);
         }else {
             c.drawRoundRect(this.btn_eliminar,20f,20f,btn);

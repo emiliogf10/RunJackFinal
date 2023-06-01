@@ -74,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
 
         //Vibrador
         this.vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        //Acelerómetro
+        //Giroscopio
         this.sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        this.acelerometro = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        this.acelerometro = sm.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
 
         if (Build.VERSION.SDK_INT < 16) { // versiones anteriores a Jelly Bean
