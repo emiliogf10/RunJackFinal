@@ -2,9 +2,7 @@ package com.example.runjack;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PointF;
 import android.graphics.RectF;
 
 import org.jbox2d.collision.shapes.PolygonShape;
@@ -16,12 +14,12 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 /**
- * Representa el suelo de RunJack!
+ * Representa el techo de RunJack!
  *
  * @author Emilio
  * @version 1
  */
-public class Suelo {
+public class Techo {
 
     /**
      * Contexto de la aplicación.
@@ -58,18 +56,17 @@ public class Suelo {
      */
     float anchoP,altoP;
 
-
     /**
-     *  Crea un nuevo objeto Suelo con los parámetros especificados.
-     *
+     * Crea un nuevo objeto Techo con los parámetros especificados.
      * @param context   Contexto de la aplicación.
-     * @param world     Mundo físico donde se crea el suelo.
-     * @param density   Densidad del suelo.
-     * @param friction  Fricción del suelo.
+     * @param world Mundo físico donde se crea el techo.
+     * @param density   Densidad del techo.
+     * @param friction  Fricción del techo.
      * @param anchoP    Ancho de la pantalla.
-     * @param altoP     Alto de la pantalla.
+     * @param altoP Alto de la pantalla.
      */
-    public Suelo(Context context,World world, float density, float friction,float anchoP,float altoP){
+    public Techo(Context context,World world, float density, float friction,float anchoP,float altoP){
+
         this.context = context;
         this.anchoP = anchoP;
         this.altoP = altoP;
@@ -77,7 +74,7 @@ public class Suelo {
         color=new Paint();
         color.setColor(context.getResources().getColor(R.color.color_suelo));
 
-        this.hitbox = new RectF(0, altoP / 10 * 9, anchoP, altoP);
+        this.hitbox = new RectF(0, 0, anchoP, altoP / 14);
         this.world=world;
 
         PolygonShape ps = new PolygonShape();
@@ -97,7 +94,7 @@ public class Suelo {
     }
 
     /**
-     * Dibuja el objeto Suelo en el Canvas especificado.
+     * Dibuja el objeto Techo en el Canvas especificado.
      *
      * @param c El objeto Canvas en el que se dibujará Suelo.
      */
@@ -106,30 +103,27 @@ public class Suelo {
     }
 
     /**
-     *  Destruye el cuerpo del objeto Suelo en el mundo físico.
+     *  Destruye el cuerpo del objeto Techo en el mundo físico.
      */
     public void destroy(){
         world.destroyBody(bSuelo);
     }
 
     /**
-     *  Obtiene la posición del objeto Suelo en el mundo físico.
+     *  Obtiene la posición del objeto Techo en el mundo físico.
      *
-     * @return  La posición del objeto Suelo como un objeto Vec2.
+     * @return  La posición del objeto Techo como un objeto Vec2.
      */
     public Vec2 getPosicion() {
         return bSuelo.getPosition();
     }
 
     /**
-     *  Obtiene el rectángulo de colisión (hitbox) del objeto Suelo.
+     *  Obtiene el rectángulo de colisión (hitbox) del objeto Techo.
      *
-     * @return  El rectángulo de colisión del objeto Suelo.
+     * @return  El rectángulo de colisión del objeto Techo.
      */
     public RectF getHitBox() {
         return hitbox;
     }
-
-
-
 }

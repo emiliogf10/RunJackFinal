@@ -24,7 +24,6 @@ import java.util.Timer;
 /**
  * Representa el personaje Jack en el juego.
  *
- *
  * @author Emilio
  * @version 1
  */
@@ -119,43 +118,42 @@ public class Jack {
      */
     public Jack(Context context,World world,float density,float friction,float anchoP,float altoP,float x,float y){
 
+        this.anchoP = anchoP;
+        this.altoP = altoP;
 
-        imagenesJack[0] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack1);
-        imagenesJack[1] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack2);
-        imagenesJack[2] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack3);
-        imagenesJack[3] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack4);
-        imagenesJack[4] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack5);
-        imagenesJack[5] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack6);
-        imagenesJack[6] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack7);
-        imagenesJack[7] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack8);
-        imagenesJack[8] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack9);
-        imagenesJack[9] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack10);
-        imagenesJack[10] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack11);
-        imagenesJack[11] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack12);
-        imagenesJack[12] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack13);
-        imagenesJack[13] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack14);
-        imagenesJack[14] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack15);
-        imagenesJack[15] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack16);
-        imagenesJack[16] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack17);
-        imagenesJack[17] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack18);
-        imagenesJack[18] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack19);
-        imagenesJack[19] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack20);
-        imagenesJack[20] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack21);
-        imagenesJack[21] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack22);
-        imagenesJack[22] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack23);
-        imagenesJack[23] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack24);
-        imagenesJack[24] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack25);
-        imagenesJack[25] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack26);
-        imagenesJack[26] = BitmapFactory.decodeResource(context.getResources(),R.drawable.jack27);
+        imagenesJack[0] =   BitmapFactory.decodeResource(context.getResources(),R.drawable.jack1);
+        imagenesJack[1] =   BitmapFactory.decodeResource(context.getResources(),R.drawable.jack2);
+        imagenesJack[2] =   BitmapFactory.decodeResource(context.getResources(),R.drawable.jack3);
+        imagenesJack[3] =   BitmapFactory.decodeResource(context.getResources(),R.drawable.jack4);
+        imagenesJack[4] =   BitmapFactory.decodeResource(context.getResources(),R.drawable.jack5);
+        imagenesJack[5] =   BitmapFactory.decodeResource(context.getResources(),R.drawable.jack6);
+        imagenesJack[6] =   BitmapFactory.decodeResource(context.getResources(),R.drawable.jack7);
+        imagenesJack[7] =   BitmapFactory.decodeResource(context.getResources(),R.drawable.jack8);
+        imagenesJack[8] =   BitmapFactory.decodeResource(context.getResources(),R.drawable.jack9);
+        imagenesJack[9] =   BitmapFactory.decodeResource(context.getResources(),R.drawable.jack10);
+        imagenesJack[10] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack11);
+        imagenesJack[11] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack12);
+        imagenesJack[12] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack13);
+        imagenesJack[13] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack14);
+        imagenesJack[14] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack15);
+        imagenesJack[15] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack16);
+        imagenesJack[16] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack17);
+        imagenesJack[17] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack18);
+        imagenesJack[18] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack19);
+        imagenesJack[19] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack20);
+        imagenesJack[20] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack21);
+        imagenesJack[21] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack22);
+        imagenesJack[22] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack23);
+        imagenesJack[23] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack24);
+        imagenesJack[25] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack25);
+        imagenesJack[24] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack26);
+        imagenesJack[26] =  BitmapFactory.decodeResource(context.getResources(),R.drawable.jack27);
 
        for(int i = 0;i < imagenesJack.length;i++){
-           imagenesJack[i] = Bitmap.createScaledBitmap(imagenesJack[i],300,300,false);
+           imagenesJack[i] = Bitmap.createScaledBitmap(imagenesJack[i],220,250,false);
         }
 
         this.frame = 0;
-
-        this.anchoP = anchoP;
-        this.altoP = altoP;
 
         this.posicion = new PointF(x,y);
 
@@ -203,7 +201,7 @@ public class Jack {
         this.c = c;
 
         c.drawBitmap(imagenesJack[frame], posicion.x,posicion.y, null);
-        c.drawRect(this.hitbox,color);
+        /*c.drawRect(this.hitbox,color);*/
         actualizaHit();
     }
 
@@ -314,13 +312,9 @@ public class Jack {
     public void aplicarFuerza(float fuerzaX,float fuerzaY){
         this.fuerza = new Vec2(fuerzaX,fuerzaY);
         bJack.applyForce(fuerza,punto);
-
         this.posicion.y = this.posicion.y - fuerzaY;
         actualizaHit();
 
-
-        Log.i("coord","Y: " + posicion.y);
-        Log.i("TOUCH","Fuerza = " + this.fuerza);
     }
 
     /**

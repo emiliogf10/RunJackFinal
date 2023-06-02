@@ -5,13 +5,12 @@
     <string name="titulo_fin_juego">Game Over</string>
     <string name="titulo_records">Records</string>
     <string name="titulo_ajustes">Settings</string>
-    <string name="titulo_informacion">Information</string>
+    <string name="titulo_informacion">How to play</string>
     <string name="pausa">Pause</string>
     <string name="menu">Menu</string>
     <string name="reanudar">Resume</string>
-    <string name="jugar">Play Game</string>
+    <string name="jugar">Play</string>
     <string name="noRegistros">No scores to show</string>
     <string name="eliminar_records">Delete all records</string>
     <string name="puntos">Points</string>
-
 </resources>

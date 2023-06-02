@@ -27,6 +27,7 @@ import java.util.Timer;
  *  @version 1
  */
 public class Juego extends Escena {
+
     /**
      * Numero identificativo de la escena.
      */
@@ -89,7 +90,7 @@ public class Juego extends Escena {
     /**
      * Intervalo de cada cuanto se cambia cada animación de Jack.
      */
-    int tJack = 50;
+    int tJack = 30;
 
     /**
      * Lista de cohetes.
@@ -168,7 +169,13 @@ public class Juego extends Escena {
     /**
      * Pintura para la puntuacion
      */
-    Paint puntuacion;
+    Paint paint_puntuacion;
+
+    /**
+     * Instancia de la clase Techo.
+     */
+    Techo techo;
+
 
     /**
      * Constructor de la clase Juego.
@@ -185,7 +192,13 @@ public class Juego extends Escena {
         this.bitmapCohete = BitmapFactory.decodeResource(context.getResources(),R.drawable.cohete);
         this.cohete_escalado = Bitmap.createScaledBitmap(bitmapCohete, (int) (anchoPantalla/5), (int) (altoPantalla/5),false);
 
-        this.hw = new Hardware(context);
+        this.hw = new Hardware(context,this);
+
+        this.paint_puntuacion = new Paint();
+        this.paint_puntuacion.setTextSize(altoPantalla/10);
+        this.paint_puntuacion.setColor(Color.WHITE);
+        this.paint_puntuacion.setTextAlign(Paint.Align.CENTER);
+        this.paint_puntuacion.setTypeface(tf);
 
         //Sonido de explosion
         sonido_explosion = MediaPlayer.create(context.getApplicationContext(),R.raw.explosion);
@@ -197,6 +210,7 @@ public class Juego extends Escena {
         this.timer.schedule(new CohetesVarios(),2000,t);
         this.timer.schedule(new CohetesVarios(),3000,t);
         this.timer.schedule(new ImagenesVarias(),500,tJack);
+        this.timer.schedule(new ControlaGiro(),10000,15000);
 
         //Se inicializa el array con 4 explosiones
         this.explosionesVarias[0] = new Explosion(context);
@@ -204,7 +218,7 @@ public class Juego extends Escena {
         this.explosionesVarias[2] = new Explosion(context);
         this.explosionesVarias[3] = new Explosion(context);
 
-        //Creacion del mundo
+        //Creación del mundo
         this.gravity = new Vec2(2.0f, -8.0f);
         this.world = new World(gravity);
 
@@ -224,6 +238,8 @@ public class Juego extends Escena {
         jack = new Jack(context,world,4,1,anchoPantalla,altoPantalla,anchoPantalla / 6,altoPantalla/3);
         suelo = new Suelo(context,world, 0.9f, 0.1f,anchoPantalla,altoPantalla);
 
+        techo = new Techo(context,world, 0.9f, 0.1f,anchoPantalla,altoPantalla);
+
 
     }
 
@@ -238,9 +254,12 @@ public class Juego extends Escena {
             super.dibuja(c);
 
             suelo.dibuja(c);
+            techo.dibuja(c);
+
             jack.dibuja(c);
 
-            c.drawText(GameSV.puntuacion + "",(float) anchoPantalla / 10, (float) altoPantalla / 10 + 50, p);
+
+            c.drawText(GameSV.puntuacion + "",(float) anchoPantalla / 10, (float) altoPantalla / 10 + 50, paint_puntuacion);
 
             //Si las booleanas estan a false se siguen creando cohetes
             if(!enPausa && !fin_juego){
@@ -280,6 +299,7 @@ public class Juego extends Escena {
                         Log.i("salieron","salieron: " + contCohetesSalieron + "\tCohete: " + cohete + "\tPuntuación total: " + GameSV.puntuacion + "\tNivel: " + nivel);
                     }
                 }
+
                 //Mientras el nivel maximo está a false, se sigue aumentando la velocidad.
                 if(!nMaximo){
                     if(cont_cohetes == 10){
@@ -293,7 +313,7 @@ public class Juego extends Escena {
                         nMaximo = true;
                     }
                 }else{
-                    t = 500;
+                    t = 1000;
                     nivel = 5;
                     velocidad_cohete = 12;
 
@@ -320,9 +340,11 @@ public class Juego extends Escena {
 
             aplicoFuerza = false;
             this.explosion.dibujaExplosion(c,this.jack.posicion.x,this.jack.posicion.y);
-            if(explosion.frame == 18){
+            if(explosion.frame == explosion.explosiones.length - 1){
+                this.paint_puntuacion.setColor(Color.WHITE);
                 pantallaGameOver(c);
                 liberarRecursos();
+
 
             }
 
@@ -339,15 +361,18 @@ public class Juego extends Escena {
         world.step(timeStep,velocidadIteracion,iteracionPosicion);
 
         if(aplicoFuerza){
-            jack.aplicarFuerza(Jack.getFuerza(120f, 160f),  8);
+            jack.aplicarFuerza(Jack.getFuerza(120f, 160f),  7);
 
         }
 
-        //Se hace que Jack caiga hacia abajo
+        //Se hace que Jack caiga hacia abajo con la propia gravedad
         if(!jack.hitbox.intersect(suelo.hitbox) && !jack.isEnSuelo() && !aplicoFuerza){
-            float y = jack.posicion.y - gravity.y;
-            jack.posicion.y = y;
-            this.jack.actualizaHit();
+            if(!enPausa){
+                float y = jack.posicion.y - gravity.y;
+                jack.posicion.y = y;
+                this.jack.actualizaHit();
+            }
+
         }else{
             if(!jack.isEnSuelo() && !aplicoFuerza){
                 jack.setEnSuelo(true);
@@ -382,15 +407,13 @@ public class Juego extends Escena {
                 listaCohetes.get(i).actualizaHit();
             }
 
-            /*if(jack.hitbox.intersect(suelo.hitbox) && jack.isEnSuelo()){
-                jack.aplicarFuerza();
+            //Se controla que Jack no salga de la pantalla mediante el techo.
+            if(jack.hitbox.intersect(techo.hitbox) && !jack.isEnSuelo() && aplicoFuerza){
+                jack.fuerza.y = 0;
+                float y = jack.posicion.y - gravity.y;
+                jack.posicion.y = y;
                 this.jack.actualizaHit();
-            }else{
-                if(jack.isEnSuelo()){
-                    jack.setEnSuelo(false);
-                    jack.posicion.y = suelo.hitbox.top - jack.getImagenesJack()[0].getHeight();
-                }
-            }*/
+            }
 
             Log.i("fuerza","AplicoFuerza: " + aplicoFuerza + "\tPosY: " + jack.posicion.y );
             if(aplicoFuerza && jack.isEnSuelo()){
@@ -399,8 +422,6 @@ public class Juego extends Escena {
                 jack.setEnSuelo(false);
                 this.jack.actualizaHit();
 
-
-
             }else{
                 if(aplicoFuerza){
                     jack.aplicarFuerza();
@@ -408,16 +429,12 @@ public class Juego extends Escena {
                 }
             }
 
-
-
+            if(enPausa){
+                hw.pausa();
+            }
         }
 
-
-
-
-
         this.jack.actualizaHit();
-
 
     }
 
@@ -429,7 +446,10 @@ public class Juego extends Escena {
         switch (accion){
             case MotionEvent.ACTION_DOWN:
 
-                aplicoFuerza = true;
+                if(!enPausa && !fin_juego){
+
+                    aplicoFuerza = true;
+                }
 
                 Log.i("TOUCH","tocaste la pantalla");
 
@@ -439,13 +459,6 @@ public class Juego extends Escena {
                 break;
 
         }
-
-        /*if(accion == MotionEvent.ACTION_DOWN){
-
-            Log.i("TOUCH","tocaste la pantalla");
-            aplicoFuerza = true;
-
-        }*/
 
         int x=(int)event.getX();
         int y=(int)event.getY();
@@ -458,10 +471,11 @@ public class Juego extends Escena {
         if(this.enPausa || this.fin_juego){
             if(btnResume.contains(x,y)){
                 this.enPausa = false;
+                hw.continuar();
             }
 
             if(btnCasa.contains(x,y)){
-                 GameSV.puntuacion = 0;
+                GameSV.puntuacion = 0;
                 liberarRecursos();
                 return 1;
 
@@ -471,20 +485,6 @@ public class Juego extends Escena {
 
         return this.numEscena;
 
-
-
-
-    }
-
-    /**
-     * Función que es llamada por el timer de cohete, y que a su vez llama a AñadirCohete(c).
-     */
-    //Funcion que se llama desde el timer
-    private class CohetesVarios extends java.util.TimerTask {
-        @Override
-        public void run(){
-            AñadirCohete(c);
-        }
     }
 
     /**
@@ -536,6 +536,33 @@ public class Juego extends Escena {
     }
 
     /**
+     * Función que es llamada por el timer de cohete, y que a su vez llama a AñadirCohete(c).
+     */
+    //Funcion que se llama desde el timer
+    private class CohetesVarios extends java.util.TimerTask {
+        @Override
+        public void run(){
+            AñadirCohete(c);
+        }
+    }
+
+    private class ControlaGiro extends java.util.TimerTask {
+        @Override
+        public void run(){
+            controlarGiro();
+        }
+    }
+
+    private void controlarGiro() {
+        if(!enPausa){
+            this.paint_puntuacion.setColor(Color.RED);
+            this.hw.continuar();
+        }
+
+    }
+
+
+    /**
      * Función que libera recursos.
      */
     public void liberarRecursos(){
@@ -544,6 +571,19 @@ public class Juego extends Escena {
 
         //Limpia la lista de cohetes.
         this.listaCohetes.clear();
+
+        //Pausa el giroscopio
+        this.hw.pausa();
+    }
+
+    /**
+     *  Función que llamaremos con el giroscopio para eliminar los cohetes.
+     */
+    public void eliminarCohetes(){
+        GameSV.puntuacion += listaCohetes.size() * 5;
+        this.listaCohetes.clear();
+        this.paint_puntuacion.setColor(Color.WHITE);
+        this.hw.pausa();
     }
 
 

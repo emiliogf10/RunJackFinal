@@ -70,8 +70,8 @@ public class Records extends Escena {
         this.btn.setTextAlign(Paint.Align.CENTER);
         this.btn.setColor(ContextCompat.getColor(context,R.color.gris));
 
-        this.btn_eliminar = new RectF((float)anchoPantalla / 4, (float)altoPantalla / 7 * 5,
-                (float)anchoPantalla/ 4 * 3, (float)altoPantalla / 7 * 6);
+        this.btn_eliminar = new RectF((float)anchoPantalla / 4, (float)altoPantalla / 7 * 6,
+                (float)anchoPantalla/ 4 * 3, (float)altoPantalla / 7 * 6.8f);
 
 
     }
@@ -85,14 +85,15 @@ public class Records extends Escena {
         super.dibuja(c);
         c.drawText((String) context.getString(R.string.titulo_records),anchoPantalla/2, altoPantalla/10,p);
 
+        //Si la base de datos no tiene puntuaciones, imprime mensaje.
         if(puntuaciones_mas_altas.size() == 0){
             c.drawText((String) context.getString(R.string.noRegistros),(float)this.anchoPantalla/2 - this.pun.measureText((String)context.getString(R.string.noRegistros))/2,
                     (float)altoPantalla / 2, this.pun);
         }else {
-            c.drawRoundRect(this.btn_eliminar,20f,20f,btn);
+            c.drawRoundRect(this.btn_eliminar,15f,15f,btn);
             c.drawText((String) context.getString(R.string.eliminar_records),
                     (float)anchoPantalla/2 - this.pun.measureText((String) context.getString(R.string.eliminar_records)) / 2,
-                    (float)altoPantalla/5*4, this.pun);
+                    (float)altoPantalla/5 *4.6f, this.pun);
 
             c.drawText("1 - " + this.puntuaciones_mas_altas.get(0),
                     (float) this.anchoPantalla / 2 - this.pun.measureText((String) "1 - " + this.puntuaciones_mas_altas.get(0)) / 2,
@@ -126,7 +127,7 @@ public class Records extends Escena {
         int aux=super.onTouchEvent(event);
         if (aux!=this.numEscena && aux!=-1) return aux;
 
-        if(this.btn_eliminar.contains(x,y)){
+        if(this.btn_eliminar.contains(x, y)){
             MainActivity.base_Datos.eliminarPuntos();
             this.puntuaciones_mas_altas = MainActivity.base_Datos.obtenerPuntos();
         }

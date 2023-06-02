@@ -69,11 +69,6 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
     int nuevaEscena;
 
     /**
-     * Instancia de un objeto Cohete.
-     */
-    Cohete cohete;
-
-    /**
      * Puntuación actual del juego.
      */
 
@@ -165,11 +160,23 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
         sonido_on = sonido;
     }
 
+    /**
+     * Función que es llamada cuando SurfaceHolder está creado.
+     * @param surfaceHolder Objeto SurfaceHolder del Surface.
+     */
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
 
     }
 
+    /**
+     * Función llamada cuando se modifica el Surface.
+     *
+     * @param holder    Objeto SurfaceHolder del Surface.
+     * @param format    Nuevo formato del Surface.
+     * @param width Nuevo ancho del Surface.
+     * @param height    Nuevo alto del Surface.
+     */
     @Override
         public void surfaceChanged (SurfaceHolder holder,int format, int width, int height){
 
@@ -187,7 +194,12 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
         }
 
-        @Override
+    /**
+     * Función llamada cuando el Surface es destruido.
+     *
+     * @param holder    Objeto SurfaceHolder del Surface.
+     */
+    @Override
         public void surfaceDestroyed (SurfaceHolder holder){
             this.funcionando = false;
             this.musica_fondo.stop();
@@ -198,7 +210,13 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
             }
         }
 
-        @Override
+    /**
+     * Recoge el evento de touch.
+     *
+     * @param event Representa el touch.
+     * @return  True si se toca en la pantalla, false en caso contrario.
+     */
+    @Override
         public boolean onTouchEvent (MotionEvent event){
             int pointerIndex = event.getActionIndex();
             int pointerID = event.getPointerId(pointerIndex);

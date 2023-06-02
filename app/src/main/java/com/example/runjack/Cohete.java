@@ -20,6 +20,7 @@ import java.util.Random;
  * @version 1
  */
 public class Cohete {
+
     /**
      * Contexto de la aplicación.
      */
@@ -63,7 +64,7 @@ public class Cohete {
 
         //Bitmap del cohete con su correspondiente escalado
         this.bitmapCohete = BitmapFactory.decodeResource(context.getResources(),R.drawable.cohete);
-        this.cohete_escalado = Bitmap.createScaledBitmap(bitmapCohete, (int) (anchoPantalla/6), (int) (altoPantalla/6),false);
+        this.cohete_escalado = Bitmap.createScaledBitmap(bitmapCohete, (int) (anchoPantalla/8), (int) (altoPantalla/7),false);
 
         this.pos = new PointF(x,y);
         coheteRect = new RectF(this.pos.x, this.pos.y, this.pos.x + cohete_escalado.getWidth(), this.pos.y + cohete_escalado.getHeight());
@@ -76,12 +77,12 @@ public class Cohete {
      */
     public void dibuja(Canvas c){
         c.drawBitmap(cohete_escalado, this.pos.x,this.pos.y, null);
-        c.drawRect(this.coheteRect,color);
+        /*c.drawRect(this.coheteRect,color);*/
         actualizaHit();
     }
 
     /**
-     *Realiza el movimiento del objeto en el eje x con una velocidad especificada.
+     *  Realiza el movimiento del objeto en el eje x con una velocidad especificada.
      *
      * @param alto  Alto de la zona de movimiento.
      * @param ancho Ancho de la zona de movimiento.
@@ -92,7 +93,7 @@ public class Cohete {
     }
 
     /**
-     *Método que detecta si hay colision entre un objeto Jack y un Cohete.
+     *  Método que detecta si hay colision entre un objeto Jack y un Cohete.
      *
      * @param jack  Objeto Jack que se le pasa para comprobar si colisiona con el cohete.
      * @return      Devuelve true si hay colision y false si no.

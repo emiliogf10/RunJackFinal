@@ -42,6 +42,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
      */
     private static final int DB_VERSION = 1;
 
+
     /**
      * Crea un anueva instancia de BaseDeDatos.
      *

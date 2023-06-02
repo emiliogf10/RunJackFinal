@@ -78,6 +78,11 @@ public class Escena {
 
     String idioma;
 
+    /**
+     * Color de fondo que le daremos a las escenas.
+     */
+    int color_fondo;
+
 
     /**
      * Crea un nuevo objeto Escena con los parámetros especificados.
@@ -122,6 +127,8 @@ public class Escena {
 
         config = context.getResources().getConfiguration();
         idioma = config.locale.getLanguage();
+
+        color_fondo = context.getResources().getColor(R.color.color_fondo);
     }
 
     /**
@@ -130,7 +137,7 @@ public class Escena {
      * @param c El objeto Canvas en el que se dibujará la escena de créditos.
      */
     public void dibuja(Canvas c){
-        c.drawColor(Color.parseColor("#e2e2e2"));
+        c.drawColor(color_fondo);
         //Se dibuja el icono de la casa en todas las escenas menos en el menú y en el juego.
         if (numEscena != 2 && numEscena != 1){
             c.drawBitmap(menuEscalado,null,btnMenu,null);
@@ -174,7 +181,7 @@ public class Escena {
         this.titulo.setTextAlign(Paint.Align.CENTER);
         this.ventana.setColor(ContextCompat.getColor(context,R.color.gris));
 
-        c.drawRoundRect(base, 20f, 20f, ventana);
+        c.drawRoundRect(base, 15f, 15f, ventana);
 
         this.ventana.setColor(ContextCompat.getColor(context, R.color.color_letra));
         this.ventana.setTypeface(tf);

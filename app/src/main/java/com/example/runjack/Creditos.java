@@ -66,8 +66,8 @@ public class Creditos extends Escena {
     public void dibuja(Canvas c){
         c.drawColor(Color.DKGRAY);
         super.dibuja(c);
-        c.drawText(context.getString(R.string.titulo_records),
-                (float)anchoPantalla/2 - p.measureText((String)context.getString(R.string.titulo_records))/2,
+        c.drawText(context.getString(R.string.titulo_creditos),
+                (float)anchoPantalla/2 - p.measureText((String)context.getString(R.string.titulo_creditos))/2,
                 (float)altoPantalla/6, p);
 
         if(idioma.equals("en")){
@@ -76,6 +76,8 @@ public class Creditos extends Escena {
             c.drawBitmap(this.esp_escalado,null,new Rect(c.getWidth() / 10,c.getHeight()/5,c.getWidth() - c.getWidth() / 10,c.getHeight()),null);
         }
     }
+
+
 
     /**
      * Maneja los eventos táctiles en la pantalla.
