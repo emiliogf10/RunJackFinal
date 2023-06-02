@@ -2,10 +2,7 @@ package com.example.runjack;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -16,6 +13,14 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
+
+import com.example.runjack.Escenas.Ajustes;
+import com.example.runjack.Escenas.Creditos;
+import com.example.runjack.Escenas.Escena;
+import com.example.runjack.Escenas.Informacion;
+import com.example.runjack.Escenas.Juego;
+import com.example.runjack.Escenas.Menu;
+import com.example.runjack.Escenas.Records;
 
 import java.util.Locale;
 
@@ -47,7 +52,6 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
      *  Booleana que indica si se está jugando al juego.
      */
     boolean funcionando;
-
 
     /**
      * Hilo del juego que corre su lógica.
@@ -105,6 +109,7 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
      */
     public GameSV(Context context) {
         super(context);
+
         this.surfaceHolder = getHolder();
         this.context = context;
         this.surfaceHolder.addCallback(this); // y se indica donde van las funciones callback
@@ -112,11 +117,13 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
         hilo = new Hilo();
         this.funcionando = true;
 
+        //Shared Preferences
         sp = context.getApplicationContext().getSharedPreferences("SettingsValues", Context.MODE_PRIVATE);
         sonido_on = sp.getBoolean("sonido_on",true);
         musica_on = sp.getBoolean("musica_on",true);
         this.idioma = sp.getString("idioma","es");
 
+        //Musica de fondo
         musica_fondo = MediaPlayer.create(this.getContext(),R.raw.musica_fondo);
         musica_fondo.setLooping(true);
         musica();
@@ -270,7 +277,7 @@ public class GameSV extends SurfaceView implements SurfaceHolder.Callback {
 
 
     /**
-     * Cmbia el idioma del juego.
+     * Cambia el idioma del juego.
      *
      * @param idioma    Codigo del nuevo idioma.
      */

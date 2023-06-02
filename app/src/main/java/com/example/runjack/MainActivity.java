@@ -2,7 +2,6 @@ package com.example.runjack;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,11 +9,11 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+
+import com.example.runjack.Utils.BaseDeDatos;
 
 /**
  * Main Activity de RunJack!
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     SensorManager sm;
 
     /**
-     * Acelerometro del juego.
+     * Acelerómetro del juego.
      */
     Sensor acelerometro;
 
